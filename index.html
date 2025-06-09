@@ -122,6 +122,43 @@
       z-index: 1000;
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     }
+  #matchesModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 70%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+  }
+  .modal-content button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #4CAF50; /* Green */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+  background-color: #45a049; /* Slightly darker green for hover */
+}
+
+
   </style>
 </head>
 <body>
@@ -204,7 +241,7 @@
       <label for="filterSwapCounty">Swap County To:</label>
       <select id="filterSwapCounty"></select>
       <button onclick="filterSwaps()">Filter Swaps</button>
-
+<button onclick="findMatchingSwaps()">Find Matching Swaps</button>
       <h3>Registered Swaps</h3>
       <table id="swapTable">
         <thead>
@@ -234,9 +271,7 @@
       <p>Telegram: <a href="#">Link</a></p>
     </div>
   </main>
-<div id="customAlert" style="display: none; background-color: red; color: white; padding: 10px; margin: 10px 0; border-radius: 5px;">
-  You must be logged in to add a swap.
-</div>
+
   <footer>
     <p>&copy; 2024 Teacher Swaps Kenya</p>
   </footer>
@@ -249,7 +284,15 @@
       <button style="background-color: #e74c3c;" onclick="closePaymentModal()">Cancel</button>
     </div>
   </div>
-
+<div id="matchesModal" style="display: none;">
+  <div class="modal-content">
+    <h3>Matching Swaps</h3>
+    <div id="matchesList">
+      <!-- Matching swaps will be dynamically inserted here -->
+    </div>
+    <button onclick="closeMatchesModal()">Close</button>
+  </div>
+</div>
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
@@ -290,8 +333,7 @@
       "Kisumu", "Homa Bay", "Migori", "Kisii", "Nyamira", "Nairobi City"
     ];
 
-// Function to populate counties
-function populateCounties(selectElementId) {
+ function populateCounties(selectElementId) {
   const selectElement = document.getElementById(selectElementId);
   selectElement.innerHTML = "";
   const defaultOption = document.createElement("option");
@@ -310,10 +352,9 @@ function populateCounties(selectElementId) {
 // Populate all county selects on page load
 ["county", "swapCounty", "filterSwapCounty"].forEach(populateCounties);
 
-// Function to show pages with login checks
 function showPage(pageId) {
   if (pageId === "swaps" && !isLoggedIn) {
-    showCustomAlert("You must be logged in to view swaps.", "error");
+    alert("You must be logged in to view swaps.");
     showPage("login");
     return;
   }
@@ -367,12 +408,25 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
   }
 });
 
-// Swap form submission handler with login checks
+// Logout helper (optional)
+function logout() {
+  auth.signOut();
+  isLoggedIn = false;
+  currentUser = null;
+  alert("Logged out.");
+  showPage("home");
+}
+
+// Generate a unique payment reference code
+function generatePaymentRef() {
+  return "TSK-" + Math.random().toString(36).substr(2, 9).toUpperCase();
+}
+
 document.getElementById("swapForm").addEventListener("submit", (e) => {
   e.preventDefault();
 
   if (!isLoggedIn || !currentUser) {
-    showCustomAlert("You must be logged in to add a swap.", "error");
+    alert("You must be logged in to add a swap.");
     showPage("login");
     return;
   }
@@ -386,11 +440,13 @@ document.getElementById("swapForm").addEventListener("submit", (e) => {
   const hardship = document.getElementById("hardship").value;
 
   if (!teacherName || !phone || !subjectCombination || !county || !swapCounty || !category || !hardship) {
-    showCustomAlert("Please fill all fields.", "error");
+    alert("Please fill all fields.");
     return;
   }
 
   const swapData = { teacherName, phone, subjectCombination, county, swapCounty, category, hardship };
+
+  // Directly save swap without payment validation
   saveSwap(swapData);
 });
 
@@ -410,17 +466,14 @@ async function saveSwap(swap) {
   }
 }
 
-// Function to load swaps
+// Load swaps from Firestore and display in table
 async function loadSwaps() {
-  if (!isLoggedIn) {
-    showCustomAlert("Please log in to view swaps.", "error");
-    return;
-  }
-
   const tbody = document.querySelector("#swapTable tbody");
   tbody.innerHTML = "";
 
   let query = db.collection("teacherSwaps").orderBy("timestamp", "desc");
+
+  // Apply filters if any
   const filterCategory = document.getElementById("filterCategory").value;
   const filterSwapCounty = document.getElementById("filterSwapCounty").value;
 
@@ -429,6 +482,7 @@ async function loadSwaps() {
 
   try {
     const snapshot = await query.get();
+
     if (snapshot.empty) {
       const tr = document.createElement("tr");
       const td = document.createElement("td");
@@ -442,59 +496,64 @@ async function loadSwaps() {
     snapshot.forEach(doc => {
       const swap = doc.data();
       const tr = document.createElement("tr");
+
+      // If user hasn't paid, blur the phone and subject columns
+      const blurData = !hasPaid;
+
       tr.innerHTML = `
         <td>${swap.teacherName}</td>
         <td>${swap.county}</td>
-        <td>${swap.phone}</td>
-        <td>${swap.subjectCombination}</td>
+        <td class="${blurData ? 'blurred' : ''}">${swap.phone}</td>
+        <td class="${blurData ? 'blurred' : ''}">${swap.subjectCombination}</td>
         <td>${swap.swapCounty}</td>
         <td>${swap.category}</td>
         <td>${swap.hardship}</td>
       `;
+
+      // Clicking blurred phone or subject should prompt payment modal
+      if (blurData) {
+        tr.querySelectorAll(".blurred").forEach(cell => {
+          cell.style.cursor = "pointer";
+          cell.title = "Click to unlock by payment";
+          cell.onclick = () => {
+            showPaymentModal();
+          };
+        });
+      }
+
       tbody.appendChild(tr);
     });
   } catch (error) {
-    showCustomAlert("Error loading swaps: " + error.message, "error");
+    alert("Error loading swaps: " + error.message);
   }
 }
 
-// Filter swaps with login check
+// Filter swaps button handler
 function filterSwaps() {
   if (!isLoggedIn) {
-    showCustomAlert("Please login to filter swaps.", "error");
+    alert("Please login to filter swaps.");
     showPage("login");
     return;
   }
   loadSwaps();
 }
 
-// Show custom alerts
-function showCustomAlert(message, type) {
-  const alertBox = document.getElementById("customAlert");
-  alertBox.style.backgroundColor = type === "success" ? "green" : "red";
-  alertBox.style.color = "white";
-  alertBox.textContent = message;
-  alertBox.style.display = "block";
-
-  setTimeout(() => {
-    alertBox.style.display = "none";
-  }, 3000);
-}
-
 // On page load, show home page
 showPage("home");
 
-// Monitor auth state changes
+// Optional: Monitor auth state changes
 auth.onAuthStateChanged(user => {
   if (user) {
     currentUser = user;
     isLoggedIn = true;
+    // Load swaps if on swaps page
     if (document.getElementById("swaps").style.display === "block") {
       loadSwaps();
     }
   } else {
     currentUser = null;
     isLoggedIn = false;
+    hasPaid = false;
     showPage("home");
   }
 });
@@ -717,6 +776,71 @@ function showCustomAlert(message, type) {
     setTimeout(() => {
         alertBox.remove();
     }, 3000); // Automatically remove alert after 3 seconds
+}
+async function findMatchingSwaps() {
+  if (!isLoggedIn || !currentUser) {
+    showCustomAlert("You must be logged in to check swaps.", "error");
+    return;
+  }
+
+  try {
+    const swapsSnapshot = await db.collection("teacherSwaps").get();
+    const swaps = [];
+
+    // Collect all swaps
+    swapsSnapshot.forEach(doc => {
+      swaps.push({ id: doc.id, ...doc.data() });
+    });
+
+    // Check for matches
+    const matches = [];
+    swaps.forEach((swap1, index) => {
+      swaps.forEach((swap2, idx) => {
+        if (
+          index !== idx &&
+          swap1.subjectCombination === swap2.subjectCombination &&
+          swap1.county === swap2.swapCounty &&
+          swap1.swapCounty === swap2.county
+        ) {
+          matches.push(swap1);
+        }
+      });
+    });
+
+    if (matches.length > 0) {
+      populateMatchesModal(matches);
+    } else {
+      showCustomAlert("No matching swaps found.", "info");
+    }
+  } catch (error) {
+    console.error("Error finding matches:", error);
+    showCustomAlert("Error finding matches: " + error.message, "error");
+  }
+}
+
+function populateMatchesModal(matches) {
+  const matchesList = document.getElementById("matchesList");
+  matchesList.innerHTML = ""; // Clear previous entries
+
+  matches.forEach(match => {
+    const matchDiv = document.createElement("div");
+    matchDiv.style.margin = "10px 0";
+    matchDiv.innerHTML = `
+      <p><strong>Name:</strong> ${match.teacherName}</p>
+      <p><strong>Phone:</strong> ${match.phone}</p>
+      <p><strong>Subjects:</strong> ${match.subjectCombination}</p>
+      <p><strong>County:</strong> ${match.county}</p>
+      <p><strong>Wants to Swap to:</strong> ${match.swapCounty}</p>
+      <hr>
+    `;
+    matchesList.appendChild(matchDiv);
+  });
+
+  document.getElementById("matchesModal").style.display = "flex";
+}
+
+function closeMatchesModal() {
+  document.getElementById("matchesModal").style.display = "none";
 }
 
   </script>

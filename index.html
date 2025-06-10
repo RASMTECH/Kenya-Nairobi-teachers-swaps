@@ -354,11 +354,10 @@
 
 function showPage(pageId) {
   if (pageId === "swaps" && !isLoggedIn) {
-    alert("You must be logged in to view swaps.");
+    showCustomAlert("You must be logged in to view swaps.", "error");
     showPage("login");
     return;
   }
-
   document.querySelectorAll(".page").forEach(page => {
     page.style.display = "none";
   });

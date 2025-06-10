@@ -497,20 +497,18 @@ async function loadSwaps() {
       const swap = doc.data();
       const tr = document.createElement("tr");
 
-      // If user hasn't paid, blur the phone and subject columns
-      const blurData = !hasPaid;
+      const blurData = !hasPaid; // Check payment status
 
       tr.innerHTML = `
         <td>${swap.teacherName}</td>
         <td>${swap.county}</td>
-        <td class="${blurData ? 'blurred' : ''}">${swap.phone}</td>
-        <td class="${blurData ? 'blurred' : ''}">${swap.subjectCombination}</td>
+        <td class="${blurData ? 'blurred' : ''}">${blurData ? 'Hidden' : swap.phone}</td>
+        <td class="${blurData ? 'blurred' : ''}">${blurData ? 'Hidden' : swap.subjectCombination}</td>
         <td>${swap.swapCounty}</td>
         <td>${swap.category}</td>
         <td>${swap.hardship}</td>
       `;
 
-      // Clicking blurred phone or subject should prompt payment modal
       if (blurData) {
         tr.querySelectorAll(".blurred").forEach(cell => {
           cell.style.cursor = "pointer";
@@ -527,6 +525,7 @@ async function loadSwaps() {
     alert("Error loading swaps: " + error.message);
   }
 }
+
 
 // Filter swaps button handler
 function filterSwaps() {

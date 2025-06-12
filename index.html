@@ -242,6 +242,8 @@
       <select id="filterSwapCounty"></select>
       <button onclick="filterSwaps()">Filter Swaps</button>
 <button onclick="findMatchingSwaps()">Find Matching Swaps</button>
+<button id="showTriangularSwap" class="trigger-button">Find Triangular Swap</button>
+
       <h3>Registered Swaps</h3>
       <table id="swapTable">
         <thead>
@@ -271,6 +273,16 @@
       <p>Telegram: <a href="#">Link</a></p>
     </div>
   </main>
+<!-- Triangular Swaps Modal -->
+<div id="triangularSwapsModal" style="display: none; justify-content: center; align-items: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 1000;">
+  <div style="background: #fff; padding: 20px; border-radius: 8px; max-width: 500px; width: 100%; text-align: center;">
+    <h2>Triangular Swaps</h2>
+    <div id="triangularSwapsList" style="margin-top: 20px;"></div>
+    <button id="closeTriangularSwapsModal" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+      Close
+    </button>
+  </div>
+</div>
 
   <footer>
     <p>&copy; 2024 Teacher Swaps Kenya</p>
@@ -840,6 +852,84 @@ function populateMatchesModal(matches) {
 function closeMatchesModal() {
   document.getElementById("matchesModal").style.display = "none";
 }
+async function findTriangularSwaps() {
+  if (!isLoggedIn || !currentUser) {
+    showCustomAlert("You must be logged in to check triangular swaps.", "error");
+    return;
+  }
+
+  try {
+    const swapsSnapshot = await db.collection("teacherSwaps").get();
+    const swaps = [];
+
+    // Collect all swaps
+    swapsSnapshot.forEach(doc => {
+      swaps.push({ id: doc.id, ...doc.data() });
+    });
+
+    // Find triangular swaps
+    const triangularSwaps = [];
+    swaps.forEach((swapA, indexA) => {
+      swaps.forEach((swapB, indexB) => {
+        if (
+          indexA !== indexB &&
+          swapA.swapCounty === swapB.county &&
+          swapA.county !== swapB.swapCounty
+        ) {
+          swaps.forEach((swapC, indexC) => {
+            if (
+              indexB !== indexC &&
+              swapB.swapCounty === swapC.county &&
+              swapC.swapCounty === swapA.county
+            ) {
+              triangularSwaps.push([swapA, swapB, swapC]);
+            }
+          });
+        }
+      });
+    });
+
+    if (triangularSwaps.length > 0) {
+      populateTriangularSwapsModal(triangularSwaps);
+    } else {
+      showCustomAlert("No triangular swaps found.", "info");
+    }
+  } catch (error) {
+    console.error("Error finding triangular swaps:", error);
+    showCustomAlert("Error finding triangular swaps: " + error.message, "error");
+  }
+}
+
+function populateTriangularSwapsModal(triangularSwaps) {
+  const swapsList = document.getElementById("triangularSwapsList");
+  swapsList.innerHTML = ""; // Clear previous entries
+
+  triangularSwaps.forEach(([swapA, swapB, swapC]) => {
+    const swapDiv = document.createElement("div");
+    swapDiv.style.margin = "10px 0";
+    swapDiv.innerHTML = `
+      <div>
+        <p><strong>Teacher A:</strong> ${swapA.teacherName} (${swapA.county} ? ${swapA.swapCounty})</p>
+        <p><strong>Teacher B:</strong> ${swapB.teacherName} (${swapB.county} ? ${swapB.swapCounty})</p>
+        <p><strong>Teacher C:</strong> ${swapC.teacherName} (${swapC.county} ? ${swapC.swapCounty})</p>
+      </div>
+      <hr>
+    `;
+    swapsList.appendChild(swapDiv);
+  });
+
+  document.getElementById("triangularSwapsModal").style.display = "flex";
+}
+
+// Close modal functionality
+document.getElementById("closeTriangularSwapsModal").addEventListener("click", () => {
+  document.getElementById("triangularSwapsModal").style.display = "none";
+});
+
+
+</script>
+
+
 
   </script>
 </body>

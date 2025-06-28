@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <title>Teacher Swaps Kenya</title>
   <style>
     /* ... Your existing styles unchanged ... */
@@ -158,28 +160,331 @@
   background-color: #45a049; /* Slightly darker green for hover */
 }
 
+  #registerForm input {
+    background-color: #e6f7ff; /* Light blue background */
+    border: 2px solid #3399ff; /* Blue border */
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
 
-  </style>
+  #registerForm input:focus {
+    background-color: #d0f0ff; /* Slightly brighter on focus */
+    outline: none;
+    border-color: #007acc;
+  }
+
+  #registerForm label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  #registerForm button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #3399ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  #registerForm button:hover {
+    background-color: #007acc;
+  }
+  /* Common input/select styling */
+  form input,
+  form select {
+    background-color: #e6f7ff;
+    border: 2px solid #3399ff;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+
+  form input:focus,
+  form select:focus {
+    background-color: #d0f0ff;
+    outline: none;
+    border-color: #007acc;
+  }
+
+  form label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  form button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #3399ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  form button:hover {
+    background-color: #007acc;
+  }
+  /* Styled input and select fields */
+  form input,
+  form select,
+  select {
+    background-color: #e6f7ff;
+    border: 2px solid #3399ff;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+
+  form input:focus,
+  form select:focus,
+  select:focus {
+    background-color: #d0f0ff;
+    outline: none;
+    border-color: #007acc;
+  }
+
+  /* Labels */
+  label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  /* Buttons */
+  button {
+    margin: 8px 5px 15px 0;
+    padding: 10px 16px;
+    background-color: #3399ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #007acc;
+  }
+
+  .trigger-button {
+    background-color: #33cc99;
+  }
+
+  .trigger-button:hover {
+    background-color: #29a37d;
+  }
+ #register {
+    display: none;
+    background-image: url('https://i.imgur.com/WKwJ73A.jpeg');
+    background-size: cover;
+    background-position: center;
+    padding: 40px;
+    border-radius: 12px;
+    color: white;
+    min-height: 100vh; /* full viewport height */
+  }
+
+  #register h2,
+  #register label {
+    color: white;
+    text-shadow: 1px 1px 3px #000;
+  }
+
+  #registerForm {
+    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent form background */
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 400px;
+    margin: auto;
+  }
+
+  #registerForm input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 5px;
+  }
+
+  #registerForm button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  #registerForm button:hover {
+    background-color: #45a049;
+  }
+
+ #login {
+    display: none;
+    background-image: url('  https://i.imgur.com/iqBwsWm.png           ');
+    background-size: cover;
+    background-position: center;
+    padding: 40px;
+    border-radius: 12px;
+    color: white;
+    min-height: 100vh;
+  }
+
+  #login h2,
+  #login label {
+    color: white;
+    text-shadow: 1px 1px 3px #000;
+  }
+
+  #loginForm {
+    background-color: rgba(0, 0, 0, 0.5); /* transparent dark background for form */
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 400px;
+    margin: auto;
+  }
+
+  #loginForm input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 5px;
+  }
+
+  #loginForm button {
+    width: 100%;
+    padding: 10px;
+    background-color: #2196F3;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  #loginForm button:hover {
+    background-color: #1976D2;
+  }
+
+ #swaps {
+    display: none;
+    background-image: url('  https://i.imgur.com/iqBwsWm.png     ');
+    background-size: cover;
+    background-position: center;
+    padding: 40px;
+    border-radius: 12px;
+    color: white;
+    min-height: 100vh;
+  }
+
+  #swaps h2,
+  #swaps label {
+    color: white;
+    text-shadow: 1px 1px 3px #000;
+  }
+
+  #swapForm {
+    background-color: rgba(0, 0, 0, 0.5); /* dark translucent form bg */
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: auto;
+  }
+
+  #swapForm input,
+  #swapForm select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 5px;
+  }
+
+  #swapForm button {
+    width: 100%;
+    padding: 10px;
+    background-color: #ff9800;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  #swapForm button:hover {
+    background-color: #f57c00;
+  }
+</style>
 </head>
 <body>
   <header>
     <h1>Welcome to Teacher Swaps Kenya</h1>
     <nav>
       <ul>
-        <li><a href="#" onclick="showPage('home')">Home</a></li>
-        <li><a href="#" onclick="showPage('register')">Register</a></li>
-        <li><a href="#" onclick="showPage('login')">Login</a></li>
-        <li><a href="#" onclick="showPage('swaps')">View Swaps</a></li>
-        <li><a href="#" onclick="showPage('contact')">Contact Us</a></li>
-      </ul>
-    </nav>
-  </header>
+      <li>
+        <a href="#" onclick="showPage('home')">
+          <i class="fas fa-house" style="color:#1e90ff;"></i> Home
+        </a>
+      </li>
+      <li>
+        <a href="#" onclick="showPage('register')">
+          <i class="fas fa-user-plus" style="color:#28a745;"></i> Register
+        </a>
+      </li>
+      <li>
+        <a href="#" onclick="showPage('login')">
+          <i class="fas fa-sign-in-alt" style="color:#17a2b8;"></i> Login
+        </a>
+      </li>
+      <li>
+        <a href="#" onclick="showPage('swaps')">
+          <i class="fas fa-exchange-alt" style="color:#ffc107;"></i> View Swaps
+        </a>
+      </li>
+      <li>
+        <a href="#" onclick="showPage('contact')">
+          <i class="fas fa-envelope" style="color:#dc3545;"></i> Contact Us
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
 
   <main id="content">
     <div id="home" class="page">
       <h2>Connect with Other Teachers</h2>
+   <img src=" https://i.imgur.com/jixmLF9.jpeg" alt="School Logo" class="logo-img" style="width: 200px;">
+     <img src="  https://i.imgur.com/bbHniIi.jpeg            " alt="School Logo" class="logo-img" style="width: 200px;">
+    <img src="   https://i.imgur.com/qnmK7CR.jpeg                 " alt="School Logo" class="logo-img" style="width: 200px;">    
+    <img src="     https://i.imgur.com/WKwJ73A.jpeg               " alt="School Logo" class="logo-img" style="width: 200px;">
+   <img src="       https://i.imgur.com/qBK4WK8.jpeg             " alt="School Logo" class="logo-img" style="width: 200px;">
+    <img src="      https://sdmntprwestus2.oaiusercontent.com/files/00000000-cb7c-61f8-9636-966b2012fefe/raw?se=2025-06-27T20%3A01%3A50Z&sp=r&sv=2024-08-04&sr=b&scid=f0b8e107-113c-510b-91fa-762fdb3b8fcd&skoid=f28c0102-4d9d-4950-baf0-4a8e5f6cf9d4&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-06-27T18%3A54%3A35Z&ske=2025-06-28T18%3A54%3A35Z&sks=b&skv=2024-08-04&sig=wh%2BFGPQsFMuNCPZgYdsmr1g332RqHjxhxwedpu9rNyE%3D              " alt="School Logo" class="logo-img" style="width: 200px;">
+    <img src="          https://i.imgur.com/iqBwsWm.png          " alt="School Logo" class="logo-img" style="width: 200px;">
       <p>This platform allows teachers to find swap opportunities across Kenya. Sign up to get started!</p>
-    </div>
+   </div>
     <div id="register" class="page" style="display:none;">
       <h2>Register</h2>
       <form id="registerForm">
@@ -189,7 +494,10 @@
         <input type="email" id="email" required />
         <label for="password">Password:</label>
         <input type="password" id="password" required />
-        <button type="submit">Register</button>
+ <button type="submit">
+  <i class="fas fa-user-plus" style="margin-right: 6px; color: #ffffff;"></i> Register
+</button>
+
       </form>
     </div>
     <div id="login" class="page" style="display:none;">
@@ -199,11 +507,14 @@
         <input type="email" id="loginEmail" required />
         <label for="loginPassword">Password:</label>
         <input type="password" id="loginPassword" required />
-        <button type="submit">Login</button>
+ <button type="submit">
+  <i class="fas fa-sign-in-alt" style="margin-right: 6px; color: #ffffff;"></i> Login
+</button>
+
       </form>
     </div>
     <div id="swaps" class="page" style="display:none;">
-      <h2>Swap Listings</h2>
+      <h2>Register Your Swap Here</h2>
       <form id="swapForm">
         <label for="teacherName">Teacher's Name:</label>
         <input type="text" id="teacherName" required />
@@ -211,7 +522,7 @@
         <input type="tel" id="phone" required />
         <label for="subjectCombination">Subject Combination:</label>
         <input type="text" id="subjectCombination" required />
-        <label for="county">County:</label>
+        <label for="county">Current County:</label>
         <select id="county" required></select>
         <label for="swapCounty">Swap County To:</label>
         <select id="swapCounty" required></select>
@@ -227,7 +538,10 @@
           <option value="Without Hardship">Without Hardship</option>
           <option value="With Hardship">With Hardship</option>
         </select>
-        <button type="submit">Add Swap</button>
+ <button type="submit">
+  <i class="fas fa-plus-circle" style="margin-right: 6px; color: #ffffff;"></i> Add Swap
+</button>
+
       </form>
 
       <h3>Filter Swaps</h3>
@@ -240,21 +554,33 @@
       </select>
       <label for="filterSwapCounty">Swap County To:</label>
       <select id="filterSwapCounty"></select>
-      <button onclick="filterSwaps()">Filter Swaps</button>
-<button onclick="findMatchingSwaps()">Find Matching Swaps</button>
-<button id="showTriangularSwap" class="trigger-button">Find Triangular Swap</button>
+
+<!-- Buttons with icons -->
+<button onclick="filterSwaps()">
+  <i class="fas fa-filter" style="margin-right: 6px; color: #ffffff;"></i> Filter Swaps
+</button>
+
+<button onclick="findMatchingSwaps()">
+  <i class="fas fa-handshake" style="margin-right: 6px; color: #ffffff;"></i> Find Matching Swaps
+</button>
+
+<button id="showTriangularSwap" class="trigger-button">
+  <i class="fas fa-project-diagram" style="margin-right: 6px; color: #ffffff;"></i> Find Triangular Swap
+</button>
 
       <h3>Registered Swaps</h3>
       <table id="swapTable">
         <thead>
           <tr>
             <th>Teacher's Name</th>
-            <th>County</th>
+            <th> Current County</th>
             <th>Phone Number</th>
             <th>Subject Combination</th>
             <th>Swap County To</th>
             <th>Category</th>
-            <th>Hardship</th>
+  <th>Hardship</th>
+<th>Actions</th>
+
           </tr>
         </thead>
         <tbody>
@@ -272,6 +598,44 @@
       <p>YouTube: <a href="#">Link</a></p>
       <p>Telegram: <a href="#">Link</a></p>
     </div>
+<div style="text-align: center; margin-top: 20px;">
+  <a href="https://wa.me/254792755676" target="_blank" style="text-decoration: none;">
+    <button style="background-color: #25D366; color: white; padding: 12px 25px; border: none; border-radius: 6px; font-size: 16px; cursor: pointer;">
+      <i class="fab fa-whatsapp" style="margin-right: 8px;"></i> Chat with Us on WhatsApp
+    </button>
+  </a>
+</div>
+<!-- Floating WhatsApp Chat Button -->
+<a href="https://wa.me/254792755676?text=Hi%2C%20I%20need%20help%20with%20Teacher%20Swaps%20Kenya" 
+   target="_blank" 
+   style="position: fixed; bottom: 20px; right: 20px; background-color: #25D366; color: white; 
+          border-radius: 50px; padding: 14px 20px; text-decoration: none; font-size: 16px; 
+          display: flex; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 9999;">
+  <i class="fab fa-whatsapp" style="font-size: 20px; margin-right: 8px;"></i> Chat with Us
+</a>
+<!-- Floating Email Button -->
+<a href="mailto:support@teacherswapskenya.com?subject=Help Needed&body=Hi, I need help with Teacher Swaps Kenya." 
+   style="position: fixed; bottom: 80px; right: 20px; background-color: #007bff; color: white; 
+          border-radius: 50px; padding: 14px 20px; text-decoration: none; font-size: 16px; 
+          display: flex; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 9999;">
+  <i class="fas fa-envelope" style="font-size: 20px; margin-right: 8px;"></i> Email Us
+</a>
+
+<!-- Floating WhatsApp Chat Button -->
+<a href="https://wa.me/254792755676?text=Hi%2C%20I%20need%20help%20with%20Teacher%20Swaps%20Kenya" 
+   target="_blank" 
+   style="position: fixed; bottom: 20px; right: 20px; background-color: #25D366; color: white; 
+          border-radius: 50px; padding: 14px 20px; text-decoration: none; font-size: 16px; 
+          display: flex; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 9999;">
+  <i class="fab fa-whatsapp" style="font-size: 20px; margin-right: 8px;"></i> Chat with Us
+</a>
+<!-- Floating Call Button -->
+<a href="tel:+254792755676" 
+   style="position: fixed; bottom: 140px; right: 20px; background-color: #e74c3c; color: white; 
+          border-radius: 50px; padding: 14px 20px; text-decoration: none; font-size: 16px; 
+          display: flex; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 9999;">
+  <i class="fas fa-phone-alt" style="font-size: 20px; margin-right: 8px;"></i> Call Us
+</a>
   </main>
 <!-- Triangular Swaps Modal -->
 <div id="triangularSwapsModal" style="display: none; justify-content: center; align-items: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 1000;">
@@ -284,9 +648,11 @@
   </div>
 </div>
 
-  <footer>
-    <p>&copy; 2024 Teacher Swaps Kenya</p>
-  </footer>
+<footer>
+  <h3 style="text-align: center; color: #333; padding: 20px;">
+          Teachers Swaps Kenya,  Empowering Teachers Through Seamless Swaps .Connect, Collaborate, and Relocate with Confidence
+  </h3>
+</footer>
 
   <div id="paymentModal" style="display: none;">
     <div class="modal-content">
@@ -305,11 +671,36 @@
     <button onclick="closeMatchesModal()">Close</button>
   </div>
 </div>
+<!-- Toast Container -->
+<div id="toastContainer" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;"></div>
+<!-- Confirm Delete Modal -->
+<div id="confirmDeleteModal" style="display:none; position: fixed; top: 0; left: 0;
+  width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000;
+  justify-content: center; align-items: center;">
+  <div style="background: white; padding: 20px 25px; border-radius: 10px; box-shadow: 0 6px 12px rgba(0,0,0,0.3); width: 90%; max-width: 400px; text-align: center; position: relative;">
+    <h3 style="margin-bottom: 10px; color: #dc3545;">Confirm Deletion</h3>
+    <p style="font-size: 16px;">Are you sure you want to delete this swap?</p>
+
+    <!-- Progress Bar -->
+    <div style="height: 8px; background: #eee; border-radius: 5px; margin-top: 15px;">
+      <div id="confirmProgressBar" style="width: 100%; height: 8px; background-color: #28a745; border-radius: 5px;"></div>
+    </div>
+
+    <div style="margin-top: 20px;">
+      <button id="confirmYes" style="background-color: #dc3545; color: white; padding: 10px 20px; border: none; border-radius: 6px; margin-right: 10px; cursor: pointer;">Yes, Delete</button>
+      <button id="confirmNo" style="background-color: #6c757d; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="toastContainer" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;"></div>
+
+
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-
   <script>
     // Your Firebase config - replace with your own Firebase project config
   const firebaseConfig = {
@@ -332,6 +723,7 @@
     let isLoggedIn = false;
     let hasPaid = false;
     let currentUser = null;
+    let isAdmin = false;    
 
     // Counties array
     const counties = [
@@ -410,7 +802,19 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     const userCredential = await auth.signInWithEmailAndPassword(email, password);
     currentUser = userCredential.user;
     isLoggedIn = true;
-    showCustomAlert(`Welcome ${currentUser.displayName || currentUser.email}!`, "success");
+
+    // Check if the user is an admin (e.g., by email)
+    const adminEmails = [
+  "mashabiki@teacherswapskenya.com",
+  "sironga@teacherswapskenya.com",
+  "admin1@teacherswapskenya.com"
+];
+
+    isAdmin = adminEmails.includes(currentUser.email);
+
+    const welcomeMessage = `Welcome ${currentUser.displayName || currentUser.email}!`;
+    showCustomAlert(isAdmin ? `Admin Access: ${welcomeMessage}` : welcomeMessage, "success");
+
     showPage("swaps");
     document.getElementById("loginForm").reset();
     loadSwaps();
@@ -418,6 +822,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     showCustomAlert("Login failed: " + error.message, "error");
   }
 });
+
 
 // Logout helper (optional)
 function logout() {
@@ -477,22 +882,12 @@ async function saveSwap(swap) {
   }
 }
 
-// Load swaps from Firestore and display in table
 async function loadSwaps() {
   const tbody = document.querySelector("#swapTable tbody");
-  tbody.innerHTML = "";
-
-  let query = db.collection("teacherSwaps").orderBy("timestamp", "desc");
-
-  // Apply filters if any
-  const filterCategory = document.getElementById("filterCategory").value;
-  const filterSwapCounty = document.getElementById("filterSwapCounty").value;
-
-  if (filterCategory) query = query.where("category", "==", filterCategory);
-  if (filterSwapCounty) query = query.where("swapCounty", "==", filterSwapCounty);
+  tbody.innerHTML = ""; // Clear the table
 
   try {
-    const snapshot = await query.get();
+    const snapshot = await db.collection("teacherSwaps").orderBy("timestamp", "desc").get();
 
     if (snapshot.empty) {
       const tr = document.createElement("tr");
@@ -503,50 +898,123 @@ async function loadSwaps() {
       tbody.appendChild(tr);
       return;
     }
+snapshot.forEach(doc => {
+  const swap = doc.data();
+  const docId = doc.id;
+  const tr = document.createElement("tr");
 
-    snapshot.forEach(doc => {
-      const swap = doc.data();
-      const tr = document.createElement("tr");
+  const blurData = !hasPaid && !isAdmin;
 
-      const blurData = !hasPaid; // Check payment status
+const phoneCell = blurData
+  ? `<td class="blurred">Hidden</td>`
+  : `<td>
+      <a href="tel:${swap.phone}" style="color: green; font-weight: bold;"> Call</a><br>
+      <a href="sms:${swap.phone}" style="color: blue;"> Message</a><br>
+      <a href="https://wa.me/254${swap.phone.replace(/^0/, '')}?text=Hello%20teacher%2C%20I%20saw%20your%20swap%20listing%20on%20Teacher%20Swaps%20Kenya" 
+         target="_blank" 
+         style="color: #25D366;">WhatsApp</a>
+    </td>`;
 
-      tr.innerHTML = `
-        <td>${swap.teacherName}</td>
-        <td>${swap.county}</td>
-        <td class="${blurData ? 'blurred' : ''}">${blurData ? 'Hidden' : swap.phone}</td>
-        <td class="${blurData ? 'blurred' : ''}">${blurData ? 'Hidden' : swap.subjectCombination}</td>
-        <td>${swap.swapCounty}</td>
-        <td>${swap.category}</td>
-        <td>${swap.hardship}</td>
-      `;
 
-      if (blurData) {
-        tr.querySelectorAll(".blurred").forEach(cell => {
-          cell.style.cursor = "pointer";
-          cell.title = "Click to unlock by payment";
-          cell.onclick = () => {
-            showPaymentModal();
-          };
-        });
-      }
+  tr.innerHTML = `
+    <td>${swap.teacherName}</td>
+    <td>${swap.county}</td>
+    ${phoneCell}
+    <td class="${blurData ? 'blurred' : ''}">${blurData ? 'Hidden' : swap.subjectCombination}</td>
+    <td>${swap.swapCounty}</td>
+    <td>${swap.category}</td>
+    <td>${swap.hardship}</td>
+    <td>
+      ${isAdmin ? `<button onclick="deleteSwap('${docId}')"><i class='fas fa-trash' style='color: red;'></i></button>` : ""}
+    </td>
+  `;
 
-      tbody.appendChild(tr);
+  if (blurData) {
+    tr.querySelectorAll(".blurred").forEach(cell => {
+      cell.style.cursor = "pointer";
+      cell.title = "Click to unlock by payment";
+      cell.onclick = () => {
+        showPaymentModal();
+      };
     });
+  }
+
+  tbody.appendChild(tr);
+});
+
   } catch (error) {
-    alert("Error loading swaps: " + error.message);
+    console.error("Error loading swaps:", error);
+    showCustomAlert("Error loading swaps: " + error.message, "error");
   }
 }
 
 
-// Filter swaps button handler
-function filterSwaps() {
+
+async function filterSwaps() {
   if (!isLoggedIn) {
     alert("Please login to filter swaps.");
     showPage("login");
     return;
   }
-  loadSwaps();
+
+  const filterCategory = document.getElementById("filterCategory").value;
+  const filterSwapCounty = document.getElementById("filterSwapCounty").value;
+
+  const tbody = document.querySelector("#swapTable tbody");
+  tbody.innerHTML = ""; // Clear the table
+
+  try {
+    const snapshot = await db.collection("teacherSwaps").orderBy("timestamp", "desc").get();
+
+    let matchFound = false; // 👈 Track if any match is found
+
+    snapshot.forEach(doc => {
+      const swap = doc.data();
+
+      const matchesCategory = !filterCategory || swap.category === filterCategory;
+      const matchesCounty = !filterSwapCounty || swap.swapCounty === filterSwapCounty;
+
+      if (matchesCategory && matchesCounty) {
+        matchFound = true; // ✅ Set true if match is found
+
+        const tr = document.createElement("tr");
+        const blurData = !hasPaid && !isAdmin;
+
+        tr.innerHTML = `
+          <td>${swap.teacherName}</td>
+          <td>${swap.county}</td>
+          <td class="${blurData ? 'blurred' : ''}">${blurData ? 'Hidden' : swap.phone}</td>
+          <td class="${blurData ? 'blurred' : ''}">${blurData ? 'Hidden' : swap.subjectCombination}</td>
+          <td>${swap.swapCounty}</td>
+          <td>${swap.category}</td>
+          <td>${swap.hardship}</td>
+        `;
+
+        if (blurData) {
+          tr.querySelectorAll(".blurred").forEach(cell => {
+            cell.style.cursor = "pointer";
+            cell.title = "Click to unlock by payment";
+            cell.onclick = () => {
+              showPaymentModal();
+            };
+          });
+        }
+
+        tbody.appendChild(tr);
+      }
+    });
+
+    // ❗ Show alert if no matches
+    if (!matchFound) {
+      showCustomAlert("No swaps found matching your filters.", "info");
+    }
+
+  } catch (error) {
+    console.error("Error filtering swaps:", error);
+    showCustomAlert("Error filtering swaps: " + error.message, "error");
+  }
 }
+
 
 // On page load, show home page
 showPage("home");
@@ -575,7 +1043,7 @@ function showPaymentModal() {
     <div class="modal">
       <div class="modal-content">
         <h2>Unlock Numbers</h2>
-        <p>To unlock all numbers, please send <span style="color: green; font-weight: bold;">Ksh 100</span> to <strong style="color: green;">0741236547</strong>.</p>
+        <p>To unlock all numbers and swaps, please send <span style="color: green; font-weight: bold;">Ksh 100</span> to <strong style="color: green;">0741236547</strong>.</p>
         <p style="color: red;">After payment, click the "Confirm Payment" button below and enter the transaction reference.</p>
         <input type="text" id="transactionReference" placeholder="Enter Transaction Reference" />
         <button id="confirmPayment">Confirm Payment</button>
@@ -673,6 +1141,7 @@ document.getElementById("confirmPayment").onclick = async () => {
     document.body.removeChild(paymentModal);
   };
 }
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -682,11 +1151,11 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-// M-Pesa credentials
-const consumerKey = "  kXmNZSCVtFAo1yX7HxpShAZG7Gpdp3n6qvPFl0x4Cx9C7IWj"; // Replace with your Consumer Key
-const consumerSecret = "  snRsVAG1ne0NcgPhr1F6tDYaxNBia3llIopy4VCmMY5W7ILd8P4TqGg4Wz3WoiMm"; // Replace with your Consumer Secret
-const shortCode = "YOUR_SHORTCODE"; // Replace with your Shortcode
-const passkey = "YOUR_PASSKEY"; // Replace with your Lipa na M-Pesa passkey
+// M-Pesa credentials for Sandbox
+const consumerKey = "kXmNZSCVtFAo1yX7HxpShAZG7Gpdp3n6qvPFl0x4Cx9C7IWj"; // Sandbox Consumer Key
+const consumerSecret = "snRsVAG1ne0NcgPhr1F6tDYaxNBia3llIopy4VCmMY5W7ILd8P4TqGg4Wz3WoiMm"; // Sandbox Consumer Secret
+const shortCode = "174379"; // Sandbox Shortcode for testing
+const passkey = "bfb279f9aa9bdbcf158e97dd71a467cd2cbfdf6f8b7190e3c1d7c3ebbf4b1b21"; // Sandbox Lipa na M-Pesa passkey
 
 // Function to get access token
 async function getAccessToken() {
@@ -711,8 +1180,8 @@ async function verifyPayment(transactionReference) {
   const url = "https://sandbox.safaricom.co.ke/mpesa/transactionstatus/v1/query";
 
   const requestPayload = {
-    Initiator: "YOUR_INITIATOR_NAME", // Replace with your initiator name
-    SecurityCredential: " ovN6jtG+3V4WyGYntil5atvfLjIH2cMu2ybzhb7+KKhp+vd4pDhjbjzg1/kznxFGABDXYVZKRks/uDiCQroGSJ7atmmSSHOmrgSWw/SGuN22u9QsSUtEODxSLN+sp7zA0vLOspKgYY/ArLJVHeYj7U5QNmcLsEsjER2sk//EUdbQn1Feal5nzVY7iabW4iNPNyI/kVHS7HuyXq9zo/XRGLgN+fbSSoNcs0WmeWsd1KkPt1+kJdYAhHXRL2JIluRYH04m704vY59IJEjcoqz4ujpRaCHTJFuvTZJ1Bs3iwH8B5BvOOpy6hI1wrBIVsX1iYlUaMp8hVsDL7ePtfdX26w==", // Replace with the security credential from Safaricom
+    Initiator: "testapi", // Sandbox Initiator Name
+    SecurityCredential: "bfb279f9aa9bdbcf158e97dd71a467cd2cbfdf6f8b7190e3c1d7c3ebbf4b1b21", // Sandbox security credential (use OpenSSL to generate if needed)
     CommandID: "TransactionStatusQuery",
     TransactionID: transactionReference, // Transaction Reference
     PartyA: shortCode, // Shortcode sending the request
@@ -757,7 +1226,6 @@ app.post("/verify-payment", async (req, res) => {
 // Start the server
 const PORT = 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
 
 function showCustomAlert(message, type) {
     const alertBox = document.createElement("div");
@@ -926,8 +1394,134 @@ document.getElementById("closeTriangularSwapsModal").addEventListener("click", (
   document.getElementById("triangularSwapsModal").style.display = "none";
 });
 
+function showToast(message, type = "info") {
+  const toast = document.createElement("div");
+  toast.textContent = message;
+  toast.style.padding = "12px 18px";
+  toast.style.marginTop = "10px";
+  toast.style.borderRadius = "6px";
+  toast.style.fontSize = "15px";
+  toast.style.color = "white";
+  toast.style.boxShadow = "0 4px 8px rgba(0,0,0,0.1)";
+  toast.style.opacity = "0.95";
+  toast.style.transition = "transform 0.3s ease, opacity 0.3s ease";
 
-</script>
+  // Color based on type
+  switch (type) {
+    case "success":
+      toast.style.backgroundColor = "#28a745"; // Green
+      break;
+    case "error":
+      toast.style.backgroundColor = "#dc3545"; // Red
+      break;
+    case "warning":
+      toast.style.backgroundColor = "#ffc107"; // Yellow
+      toast.style.color = "#000";
+      break;
+    default:
+      toast.style.backgroundColor = "#007bff"; // Blue
+  }
+
+  // Add to container
+  const container = document.getElementById("toastContainer");
+  container.appendChild(toast);
+
+  // Auto remove
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    toast.style.transform = "translateX(100%)";
+    setTimeout(() => container.removeChild(toast), 400);
+  }, 3000);
+}
+
+
+function confirmDeleteSwap(callback) {
+  const modal = document.getElementById("confirmDeleteModal");
+  const progressBar = document.getElementById("confirmProgressBar");
+  modal.style.display = "flex";
+
+  let duration = 5; // seconds
+  let width = 100;
+  let interval;
+
+  function startCountdown() {
+    interval = setInterval(() => {
+      width -= 100 / (duration * 10);
+      progressBar.style.width = width + "%";
+
+      if (width <= 0) {
+        clearInterval(interval);
+        modal.style.display = "none";
+        callback(false);
+        showToast(" Deletion timed out.", "warning");
+      }
+    }, 100);
+  }
+
+  // Confirm click
+  document.getElementById("confirmYes").onclick = () => {
+    clearInterval(interval);
+    modal.style.display = "none";
+    callback(true);
+  };
+
+  // Cancel click
+  document.getElementById("confirmNo").onclick = () => {
+    clearInterval(interval);
+    modal.style.display = "none";
+    callback(false);
+    showToast(" Deletion cancelled.", "warning");
+  };
+
+  // Reset bar and start
+  progressBar.style.width = "100%";
+  startCountdown();
+}
+
+async function deleteSwap(id) {
+  confirmDeleteSwap(async (confirmed) => {
+    if (!confirmed) {
+      showToast("Deletion cancelled.", "warning");
+      return;
+    }
+
+    try {
+      await db.collection("teacherSwaps").doc(id).delete();
+      showToast("Swap deleted successfully.", "success");
+      loadSwaps(); // Reload updated list
+    } catch (error) {
+      console.error("Delete failed:", error);
+      showToast(" Failed to delete swap: " + error.message, "error");
+    }
+  });
+}
+
+function showCustomAlert(message, type) {
+  const alertBox = document.createElement("div");
+  alertBox.innerText = message;
+
+  alertBox.style.position = "fixed";
+  alertBox.style.top = "50%";
+  alertBox.style.left = "50%";
+  alertBox.style.transform = "translate(-50%, -50%)";
+  alertBox.style.padding = "20px";
+  alertBox.style.borderRadius = "8px";
+  alertBox.style.color = "white";
+  alertBox.style.zIndex = "1000";
+  alertBox.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
+  alertBox.style.fontSize = "16px";
+  alertBox.style.textAlign = "center";
+
+  // 🔴 Set all alerts to red background
+  alertBox.style.backgroundColor = "#f44336";
+
+  document.body.appendChild(alertBox);
+
+  setTimeout(() => {
+    alertBox.remove();
+  }, 3000); // Automatically remove after 3 seconds
+}
+
 
 
 

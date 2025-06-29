@@ -485,6 +485,12 @@
         </a>
       </li>
     </ul>
+<li>
+  <a href="#" onclick="showPage('bomJobs')">
+    <i class="fas fa-briefcase" style="color:#6f42c1;"></i> BOM Jobs
+  </a>
+</li>
+
   </nav>
 </header>
 
@@ -618,6 +624,51 @@
         </tbody>
       </table>
     </div>
+
+<div id="bomJobs" class="page" style="display:none;">
+  <h2>Post BOM Job Opportunity</h2>
+  <form id="bomJobForm">
+    <label for="bomSubjects">Subject(s):</label>
+    <input type="text" id="bomSubjects" required />
+    
+    <label for="bomCounty">County:</label>
+    <select id="bomCounty" required></select>
+
+    <label for="bomSubCounty">Sub-county:</label>
+    <input type="text" id="bomSubCounty" required />
+
+    <label for="bomSchool">School Name:</label>
+    <input type="text" id="bomSchool" required />
+
+    <label for="bomSalary">Salary (Ksh):</label>
+    <input type="number" id="bomSalary" required />
+
+    <label for="bomPhone">Phone Number:</label>
+    <input type="tel" id="bomPhone" required />
+
+    <button type="submit">
+      <i class="fas fa-briefcase" style="margin-right: 6px; color: #ffffff;"></i> Post BOM Job
+    </button>
+  </form>
+
+  <h3>Available BOM Jobs</h3>
+  <table id="bomJobsTable">
+    <thead>
+      <tr>
+        <th>Subject</th>
+        <th>County</th>
+        <th>Sub-county</th>
+        <th>School</th>
+        <th>Salary</th>
+        <th>Phone</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- BOM job listings go here -->
+    </tbody>
+  </table>
+</div>
+
     <div id="contact" class="page" style="display:none;">
       <h2>Contact Us</h2>
       <p>Email: support@teacherswapskenya.com</p>
@@ -784,7 +835,7 @@
 }
 
 // Populate all county selects on page load
-["county", "swapCounty", "filterSwapCounty"].forEach(populateCounties);
+["county", "swapCounty", "filterSwapCounty", "bomCounty"].forEach(populateCounties);
 
 function showPage(pageId) {
   if (pageId === "swaps" && !isLoggedIn) {
@@ -792,16 +843,24 @@ function showPage(pageId) {
     showPage("login");
     return;
   }
+
   document.querySelectorAll(".page").forEach(page => {
     page.style.display = "none";
   });
+
   const page = document.getElementById(pageId);
   if (page) page.style.display = "block";
 
+  // Load relevant data when page is shown
   if (pageId === "swaps" && isLoggedIn) {
     loadSwaps();
   }
+
+  if (pageId === "bomJobs") {
+    loadBOMJobs();
+  }
 }
+
 
 // Registration handler
 document.getElementById("registerForm").addEventListener("submit", async (e) => {
@@ -1054,9 +1113,14 @@ auth.onAuthStateChanged(user => {
   if (user) {
     currentUser = user;
     isLoggedIn = true;
-    // Load swaps if on swaps page
+
+    // Load data if relevant section is open
     if (document.getElementById("swaps").style.display === "block") {
       loadSwaps();
+    }
+
+    if (document.getElementById("bomJobs").style.display === "block") {
+      loadBOMJobs();
     }
   } else {
     currentUser = null;
@@ -1065,6 +1129,7 @@ auth.onAuthStateChanged(user => {
     showPage("home");
   }
 });
+
 
 
 function showPaymentModal() {
@@ -1526,7 +1591,8 @@ async function deleteSwap(id) {
   });
 }
 
-function showCustomAlert(message, type) {
+
+function showCustomAlert(message, type = "info") {
   const alertBox = document.createElement("div");
   alertBox.innerText = message;
 
@@ -1542,17 +1608,83 @@ function showCustomAlert(message, type) {
   alertBox.style.fontSize = "16px";
   alertBox.style.textAlign = "center";
 
-  // 🔴 Set all alerts to red background
-  alertBox.style.backgroundColor = "#f44336";
+  if (type === "success") {
+    alertBox.style.backgroundColor = "#4caf50";
+  } else if (type === "error") {
+    alertBox.style.backgroundColor = "#f44336";
+  } else {
+    alertBox.style.backgroundColor = "#007bff";
+  }
 
   document.body.appendChild(alertBox);
-
   setTimeout(() => {
     alertBox.remove();
-  }, 3000); // Automatically remove after 3 seconds
+  }, 3000);
 }
 
+// Handle BOM Job form submission (no login required)
+document.getElementById("bomJobForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
 
+  console.log("🔍 Posting job. Login status:", isLoggedIn, "User:", currentUser);
+
+  const job = {
+    subjects: document.getElementById("bomSubjects").value.trim(),
+    county: document.getElementById("bomCounty").value,
+    subcounty: document.getElementById("bomSubCounty").value.trim(),
+    school: document.getElementById("bomSchool").value.trim(),
+    salary: document.getElementById("bomSalary").value.trim(),
+    phone: document.getElementById("bomPhone").value.trim(),
+    postedBy: currentUser ? currentUser.uid : "guest",
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+  };
+
+  console.log("📤 Submitting BOM Job:", job);
+
+  try {
+    await db.collection("bomJobs").add(job);
+    showCustomAlert("BOM job posted successfully!", "success");
+    document.getElementById("bomJobForm").reset();
+    loadBOMJobs();
+  } catch (err) {
+    console.error("❌ Firebase error:", err);
+    showCustomAlert("Error posting job: " + err.message, "error");
+  }
+});
+
+
+// Load all BOM jobs into the table
+async function loadBOMJobs() {
+  const tbody = document.querySelector("#bomJobsTable tbody");
+  tbody.innerHTML = "";
+
+  try {
+    const snapshot = await db.collection("bomJobs").orderBy("timestamp", "desc").get();
+    snapshot.forEach(doc => {
+      const job = doc.data();
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${job.subjects}</td>
+        <td>${job.county}</td>
+        <td>${job.subcounty}</td>
+        <td>${job.school}</td>
+        <td>${job.salary}</td>
+        <td>
+          <a href="tel:${job.phone}" style="color: green;">Call</a><br>
+          <a href="https://wa.me/254${job.phone.replace(/^0/, '')}" target="_blank" style="color: #25D366;">WhatsApp</a>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  } catch (err) {
+    showCustomAlert("Failed to load BOM jobs: " + err.message, "error");
+  }
+}
+
+// Load BOM jobs on navigation
+if (document.getElementById("bomJobs").style.display === "block") {
+  loadBOMJobs();
+}
 
 
   </script>

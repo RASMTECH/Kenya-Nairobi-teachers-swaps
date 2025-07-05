@@ -795,6 +795,129 @@
   cursor: pointer;
   color: #ccc;
 }
+/* General Card Styling */
+.soulmate-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background-color: #f4f9f9; /* Light background for the card */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+}
+
+/* Photo Section */
+.soulmate-photo img {
+  border-radius: 8px;
+  object-fit: cover;
+  max-height: 200px;
+  width: 100%;
+}
+
+/* Header Section (Name and Title) */
+.soulmate-details h3 {
+  color: #ffffff; /* White text for the name */
+  font-size: 1.2em;
+  background-color: #00796b; /* Green background for the name header */
+  padding: 8px;
+  border-radius: 8px;
+  margin: 0;
+  text-align: center;
+}
+
+/* Text Details Styling */
+.soulmate-details p {
+  margin-bottom: 5px;
+  color: #333; /* Dark text color for clarity */
+}
+
+/* Contact Actions */
+.contact-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contact-actions a {
+  color: #2196f3; /* Blue color for the phone/whatsapp links */
+  text-decoration: none;
+}
+
+.contact-actions button {
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #673ab7; /* Purple color for buttons */
+  color: white;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.contact-actions button:hover {
+  background-color: #5e35b1; /* Slightly darker purple on hover */
+}
+
+/* Rating Section */
+.rating {
+  margin-top: 10px;
+}
+
+.rating .fas {
+  cursor: pointer;
+  color: #ccc;
+}
+
+.rating .avg-rating {
+  font-size: 1.1em;
+  color: #00796b; /* Green color for the average rating */
+}
+
+/* Background Color Variations (Optional) */
+.soulmate-card:nth-child(odd) {
+  background-color: #e0f7fa; /* Light cyan for odd cards */
+}
+
+.soulmate-card:nth-child(even) {
+  background-color: #f1f8e9; /* Light green for even cards */
+}
+
+.soulmate-details p {
+  margin-bottom: 5px;
+  color: #333; /* Dark text color */
+  display: flex;
+  align-items: center;
+}
+
+.soulmate-details p i {
+  margin-right: 8px; /* Space between icon and text */
+  color: #00796b; /* Color for the icons */
+}
+
+.soulmate-details h3 {
+  font-size: 1.2em;
+  display: flex;
+  align-items: center;
+}
+
+.soulmate-details h3 i {
+  margin-right: 8px;
+}
+
+.contact-actions button {
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #673ab7;
+  color: white;
+  border: none;
+}
+
+.contact-actions a {
+  color: #2196f3;
+  text-decoration: none;
+}
 
 </style>
 </head>
@@ -1371,28 +1494,26 @@ Register To Connect With  Available Soulmates
 </div>
 <h3>
   <i class="fas fa-venus-mars" style="color:#e91e63; margin-right: 8px;"></i>
+<h3>
+  <i class="fas fa-heart" style="color:#00796b; margin-right: 8px;"></i>
   Available Soulmates
 </h3>
 
-<table id="soulmateTable">
-  <thead>
-    <tr>
-      <th>Photo</th>
-      <th>Name</th>
-      <th>County</th>
-      <th>Sub-county</th> <!-- ✅ New -->
-      <th>Age</th>
-      <th>Tribe</th>
-      <th>Sex</th>
-      <th>Occupation</th>
-      <th>Work County</th>
-      <th>Phone</th>
-      <th>Status</th>
-      <th>Kids</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>
+<!-- Soulmates Cards Container -->
+<div id="soulmateContainer" style="
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  max-width: 400px;         /* Limits to 2 columns max */
+  margin: 0 auto;           /* Centers the grid */
+  margin-top: 20px;
+  overflow-y: auto;
+  max-height: 500px;
+  scroll-snap-type: y mandatory;
+">
+  <!-- Soulmate cards will be dynamically added here -->
+</div>
+
 
 </div>
 <div id="soulmateModal" class="modal" style="display:none;">
@@ -1682,53 +1803,6 @@ Register To Connect With  Available Soulmates
     <!-- County options will be dynamically populated -->
   </select>
 </div>
-
-<!-- Custom Alert Box (only once) -->
-<div id="customAlert" style="
-  display: none;
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #333;
-  color: #fff;
-  padding: 12px 18px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
-  font-size: 14px;
-  z-index: 9999;
-  transition: all 0.4s ease;">
-</div>
-
-<!-- Custom Confirm Dialog (only once) -->
-<div id="customConfirmBox" style="
-  display: none;
-  position: fixed;
-  bottom: 30px;
-  right: 20px;
-  background: #fff;
-  color: #222;
-  border: 1px solid #ccc;
-  padding: 16px;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.15);
-  z-index: 10000;
-  font-size: 14px;
-  max-width: 250px;">
-  <div id="confirmMessage" style="margin-bottom: 12px;">Are you sure?</div>
-  <button id="confirmYesBtn" style="
-    background-color: #d32f2f;
-    color: white;
-    border: none;
-    padding: 6px 10px;
-    border-radius: 5px;
-    margin-right: 10px;">Yes</button>
-  <button id="confirmNoBtn" style="
-    background-color: #ccc;
-    border: none;
-    padding: 6px 10px;
-    border-radius: 5px;">Cancel</button>
-</div>
-
 <!-- Market Items Container -->
 <div id="marketContainer" style="
   display: grid;
@@ -2354,17 +2428,32 @@ function renderBOMJobs(jobs) {
     card.className = "job-card";
     const isPoster = currentUser && job.postedBy === (currentUser.email || currentUser.displayName);
 
+    // Icons for job details
+    const salaryIcon = '<i class="fas fa-dollar-sign" style="margin-right: 8px;"></i>';
+    const locationIcon = '<i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i>';
+    const phoneIcon = '<i class="fas fa-phone-alt" style="margin-right: 8px;"></i>';
+    const dateIcon = '<i class="fas fa-calendar-day" style="margin-right: 8px;"></i>';
+
     card.innerHTML = `
       <h3 style="color:#2e7d32;">${job.jobType}</h3>
       <p><strong>Organization:</strong> ${job.organization}</p>
-      <p><strong>Phone:</strong> 
+
+      <!-- Phone Section with Icon -->
+      <p><strong>${phoneIcon}Phone:</strong> 
         <a href="tel:${job.phone}" style="color:green;">📞 Call</a>
         <br>
         <a href="https://wa.me/254${job.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a>
       </p>
-      <p><strong>Location:</strong> ${job.county}, ${job.subCounty}</p>
-      <p><strong>Salary Range:</strong> KES ${parseInt(job.salaryRange).toLocaleString()}</p>
-      <p><strong>Date Posted:</strong> ${job.datePosted}</p>
+
+      <!-- Location Section with Icon -->
+      <p><strong>${locationIcon}Location:</strong> ${job.county}, ${job.subCounty}</p>
+
+      <!-- Salary Range Section with Icon -->
+      <p><strong>${salaryIcon}Salary Range:</strong> KES ${parseInt(job.salaryRange).toLocaleString()}</p>
+
+      <!-- Date Posted Section with Icon -->
+      <p><strong>${dateIcon}Date Posted:</strong> ${job.datePosted}</p>
+
       <p><strong>Posted By:</strong> ${job.postedBy}</p>
 
       <div style="margin-top: 10px;">
@@ -2394,6 +2483,7 @@ function renderBOMJobs(jobs) {
     updateAverageRating(job.id);
   });
 }
+
 
 // ✅ Delete BOM Job
 async function confirmDeleteBOMJob(jobId) {
@@ -2612,87 +2702,111 @@ document.getElementById("soulmateForm").addEventListener("submit", async (e) => 
     loadSoulmates();
 
     // ✅ Notify Admin
-await db.collection("adminNotifications").add({
-  type: "Marketplace Post",
-  message: `New item posted: ${itemName} (${itemCategory}), Price: ${itemPrice}, Phone: ${itemPhone}, County: ${itemCounty}`,
-  timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-  read: false // ✅ Mark as unread for badge tracking
-});
-
+    await db.collection("adminNotifications").add({
+      type: "Soulmate Profile",
+      message: `New soulmate profile posted: ${data.name}, Age: ${data.age}, Phone: ${data.phone}`,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      read: false
+    });
 
   } catch (err) {
     console.error("Error uploading soulmate:", err);
     showCustomAlert("Error saving profile: " + err.message, "error");
   }
 });
-
-
-// Load all soulmate profiles
+// ✅ Load all soulmate profiles and display them in cards
 async function loadSoulmates() {
-  const tbody = document.querySelector("#soulmateTable tbody");
-  tbody.innerHTML = "";
+  const container = document.querySelector("#soulmateContainer");
+  container.innerHTML = ""; // Clear existing profiles
 
   const snapshot = await soulmateRef.orderBy("timestamp", "desc").get();
   if (snapshot.empty) {
-    tbody.innerHTML = `<tr><td colspan="7">No soulmate profiles found.</td></tr>`;
+    container.innerHTML = `<p>No soulmate profiles found.</p>`;
     return;
   }
 
-snapshot.forEach(doc => {
-  const d = doc.data();
-  const tr = document.createElement("tr");
+  snapshot.forEach(doc => {
+    const d = doc.data();
+    const isPoster = currentUser && d.postedBy === (currentUser.email || currentUser.displayName);
 
-  // Safely encode data for modal use
-  const safeData = encodeURIComponent(JSON.stringify(d));
-  const isPoster = currentUser && d.postedBy === (currentUser.email || currentUser.displayName);
+    const card = document.createElement("div");
+    card.className = "soulmate-card";
 
- tr.innerHTML = `
-  <td>
-    <img src="${d.photoURL || 'default.jpg'}" alt="Photo" 
-         style="width:40px; height:40px; border-radius:50%; object-fit:cover;" />
-  </td>
-  <td>
-    <a href="#" onclick='showSoulmateModal(JSON.parse(decodeURIComponent("${safeData}")))'
-       style="color:#2196f3;">${d.name}</a>
-  </td>
-  <td>${d.county}</td>
-  <td>${d.subCounty || '-'}</td>
-  <td>${d.age}</td>
-  <td>${d.tribe}</td>
-  <td>${d.sex}</td>
-  <td>${d.occupation}</td>
-  <td>${d.workCounty}</td>
-  <td>
-    <a href="tel:${d.phone}" style="color:green;">📞 Call</a><br>
-    <a href="https://wa.me/254${d.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a><br>
-    ${
-      !isPoster ? `
-      <button onclick="openChatModal('${d.phone}', '${d.name}')" 
-        style="margin-top:4px; background:#673ab7; color:white; border:none; border-radius:4px; padding:4px 8px; cursor:pointer;">
-        💬 Chat
-      </button>` : ''
+    // Safely encode data for modal use
+    const safeData = encodeURIComponent(JSON.stringify(d));
+
+    // Determine the appropriate icon for the sex of the soulmate
+    let sexIcon = '';
+    if (d.sex === 'Male') {
+      sexIcon = '<i class="fas fa-mars" style="margin-right: 8px; color:#00796b;"></i>';
+    } else if (d.sex === 'Female') {
+      sexIcon = '<i class="fas fa-venus" style="margin-right: 8px; color:#00796b;"></i>';
     }
-  </td>
-  <td>${d.status || '—'}</td>
-  <td>${d.kids || '—'}</td>
 
-  <!-- ⭐ Rating -->
-  <td>
-    <div class="rating" data-id="${d.id}">
-      <span class="avg-rating" id="avgRating-${d.id}">Loading...</span><br>
-      ${[1, 2, 3, 4, 5].map(star => `
-        <i class="fas fa-star" onclick="rateService('${d.id}', ${star})"
-           style="cursor:pointer; color:#ccc;" id="star-${d.id}-${star}"></i>
-      `).join('')}
-    </div>
-  </td>
-`;
+    // Determine the appropriate icon for status (optional)
+    let statusIcon = '';
+    if (d.status === 'Single') {
+      statusIcon = '<i class="fas fa-heart-broken" style="margin-left: 8px; color:#f44336;"></i>';
+    } else if (d.status === 'Married') {
+      statusIcon = '<i class="fas fa-ring" style="margin-left: 8px; color:#00796b;"></i>';
+    }
 
-tbody.appendChild(tr);
-updateAverageRating(d.id);
+    card.innerHTML = `
+      <div class="soulmate-photo">
+        <img src="${d.photoURL || 'default.jpg'}" alt="Photo" style="width:100%; height:auto; border-radius:8px; object-fit:cover;" />
+      </div>
+      <div class="soulmate-details">
+        <h3 style="color:#00796b; display: flex; align-items: center;">
+          ${sexIcon}${d.name} ${statusIcon}
+        </h3>
+        
+        <!-- Displaying Age with Icon -->
+        <p><i class="fas fa-birthday-cake" style="margin-right: 8px;"></i><strong>Age:</strong> ${d.age}</p>
+        
+        <!-- Displaying County with Icon -->
+        <p><i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i><strong>County:</strong> ${d.county}</p>
+        
+        <!-- Displaying Tribe with Icon -->
+        <p><i class="fas fa-users" style="margin-right: 8px;"></i><strong>Tribe:</strong> ${d.tribe}</p>
+        
+        <!-- Displaying Occupation with Icon -->
+        <p><i class="fas fa-briefcase" style="margin-right: 8px;"></i><strong>Occupation:</strong> ${d.occupation}</p>
 
-});
+        <!-- Displaying Status with Icon -->
+        <p><i class="fas fa-heart" style="margin-right: 8px;"></i><strong>Status:</strong> ${d.status || '—'}</p>
+        
+        <!-- Displaying Kids with Icon -->
+        <p><i class="fas fa-baby" style="margin-right: 8px;"></i><strong>Kids:</strong> ${d.kids || '—'}</p>
+
+        <div class="contact-actions">
+          <a href="tel:${d.phone}" style="color:green;">📞 Call</a><br>
+          <a href="https://wa.me/254${d.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a><br>
+          ${
+            !isPoster ? `
+            <button onclick="openChatModal('${d.phone}', '${d.name}')"
+              style="background:#673ab7; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
+              💬 Chat
+            </button>` : ''
+          }
+        </div>
+      </div>
+
+      <div class="rating" data-id="${d.id}">
+        <span class="avg-rating" id="avgRating-${d.id}">Loading...</span><br>
+        ${[1, 2, 3, 4, 5].map(star => `
+          <i class="fas fa-star" onclick="rateService('${d.id}', ${star})"
+             style="cursor:pointer; color:#ccc;" id="star-${d.id}-${star}"></i>
+        `).join('')}
+      </div>
+    `;
+
+    container.appendChild(card);
+    updateAverageRating(d.id);
+  });
 }
+
+
+
 
 function showSoulmateModal(data) {
   const photo = data.photoURL || 'default.jpg';
@@ -3115,7 +3229,7 @@ await db.collection("adminNotifications").add({
 }
 
 
-// ✅ Load services
+// ✅ Load services and display them in cards
 async function loadServices() {
   const container = document.getElementById("servicesContainer");
   container.innerHTML = "";
@@ -3136,54 +3250,67 @@ async function loadServices() {
     card.className = "service-card";
     card.dataset.county = d.county;
     card.dataset.occupation = d.occupation.toLowerCase();
-    
-    // Highlight occupation in red
-    const occupationStyle = "color: red; font-weight: bold; background-color: #ffebee; padding: 4px; border-radius: 4px;";
+
+    // Icons for service details
+    const experienceIcon = '<i class="fas fa-briefcase" style="margin-right: 8px;"></i>';
+    const locationIcon = '<i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i>';
+    const phoneIcon = '<i class="fas fa-phone-alt" style="margin-right: 8px;"></i>';
+    const whatsappIcon = '<i class="fab fa-whatsapp" style="margin-right: 8px;"></i>';
 
     card.innerHTML = `
-      <strong>${d.name}</strong><br>
-      ${d.county}, ${d.subcounty}<br>
-      <em style="${occupationStyle}">${d.occupation}</em><br> <!-- Highlight occupation -->
-      ${d.experience} years experience<br>
+      <!-- Service Details -->
+      <div class="service-details">
+        <strong>${d.name}</strong><br>
+        <!-- Highlight occupation with red background -->
+        <em class="highlight-occupation">${d.occupation}</em><br> <!-- Highlight occupation -->
+        <p><strong>Name:</strong> ${d.name}</p>
+        <p><strong>${locationIcon}County:</strong> ${d.county}</p>
+        <p><strong>Occupation:</strong> ${d.occupation}</p>
+        <p><strong>${experienceIcon}Experience:</strong> ${d.experience} years</p>
+        <p><strong>${phoneIcon}Phone Number:</strong> 
+          <a href="tel:${d.phone}" style="color:green;">📞 Call</a>
+        </p>
 
-      <!-- ⭐ Rating UI -->
-      <div class="rating" data-id="${id}" style="margin: 4px 0;">
-        <span class="avg-rating" id="avgRating-${id}">Loading...</span><br>
-        <span>
-          ${[1, 2, 3, 4, 5].map(star => `
-            <i class="fas fa-star" onclick="rateService('${id}', ${star})"
-               style="cursor:pointer; color:#ccc;" id="star-${id}-${star}"></i>
-          `).join('')}
-        </span>
+        <!-- Rating UI -->
+        <div class="rating" data-id="${id}" style="margin: 4px 0;">
+          <span class="avg-rating" id="avgRating-${id}">Loading...</span><br>
+          <span>
+            ${[1, 2, 3, 4, 5].map(star => `
+              <i class="fas fa-star" onclick="rateService('${id}', ${star})"
+                style="cursor:pointer; color:#ccc;" id="star-${id}-${star}"></i>
+            `).join('')}
+          </span>
+        </div>
+
+        <!-- Contact Options -->
+        <p><strong>${phoneIcon}<a href="tel:${d.phone}" style="color:green;">📞 Call</a></strong></p>
+        <p><strong>${whatsappIcon}<a href="https://wa.me/254${d.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a></strong></p>
+
+        <!-- 💬 Chat (non-posters only) -->
+        ${
+          !isPoster ? `
+            <button onclick="openChatModal('${d.phone}', '${d.name}')" 
+              style="margin-top:4px; background:#673ab7; color:white; border:none; border-radius:4px; padding:4px 8px; cursor:pointer;">
+              💬 Chat
+            </button><br>
+          ` : ''
+        }
+
+        <!-- 🛠️ Admin / Poster Controls -->
+        ${
+          (isPoster || isAdminUser) ? `
+            <button onclick="deleteService('${id}')" style="background:#e53935; color:white; border:none; padding:4px 8px; border-radius:4px; margin-top:4px;">🗑️ Delete</button>
+            <button onclick='editService(${JSON.stringify(d)}, "${id}")' style="background:#0288d1; color:white; border:none; padding:4px 8px; border-radius:4px; margin-left:4px;">✏️ Edit</button>
+          ` : ''
+        }
       </div>
-
-      <!-- Contact Options -->
-      <a href="tel:${d.phone}" style="color:green;">📞 Call</a><br>
-      <a href="https://wa.me/254${d.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a><br>
-
-      <!-- 💬 Chat (non-posters only) -->
-      ${
-        !isPoster ? `
-          <button onclick="openChatModal('${d.phone}', '${d.name}')" 
-            style="margin-top:4px; background:#673ab7; color:white; border:none; border-radius:4px; padding:4px 8px; cursor:pointer;">
-            💬 Chat
-          </button><br>
-        ` : ''
-      }
-
-      <!-- 🛠️ Admin / Poster Controls -->
-      ${
-        (isPoster || isAdminUser) ? `
-          <button onclick="deleteService('${id}')" style="background:#e53935; color:white; border:none; padding:4px 8px; border-radius:4px; margin-top:4px;">🗑️ Delete</button>
-          <button onclick='editService(${JSON.stringify(d)}, "${id}")' style="background:#0288d1; color:white; border:none; padding:4px 8px; border-radius:4px; margin-left:4px;">✏️ Edit</button>
-        ` : ''
-      }
     `;
 
     container.appendChild(card);
     updateAverageRating(id); // ✅ Load average rating after rendering
   });
 }
+
 
 
 // ✅ Delete service

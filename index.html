@@ -918,6 +918,126 @@
   color: #2196f3;
   text-decoration: none;
 }
+/* Highlight occupation with red background */
+.highlight-occupation {
+  color: red; /* Red text */
+  font-weight: bold; /* Bold text */
+  background-color: #ffebee; /* Light red background */
+  padding: 4px; /* Padding to give space around the text */
+  border-radius: 4px; /* Rounded corners */
+}
+
+/* General Service Card Styling */
+.service-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Service Details */
+.service-details {
+  font-size: 1em;
+}
+
+.service-details p {
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.service-details i {
+  margin-right: 8px; /* Space between icon and text */
+}
+
+/* Contact Buttons */
+.contact-actions a {
+  color: #2196f3;
+  text-decoration: none;
+}
+
+.contact-actions button {
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #673ab7;
+  color: white;
+  border: none;
+}
+
+.contact-actions button:hover {
+  background-color: #5e35b1;
+}
+
+/* Rating Stars */
+.rating .fas {
+  cursor: pointer;
+  color: #ccc;
+}
+/* Highlight occupation with red background */
+.highlight-occupation {
+  color: red; /* Red text */
+  font-weight: bold; /* Bold text */
+  background-color: #ffebee; /* Light red background */
+  padding: 4px; /* Padding to give space around the text */
+  border-radius: 4px; /* Rounded corners */
+}
+
+/* General Service Card Styling */
+.service-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Service Details */
+.service-details {
+  font-size: 1em;
+}
+
+.service-details p {
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.service-details i {
+  margin-right: 8px; /* Space between icon and text */
+}
+
+/* Contact Buttons */
+.contact-actions a {
+  color: #2196f3;
+  text-decoration: none;
+}
+
+.contact-actions button {
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #673ab7;
+  color: white;
+  border: none;
+}
+
+.contact-actions button:hover {
+  background-color: #5e35b1;
+}
+
+/* Rating Stars */
+.rating .fas {
+  cursor: pointer;
+  color: #ccc;
+}
 
 </style>
 </head>
@@ -3228,7 +3348,6 @@ await db.collection("adminNotifications").add({
   }
 }
 
-
 // ✅ Load services and display them in cards
 async function loadServices() {
   const container = document.getElementById("servicesContainer");
@@ -3259,57 +3378,53 @@ async function loadServices() {
 
     card.innerHTML = `
       <!-- Service Details -->
-      <div class="service-details">
-        <strong>${d.name}</strong><br>
-        <!-- Highlight occupation with red background -->
-        <em class="highlight-occupation">${d.occupation}</em><br> <!-- Highlight occupation -->
-        <p><strong>Name:</strong> ${d.name}</p>
-        <p><strong>${locationIcon}County:</strong> ${d.county}</p>
-        <p><strong>Occupation:</strong> ${d.occupation}</p>
-        <p><strong>${experienceIcon}Experience:</strong> ${d.experience} years</p>
-        <p><strong>${phoneIcon}Phone Number:</strong> 
-          <a href="tel:${d.phone}" style="color:green;">📞 Call</a>
-        </p>
+      <p><strong>Name:</strong> ${d.name}</p>
+      <p><strong>${locationIcon}County:</strong> ${d.county}</p>
+      <p><strong>Occupation:</strong> <span class="highlight-occupation">${d.occupation}</span></p> <!-- Highlight occupation -->
+      <p><strong>${experienceIcon}Experience:</strong> ${d.experience} years</p>
+      <p><strong>${phoneIcon}Phone Number:</strong> 
+        <a href="tel:${d.phone}" style="color:green;">📞 Call</a>
+      </p>
 
-        <!-- Rating UI -->
-        <div class="rating" data-id="${id}" style="margin: 4px 0;">
-          <span class="avg-rating" id="avgRating-${id}">Loading...</span><br>
-          <span>
-            ${[1, 2, 3, 4, 5].map(star => `
-              <i class="fas fa-star" onclick="rateService('${id}', ${star})"
-                style="cursor:pointer; color:#ccc;" id="star-${id}-${star}"></i>
-            `).join('')}
-          </span>
-        </div>
-
-        <!-- Contact Options -->
-        <p><strong>${phoneIcon}<a href="tel:${d.phone}" style="color:green;">📞 Call</a></strong></p>
-        <p><strong>${whatsappIcon}<a href="https://wa.me/254${d.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a></strong></p>
-
-        <!-- 💬 Chat (non-posters only) -->
-        ${
-          !isPoster ? `
-            <button onclick="openChatModal('${d.phone}', '${d.name}')" 
-              style="margin-top:4px; background:#673ab7; color:white; border:none; border-radius:4px; padding:4px 8px; cursor:pointer;">
-              💬 Chat
-            </button><br>
-          ` : ''
-        }
-
-        <!-- 🛠️ Admin / Poster Controls -->
-        ${
-          (isPoster || isAdminUser) ? `
-            <button onclick="deleteService('${id}')" style="background:#e53935; color:white; border:none; padding:4px 8px; border-radius:4px; margin-top:4px;">🗑️ Delete</button>
-            <button onclick='editService(${JSON.stringify(d)}, "${id}")' style="background:#0288d1; color:white; border:none; padding:4px 8px; border-radius:4px; margin-left:4px;">✏️ Edit</button>
-          ` : ''
-        }
+      <!-- Rating UI -->
+      <div class="rating" data-id="${id}" style="margin: 4px 0;">
+        <span class="avg-rating" id="avgRating-${id}">Loading...</span><br>
+        <span>
+          ${[1, 2, 3, 4, 5].map(star => `
+            <i class="fas fa-star" onclick="rateService('${id}', ${star})"
+              style="cursor:pointer; color:#ccc;" id="star-${id}-${star}"></i>
+          `).join('')}
+        </span>
       </div>
+
+      <!-- Contact Options -->
+      <p><strong>${phoneIcon}<a href="tel:${d.phone}" style="color:green;">📞 Call</a></strong></p>
+      <p><strong>${whatsappIcon}<a href="https://wa.me/254${d.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a></strong></p>
+
+      <!-- 💬 Chat (non-posters only) -->
+      ${
+        !isPoster ? `
+          <button onclick="openChatModal('${d.phone}', '${d.name}')" 
+            style="margin-top:4px; background:#673ab7; color:white; border:none; border-radius:4px; padding:4px 8px; cursor:pointer;">
+            💬 Chat
+          </button><br>
+        ` : ''
+      }
+
+      <!-- 🛠️ Admin / Poster Controls -->
+      ${
+        (isPoster || isAdminUser) ? `
+          <button onclick="deleteService('${id}')" style="background:#e53935; color:white; border:none; padding:4px 8px; border-radius:4px; margin-top:4px;">🗑️ Delete</button>
+          <button onclick='editService(${JSON.stringify(d)}, "${id}")' style="background:#0288d1; color:white; border:none; padding:4px 8px; border-radius:4px; margin-left:4px;">✏️ Edit</button>
+        ` : ''
+      }
     `;
 
     container.appendChild(card);
     updateAverageRating(id); // ✅ Load average rating after rendering
   });
 }
+
 
 
 

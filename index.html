@@ -773,79 +773,41 @@
     <h1>Welcome to Teacher Swaps Kenya</h1>
     <nav>
       <ul>
-        <li>
-          <a href="#" onclick="showPage('home')">
-            <i class="fas fa-house" style="color:#1e90ff;"></i> Home
+        <li><a href="#" onclick="showPage('home')"><i class="fas fa-house" style="color:#1e90ff;"></i> Home</a></li>
+        <li><a href="#" onclick="showPage('register')"><i class="fas fa-user-plus" style="color:#28a745;"></i> Register</a></li>
+        <li><a href="#" onclick="showPage('login')"><i class="fas fa-sign-in-alt" style="color:#17a2b8;"></i> Login</a></li>
+        <li><a href="#" onclick="showPage('swaps')"><i class="fas fa-exchange-alt" style="color:#ffc107;"></i> View Swaps</a></li>
+        <li><a href="#" onclick="showPage('bomJobs')"><i class="fas fa-briefcase" style="color:#6f42c1;"></i> My Jobs</a></li>
+        <li><a href="#" onclick="showPage('resources')"><i class="fas fa-book" style="color:#ff5722;"></i> Teaching Resources</a></li>
+        <li><a href="#" onclick="showPage('soulmates')"><i class="fas fa-heart" style="color:#e91e63;"></i> Find Soulmate</a></li>
+        <li><a href="#" onclick="showPage('seekingServices')"><i class="fas fa-concierge-bell" style="color:#009688;"></i> Seeking Services</a></li>
+        <li><a href="#" onclick="showPage('market')"><i class="fas fa-store" style="color:#009688;"></i> Market</a></li>
+        <li><a href="#" onclick="showPage('contact')"><i class="fas fa-envelope" style="color:#dc3545;"></i> Contact Us</a></li>
+        <li style="position: relative;">
+          <a href="#" onclick="showPage('notifications')">
+            <i class="fas fa-bell" style="color:#ff9800;"></i> Notifications
+            <span id="notifBadge" style="
+              display: none;
+              background: red;
+              color: white;
+              border-radius: 50%;
+              padding: 2px 6px;
+              font-size: 12px;
+              position: absolute;
+              top: -5px;
+              right: -20px;
+            ">0</span>
           </a>
         </li>
         <li>
-          <a href="#" onclick="showPage('register')">
-            <i class="fas fa-user-plus" style="color:#28a745;"></i> Register
-          </a>
+          <button onclick="showMyChats()" style="background:#28a745; color:white; padding:6px 12px; border:none; border-radius:4px; cursor:pointer;">
+            📂 My Chats
+          </button>
         </li>
-        <li>
-          <a href="#" onclick="showPage('login')">
-            <i class="fas fa-sign-in-alt" style="color:#17a2b8;"></i> Login
-          </a>
-        </li>
-        <li>
-          <a href="#" onclick="showPage('swaps')">
-            <i class="fas fa-exchange-alt" style="color:#ffc107;"></i> View Swaps
-          </a>
-        </li>
-        <li>
-          <a href="#" onclick="showPage('bomJobs')">
-            <i class="fas fa-briefcase" style="color:#6f42c1;"></i> My Jobs
-          </a>
-        </li>
-        <li>
-          <a href="#" onclick="showPage('resources')">
-            <i class="fas fa-book" style="color:#ff5722;"></i> Teaching Resources
-          </a>
-        </li>
-        <li>
-          <a href="#" onclick="showPage('soulmates')">
-            <i class="fas fa-heart" style="color:#e91e63;"></i> Find Soulmate
-          </a>
-        </li>
-        <li>
-          <a href="#" onclick="showPage('seekingServices')">
-            <i class="fas fa-concierge-bell" style="color:#009688;"></i> Seeking Services
-          </a>
-        </li>
-        <li>
-          <a href="#" onclick="showPage('market')">
-            <i class="fas fa-store" style="color:#009688;"></i> Market
-          </a>
-        </li>
-        <li>
-          <a href="#" onclick="showPage('contact')">
-            <i class="fas fa-envelope" style="color:#dc3545;"></i> Contact Us
-          </a>
-  <li style="position: relative;">
-  <a href="#" onclick="showPage('notifications')">
-    <i class="fas fa-bell" style="color:#ff9800;"></i> Notifications
-    <span id="notifBadge" style="
-      display: none;
-      background: red;
-      color: white;
-      border-radius: 50%;
-      padding: 2px 6px;
-      font-size: 12px;
-      position: absolute;
-      top: -5px;
-      right: -20px;
-    ">0</span>
-  </a>
-</li>
-<a onclick="showPage('chat')" style="position:relative;">
-  <i class="fas fa-comments"></i> Chat
-  <span id="chatNotifBadge" style="position:absolute; top:-6px; right:-10px; background:red; color:white; border-radius:50%; padding:2px 6px; font-size:12px; display:none;">0</span>
-</a>
-
       </ul>
     </nav>
   </header>
+
  
 
 
@@ -857,38 +819,40 @@
   Connect with Other Employers
 </h2>
 
-   <img src=" https://i.imgur.com/jixmLF9.jpeg" alt="School Logo" class="logo-img" style="width: 200px;">
-     <img src=" https://i.imgur.com/bbHniIi.jpeg" alt="School Logo" class="logo-img" style="width: 200px;">
-    <img src=" https://i.imgur.com/qnmK7CR.jpeg" alt="School Logo" class="logo-img" style="width: 200px;">    
-    <img src=" https://i.imgur.com/WKwJ73A.jpeg" alt="School Logo" class="logo-img" style="width: 200px;">
-    <img src="        https://i.imgur.com/4pi7IZ6.jpeg          " alt="School Logo" class="logo-img" style="width: 200px;">
-    <img src="          https://i.imgur.com/iqBwsWm.png          " alt="School Logo" class="logo-img" style="width: 200px;">
-    <img src="      https://i.imgur.com/jgwKwKd.jpeg          " alt="School Logo" class="logo-img" style="width: 200px;">
-    <img src="      https://i.imgur.com/1anjN0C.jpeg          " alt="School Logo" class="logo-img" style="width: 200px;">
-    <img src=" https://i.imgur.com/J7NB5je.jpeg               " alt="School Logo" class="logo-img" style="width: 200px;">
-    <img src="   https://i.imgur.com/JYLKJ2p.jpeg             " alt="School Logo" class="logo-img" style="width: 200px;">
-    <img src="     https://i.imgur.com/HBsmybQ.jpeg           " alt="School Logo" class="logo-img" style="width: 200px;">
-    <img src="   https://i.imgur.com/XotAbEs.jpeg             " alt="School Logo" class="logo-img" style="width: 200px;">
-   <img src="      https://i.imgur.com/KmvHkzY.jpeg          " alt="School Logo" class="logo-img" style="width: 200px;">
-    <img src="  https://i.imgur.com/aYh8gq9.jpeg              " alt="School Logo" class="logo-img" style="width: 200px;">
-   <img src="     https://i.imgur.com/PrMgJG6.jpeg           " alt="School Logo" class="logo-img" style="width: 200px;">
-    <img src="    https://i.imgur.com/JXrL3JD.jpeg            " alt="School Logo" class="logo-img" style="width: 200px;">
-   <img src="  https://i.imgur.com/kkjlixE.jpeg              " alt="School Logo" class="logo-img" style="width: 200px;">
-    <img src="      https://i.imgur.com/4pi7IZ6.jpeg          " alt="School Logo" class="logo-img" style="width: 200px;">
-<img src="    https://i.imgur.com/fAtmMt4.jpeg           " alt="School Logo" class="logo-img" style="width: 200px;">
-    <img src="   https://i.imgur.com/7aWGYXS.jpeg            " alt="School Logo" class="logo-img" style="width: 200px;">
-   <img src="       https://i.imgur.com/5v3tav5.jpeg        " alt="School Logo" class="logo-img" style="width: 200px;">
-    <img src="    https://i.imgur.com/kEyIuZJ.jpeg       " alt="School Logo" class="logo-img" style="width: 200px;">
-   <img src="     https://i.imgur.com/1BJtGew.jpeg           " alt="School Logo" class="logo-img" style="width: 200px;">
-   <img src="    https://i.imgur.com/WYA3tbh.jpeg           " alt="School Logo" class="logo-img" style="width: 200px;">
-    <img src="      https://i.imgur.com/LFHI6v8.jpeg         " alt="School Logo" class="logo-img" style="width: 200px;">
-   <img src="  https://i.imgur.com/95vSNbW.jpeg             " alt="School Logo" class="logo-img" style="width: 200px;">
-    <img src="    https://i.imgur.com/WFVirtF.jpeg       " alt="School Logo" class="logo-img" style="width: 200px;">
-   <img src="    https://i.imgur.com/R7D2ECX.jpeg            " alt="School Logo" class="logo-img" style="width: 200px;">
-   <img src="    https://i.imgur.com/RuNhIix.jpeg           " alt="School Logo" class="logo-img" style="width: 200px;">
-    <img src="      https://i.imgur.com/uOQZLxF.jpeg         " alt="School Logo" class="logo-img" style="width: 200px;">
-   <img src="   https://i.imgur.com/buIgbl2.jpeg             " alt="School Logo" class="logo-img" style="width: 200px;">
-    <img src="       https://i.imgur.com/vtJXjeb.jpeg  " alt="School Logo" class="logo-img" style="width: 200px;">
+  <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 20px 0;">
+  <img src="https://i.imgur.com/jixmLF9.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/bbHniIi.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/qnmK7CR.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/WKwJ73A.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/4pi7IZ6.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/iqBwsWm.png" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/jgwKwKd.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/1anjN0C.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/J7NB5je.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/JYLKJ2p.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/HBsmybQ.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/XotAbEs.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/KmvHkzY.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/aYh8gq9.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/PrMgJG6.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/JXrL3JD.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/kkjlixE.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/fAtmMt4.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/7aWGYXS.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/5v3tav5.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/kEyIuZJ.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/1BJtGew.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/WYA3tbh.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/LFHI6v8.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/95vSNbW.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/WFVirtF.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/R7D2ECX.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/RuNhIix.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/uOQZLxF.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/buIgbl2.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+  <img src="https://i.imgur.com/vtJXjeb.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
+</div>
+
 
 
 <!-- Open Graph Meta Tags for social sharing -->
@@ -1451,9 +1415,7 @@ Register To Connect With  Available Soulmates
     <input type="text" id="chatInput" placeholder="Type your message..." style="flex: 1; padding: 6px; border-radius: 4px; border: 1px solid #ccc;" />
     <button onclick="sendChatMessage()" style="padding: 6px 12px; border: none; background: #4caf50; color: white; border-radius: 4px;">Send</button>
   </div>
-
-</div>
-
+  </div>
 
 <div id="notifications" class="page" style="display:none;">
   <h2>🔔 My Notifications</h2>
@@ -1659,16 +1621,19 @@ Register To Connect With  Available Soulmates
 <option value="RepairConstruction">🛠️ Repair & Construction</option>
 <option value="LeisureActivities">🏖️ Leisure & Activities</option>
 <option value="Other">🌟 Other</option>
-
 </select><br>
 
 </div>
+
+<!-- County Filter Dropdown -->
 <div>
-    <label for="filterItemCounty">County:</label>
-    <select id="filterItemCounty" style="width: 150px;" onchange="filterMarketItems()">
-        <!-- County options will be dynamically populated -->
-    </select>
+  <label for="filterItemCounty">County:</label>
+  <select id="filterItemCounty" style="width: 150px;" onchange="filterMarketItems()">
+    <!-- County options will be dynamically populated -->
+  </select>
 </div>
+
+<!-- Custom Alert Box (only once) -->
 <div id="customAlert" style="
   display: none;
   position: fixed;
@@ -1683,52 +1648,8 @@ Register To Connect With  Available Soulmates
   z-index: 9999;
   transition: all 0.4s ease;">
 </div>
-<div id="customConfirmBox" style="
-  display: none;
-  position: fixed;
-  bottom: 30px;
-  right: 20px;
-  background: #fff;
-  color: #222;
-  border: 1px solid #ccc;
-  padding: 16px;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.15);
-  z-index: 10000;
-  font-size: 14px;
-  max-width: 250px;
-">
-  <div id="confirmMessage" style="margin-bottom: 12px;">Are you sure?</div>
-  <button id="confirmYesBtn" style="background-color: #d32f2f; color: white; border: none; padding: 6px 10px; border-radius: 5px; margin-right: 10px;">Yes</button>
-  <button id="confirmNoBtn" style="background-color: #ccc; border: none; padding: 6px 10px; border-radius: 5px;">Cancel</button>
-</div>
 
-
-<div id="marketContainer" style="
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
-  max-width: 800px;   /* ✅ prevent too many columns */
-  margin-left: auto;
-  margin-right: auto;
-">
-  <!-- Cards will be dynamically added here -->
-</div>
-
-<div id="customAlert" style="
-  display: none;
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #333;
-  color: #fff;
-  padding: 12px 18px;
-  border-radius: 8px;
-  font-size: 14px;
-  z-index: 9999;
-  transition: all 0.4s ease;">
-</div>
+<!-- Custom Confirm Dialog (only once) -->
 <div id="customConfirmBox" style="
   display: none;
   position: fixed;
@@ -1744,64 +1665,80 @@ Register To Connect With  Available Soulmates
   font-size: 14px;
   max-width: 250px;">
   <div id="confirmMessage" style="margin-bottom: 12px;">Are you sure?</div>
-  <button id="confirmYesBtn" style="background-color: #d32f2f; color: white; border: none; padding: 6px 10px; border-radius: 5px; margin-right: 10px;">Yes</button>
-  <button id="confirmNoBtn" style="background-color: #ccc; border: none; padding: 6px 10px; border-radius: 5px;">Cancel</button>
+  <button id="confirmYesBtn" style="
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 5px;
+    margin-right: 10px;">Yes</button>
+  <button id="confirmNoBtn" style="
+    background-color: #ccc;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 5px;">Cancel</button>
 </div>
 
-    <div id="contact" class="page" style="display:none;">
+<!-- Market Items Container -->
+<div id="marketContainer" style="
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;">
+  <!-- Cards will be dynamically added here -->
+</div>
+
+
+<div id="contact" class="page" style="display:none;">
   <div>
-  <h2><i class="fas fa-envelope-open-text"></i> Contact Us</h2>
+    <h2><i class="fas fa-envelope-open-text"></i> Contact Us</h2>
+    <p><i class="fas fa-envelope"></i> Email: support@teacherswapskenya.com</p>
+    <p><i class="fas fa-phone"></i> Phone: +254 700 000 000</p>
+    <p><i class="fas fa-phone"></i> Phone: +254 792 755 676</p>
+    <p><i class="fas fa-phone"></i> Phone: +254 795 854 571</p>
+    <p><i class="fab fa-facebook"></i> Facebook: <a href="#">Link</a></p>
+    <p><i class="fab fa-youtube"></i> YouTube: <a href="#">Link</a></p>
+    <p><i class="fab fa-telegram"></i> Telegram: <a href="#">Link</a></p>
+  </div>
 
-  <p><i class="fas fa-envelope"></i> Email: support@teacherswapskenya.com</p>
-  <p><i class="fas fa-phone"></i> Phone: +254 700 000 000</p>
-  <p><i class="fas fa-phone"></i> Phone: +254 792 755 676</p>
-  <p><i class="fas fa-phone"></i> Phone: +254 795 854 571</p>
-  <p><i class="fab fa-facebook"></i> Facebook: <a href="#">Link</a></p>
-  <p><i class="fab fa-youtube"></i> YouTube: <a href="#">Link</a></p>
-  <p><i class="fab fa-telegram"></i> Telegram: <a href="#">Link</a></p>
+  <div style="text-align: center; margin-top: 20px;">
+    <a href="https://wa.me/254792755676" target="_blank" style="text-decoration: none;">
+      <button style="background-color: #25D366; color: white; padding: 12px 25px; border: none; border-radius: 6px; font-size: 16px; cursor: pointer;">
+        <i class="fab fa-whatsapp" style="margin-right: 8px;"></i> Chat with Us on WhatsApp
+      </button>
+    </a>
+  </div>
 </div>
 
-<div style="text-align: center; margin-top: 20px;">
-  <a href="https://wa.me/254792755676" target="_blank" style="text-decoration: none;">
-    <button style="background-color: #25D366; color: white; padding: 12px 25px; border: none; border-radius: 6px; font-size: 16px; cursor: pointer;">
-      <i class="fab fa-whatsapp" style="margin-right: 8px;"></i> Chat with Us on WhatsApp
-    </button>
-  </a>
-</div>
-<!-- Floating WhatsApp Chat Button -->
-<a href="https://wa.me/254792755676?text=Hi%2C%20I%20need%20help%20with%20Teacher%20Swaps%20Kenya" 
-   target="_blank" 
-   style="position: fixed; bottom: 20px; right: 20px; background-color: #25D366; color: white; 
-          border-radius: 50px; padding: 14px 20px; text-decoration: none; font-size: 16px; 
+<!-- Floating Contact Buttons -->
+<a href="https://wa.me/254792755676?text=Hi%2C%20I%20need%20help%20with%20Teacher%20Swaps%20Kenya"
+   target="_blank"
+   style="position: fixed; bottom: 20px; right: 20px; background-color: #25D366; color: white;
+          border-radius: 50px; padding: 14px 20px; text-decoration: none; font-size: 16px;
           display: flex; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 9999;">
   <i class="fab fa-whatsapp" style="font-size: 20px; margin-right: 8px;"></i> Chat with Us
 </a>
-<!-- Floating Email Button -->
-<a href="mailto:support@teacherswapskenya.com?subject=Help Needed&body=Hi, I need help with Teacher Swaps Kenya." 
-   style="position: fixed; bottom: 80px; right: 20px; background-color: #007bff; color: white; 
-          border-radius: 50px; padding: 14px 20px; text-decoration: none; font-size: 16px; 
+
+<a href="mailto:support@teacherswapskenya.com?subject=Help Needed&body=Hi, I need help with Teacher Swaps Kenya."
+   style="position: fixed; bottom: 80px; right: 20px; background-color: #007bff; color: white;
+          border-radius: 50px; padding: 14px 20px; text-decoration: none; font-size: 16px;
           display: flex; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 9999;">
   <i class="fas fa-envelope" style="font-size: 20px; margin-right: 8px;"></i> Email Us
 </a>
 
-<!-- Floating WhatsApp Chat Button -->
-<a href="https://wa.me/254792755676?text=Hi%2C%20I%20need%20help%20with%20Teacher%20Swaps%20Kenya" 
-   target="_blank" 
-   style="position: fixed; bottom: 20px; right: 20px; background-color: #25D366; color: white; 
-          border-radius: 50px; padding: 14px 20px; text-decoration: none; font-size: 16px; 
-          display: flex; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 9999;">
-  <i class="fab fa-whatsapp" style="font-size: 20px; margin-right: 8px;"></i> Chat with Us
-</a>
-<!-- Floating Call Button -->
-<a href="tel:+254792755676" 
-   style="position: fixed; bottom: 140px; right: 20px; background-color: #e74c3c; color: white; 
-          border-radius: 50px; padding: 14px 20px; text-decoration: none; font-size: 16px; 
+<a href="tel:+254792755676"
+   style="position: fixed; bottom: 140px; right: 20px; background-color: #e74c3c; color: white;
+          border-radius: 50px; padding: 14px 20px; text-decoration: none; font-size: 16px;
           display: flex; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 9999;">
   <i class="fas fa-phone-alt" style="font-size: 20px; margin-right: 8px;"></i> Call Us
 </a>
-  </main>
-<!-- Triangular Swaps Modal -->
-<div id="triangularSwapsModal" style="display: none; justify-content: center; align-items: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 1000;">
+
+<!-- Modals -->
+<div id="triangularSwapsModal" style="display: none; justify-content: center; align-items: center;
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
   <div style="background: #fff; padding: 20px; border-radius: 8px; max-width: 500px; width: 100%; text-align: center;">
     <h2>Triangular Swaps</h2>
     <div id="triangularSwapsList" style="margin-top: 20px;"></div>
@@ -1811,52 +1748,61 @@ Register To Connect With  Available Soulmates
   </div>
 </div>
 
-<footer>
-  <h3 style="text-align: center; color: #333; padding: 20px;">
-          Teachers Swaps Kenya,  Empowering Teachers Through Seamless Swaps .Connect, Collaborate, and Relocate with Confidence
-  </h3>
-</footer>
-
-  <div id="paymentModal" style="display: none;">
-    <div class="modal-content">
-      <p>Please pay Ksh 100 to M-Pesa number 0792755676.</p>
-      <p>Your Payment Reference: <strong id="paymentRef"></strong></p>
-      <button onclick="confirmPayment()">I Have Paid</button>
-      <button style="background-color: #e74c3c;" onclick="closePaymentModal()">Cancel</button>
-    </div>
+<div id="paymentModal" style="display: none;">
+  <div class="modal-content">
+    <p>Please pay Ksh 100 to M-Pesa number 0792755676.</p>
+    <p>Your Payment Reference: <strong id="paymentRef"></strong></p>
+    <button onclick="confirmPayment()">I Have Paid</button>
+    <button style="background-color: #e74c3c;" onclick="closePaymentModal()">Cancel</button>
   </div>
+</div>
+
 <div id="matchesModal" style="display: none;">
   <div class="modal-content">
     <h3>Matching Swaps</h3>
-    <div id="matchesList">
-      <!-- Matching swaps will be dynamically inserted here -->
-    </div>
+    <div id="matchesList"></div>
     <button onclick="closeMatchesModal()">Close</button>
   </div>
 </div>
+
 <!-- Toast Container -->
 <div id="toastContainer" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;"></div>
+
 <!-- Confirm Delete Modal -->
 <div id="confirmDeleteModal" style="display:none; position: fixed; top: 0; left: 0;
-  width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000;
-  justify-content: center; align-items: center;">
-  <div style="background: white; padding: 20px 25px; border-radius: 10px; box-shadow: 0 6px 12px rgba(0,0,0,0.3); width: 90%; max-width: 400px; text-align: center; position: relative;">
+  width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; justify-content: center; align-items: center;">
+  <div style="background: white; padding: 20px 25px; border-radius: 10px; box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+      width: 90%; max-width: 400px; text-align: center;">
     <h3 style="margin-bottom: 10px; color: #dc3545;">Confirm Deletion</h3>
     <p style="font-size: 16px;">Are you sure you want to delete this swap?</p>
-
-    <!-- Progress Bar -->
     <div style="height: 8px; background: #eee; border-radius: 5px; margin-top: 15px;">
       <div id="confirmProgressBar" style="width: 100%; height: 8px; background-color: #28a745; border-radius: 5px;"></div>
     </div>
-<span style="color:crimson; font-weight:bold;">🔥 VIP</span>
+    <span style="color: crimson; font-weight: bold;">🔥 VIP</span>
     <div style="margin-top: 20px;">
-      <button id="confirmYes" style="background-color: #dc3545; color: white; padding: 10px 20px; border: none; border-radius: 6px; margin-right: 10px; cursor: pointer;">Yes, Delete</button>
-      <button id="confirmNo" style="background-color: #6c757d; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer;">Cancel</button>
+      <button id="confirmYes" style="background-color: #dc3545; color: white; padding: 10px 20px; border: none;
+        border-radius: 6px; margin-right: 10px; cursor: pointer;">Yes, Delete</button>
+      <button id="confirmNo" style="background-color: #6c757d; color: white; padding: 10px 20px; border: none;
+        border-radius: 6px; cursor: pointer;">Cancel</button>
     </div>
   </div>
 </div>
+
+<!-- Notification Badge -->
 <span id="notifBadge" style="display:none; background:red; color:white; border-radius:50%; padding:2px 6px;">0</span>
 
+<!-- My Chats Page -->
+<div id="chatListPage" style="display:none;">
+  <h2>📂 My Chats</h2>
+  <div id="chatListContainer"></div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <h3 style="text-align: center; color: #333; padding: 20px;">
+    Teachers Swaps Kenya — Empowering Teachers Through Seamless Swaps. Connect, Collaborate, and Relocate with Confidence.
+  </h3>
+</footer>
 
 <div id="toastContainer" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;"></div>
   <!-- Firebase SDKs -->
@@ -2745,99 +2691,172 @@ async function isMutualMatch(name) {
 
   return !sent.empty && !received.empty;
 }
-let chatPartner = '';
+let chatPartner = null;
 let chatConversationId = '';
 
-function openChatModal(partnerPhone, partnerName) {
-  const myName = currentUser.displayName || currentUser.email;
-  const targetId = partnerPhone || partnerName;
+// New consistent conversation ID generator
+function getConversationId(userA, userB) {
+  return [userA, userB].sort().join("_");
+}
 
-  chatPartner = partnerName;
-  chatConversationId = [myName, targetId].sort().join("_");
+// Updated openChatModal function
+function openChatModal(partnerUid, partnerName) {
+  // Set current chat partner info as an object
+  chatPartner = {
+    uid: partnerUid,
+    name: partnerName
+  };
 
-  // ✅ Show full chat page instead of modal
+  // Build consistent conversation ID using both UIDs
+  chatConversationId = getConversationId(currentUser.uid, partnerUid);
+
+  // ✅ Show chat page
   showPage("messages");
 
+  // Update chat header display
   document.getElementById("chatWith").textContent = `Chatting with ${partnerName}`;
-  listenForMessages();
+
+  // Load chat messages for this conversation
+  listenForMessages(chatConversationId);
 }
 
 
 function closeChat() {
+  // Hide chat box
   document.getElementById("chatBox").style.display = "none";
-  document.getElementById("chatMessages").innerHTML = '';
-  chatConversationId = '';
-}
 
+  // Clear messages container
+  document.getElementById("chatMessages").innerHTML = '';
+
+  // Reset active conversation ID and partner object
+  chatConversationId = '';
+  chatPartner = null;
+
+  // Optionally reset chat header if you have one
+  document.getElementById("chatWith").textContent = 'No active chat';
+}
 async function sendChatMessage() {
   const input = document.getElementById("chatInput");
   const msg = input.value.trim();
-  if (!msg || !chatConversationId || !currentUser) return;
+  if (!msg || !chatPartner || !currentUser) return;
 
   const fromName = currentUser.displayName || currentUser.email;
   const fromUid = currentUser.uid;
+  const toName = chatPartner.name;
+  const toUid = chatPartner.uid;
+  const timestamp = firebase.firestore.FieldValue.serverTimestamp();
 
   try {
+    // ✅ Add message to the chat collection
     await db.collection("messages")
       .doc(chatConversationId)
       .collection("chats")
       .add({
         from: fromName,
-        fromUid: fromUid, // ✅ Needed for secure deletion
-        to: chatPartner,
+        fromUid: fromUid,
+        to: toName,
         content: msg,
         read: false,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        timestamp: timestamp
       });
 
+    // ✅ Update sender's conversations list
+    await db.collection("users").doc(fromUid)
+      .collection("conversations")
+      .doc(chatConversationId)
+      .set({
+        partnerUid: toUid,
+        partnerName: toName,
+        partnerPhotoUrl: chatPartner.photoURL || "",
+        lastMessage: msg,
+        lastTimestamp: timestamp
+      }, { merge: true });
+
+    // ✅ Update recipient's conversations list
+    await db.collection("users").doc(toUid)
+      .collection("conversations")
+      .doc(chatConversationId)
+      .set({
+        partnerUid: fromUid,
+        partnerName: fromName,
+        partnerPhotoUrl: currentUser.photoURL || "",
+        lastMessage: msg,
+        lastTimestamp: timestamp,
+        unreadCount: firebase.firestore.FieldValue.increment(1)
+      }, { merge: true });
+
+    // ✅ Clear the input box
     input.value = '';
-    showCustomAlert("📤 Message sent!", "success"); // ✅ Success toast
+    showCustomAlert("📤 Message sent!", "success");
+
   } catch (error) {
     console.error("❌ Error sending message:", error);
-    showCustomAlert("❌ Failed to send message. Try again.", "error"); // ✅ Error toast
+    showCustomAlert("❌ Failed to send message. Try again.", "error");
   }
 }
 
 
-function listenForMessages() {
+
+
+function listenForMessages(convoId) {
   const container = document.getElementById("chatMessages");
+  container.innerHTML = ''; // clear old chat
   const sound = new Audio("https://notificationsounds.com/notification-sounds/eventually-590/download/mp3");
   const myName = currentUser.displayName || currentUser.email;
 
-  db.collection("messages").doc(chatConversationId).collection("chats")
+  db.collection("messages").doc(convoId).collection("chats")
     .orderBy("timestamp")
     .onSnapshot(snapshot => {
-      container.innerHTML = '';
-
       snapshot.forEach(doc => {
         const d = doc.data();
         const isMe = d.from === myName;
         const messageId = doc.id;
 
+        if (document.getElementById(`msg-${messageId}`)) return;
+
+        const timeString = d.timestamp
+          ? new Date(d.timestamp.toDate()).toLocaleTimeString()
+          : 'Sent';
+
         const chatBubble = document.createElement("div");
+        chatBubble.id = `msg-${messageId}`;
         chatBubble.className = `chat-bubble ${isMe ? 'right' : 'left'}`;
         chatBubble.innerHTML = `
           <div class="chat-avatar">${d.from.charAt(0).toUpperCase()}</div>
           <div class="chat-content">
             <div class="chat-name">${d.from}</div>
             <div class="chat-text">${d.content}</div>
-            <div class="chat-time">${new Date(d.timestamp?.toDate()).toLocaleTimeString()}</div>
-            ${isMe ? `<button onclick="deleteMessage('${chatConversationId}', '${messageId}', this)" style="margin-top:5px; background:red; color:white; border:none; border-radius:5px; padding:4px 8px; font-size: 12px;">🗑 Delete</button>` : ''}
+            <div class="chat-time">${timeString}</div>
+            ${isMe ? `<button onclick="deleteMessage('${convoId}', '${messageId}', this)" style="margin-top:5px; background:red; color:white; border:none; border-radius:5px; padding:4px 8px; font-size: 12px;">🗑 Delete</button>` : ''}
           </div>
         `;
-
         container.appendChild(chatBubble);
 
-        // ✅ Mark as read + play sound
         if (d.to === myName && d.read === false) {
           doc.ref.update({ read: true });
           sound.play();
         }
       });
 
+      snapshot.docChanges().forEach(change => {
+        if (change.type === "modified") {
+          const d = change.doc.data();
+          const messageId = change.doc.id;
+          const chatBubble = document.getElementById(`msg-${messageId}`);
+          if (!chatBubble) return;
+
+          const timeString = d.timestamp
+            ? new Date(d.timestamp.toDate()).toLocaleTimeString()
+            : 'Sent';
+
+          chatBubble.querySelector(".chat-time").textContent = timeString;
+        }
+      });
+
       container.scrollTop = container.scrollHeight;
     });
 }
+
 
 
 
@@ -3151,18 +3170,20 @@ async function loadMarketItems() {
   card.className = "market-card";
   card.dataset.category = d.category;
   card.dataset.county = d.county;
+card.innerHTML = `
+  <h3 style="margin-bottom: 6px; color:#2e7d32;">${d.posterName || "Unknown Seller"}</h3>
 
-  card.innerHTML = `
-  ${d.photoURL ? `<img src="${d.photoURL}" style="max-width:100%; max-height:200px; border-radius: 6px;">` : ""}
-  <h3>${d.name}</h3>
-  <p><strong>Category:</strong> ${d.category}</p>
-  <p><strong>Price:</strong> KES ${d.price}</p>
-  <p>${d.description}</p>
-  <p><strong>Location:</strong> ${d.county}, ${d.subcounty}</p>
+  ${d.photoURL ? `<img src="${d.photoURL}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;">` : ""}
 
-  <!-- ⭐ Rating UI -->
+  <p>📦 <strong>Item name:</strong> ${d.name}</p>
+  <p>📝 <strong>Status:</strong> ${d.description}</p>
+  <p>🏷️ <strong>Category:</strong> ${d.category}</p>
+  <p>💰 <strong>Price:</strong> KES ${parseInt(d.price).toLocaleString()}</p>
+  <p>🧰 <strong>Condition:</strong> ${d.condition || "New"}</p>
+  <p>📍 <strong>Location:</strong> ${d.county}, ${d.subcounty}</p>
+
   <div class="rating" data-id="${id}" style="margin: 6px 0;">
-    <span class="avg-rating" id="avgRating-${id}">Loading...</span><br>
+    <span class="avg-rating" id="avgRating-${id}">⭐ No ratings yet (0)</span><br>
     <span>
       ${[1, 2, 3, 4, 5].map(star => `
         <i class="fas fa-star" onclick="rateService('${id}', ${star})"
@@ -3171,24 +3192,29 @@ async function loadMarketItems() {
     </span>
   </div>
 
-  <p>
+  <div style="margin-top: 8px;">
     <a href="tel:${d.phone}" style="color:green;">📞 Call</a> |
     <a href="https://wa.me/254${d.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a>
-  </p>
+  </div>
 
   ${
     !isPoster 
-      ? `<p>
-           <button onclick="openChatModal('${d.phone}', '${d.name}')" 
+      ? `<div style="margin-top: 10px;">
+           <button onclick="openChatModal('${d.phone}', '${d.posterName || "Seller"}')"
+ 
              style="background:#673ab7; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
              <i class="fas fa-comments"></i> Chat
            </button>
-         </p>`
-      : `<button onclick="deleteMarketItem('${id}')" style="background:#dc3545; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
-           🗑️ Delete
-         </button>`
+         </div>`
+      : `<div style="margin-top: 10px;">
+           <button onclick="deleteMarketItem('${id}')" style="background:#dc3545; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
+             🗑️ Delete
+           </button>
+         </div>`
   }
 `;
+
+
 
 // ✅ Append card and trigger rating update
 container.appendChild(card);
@@ -3215,6 +3241,7 @@ function deleteMarketItem(id) {
       });
   });
 }
+
 
 
 // ✅ Filter Market Items by Category or County
@@ -3999,24 +4026,34 @@ function sendQuickMessage(text) {
   sendChatMessage();
 }
 
-function deleteMessage(convoId, messageId, btn) {
-  showCustomConfirm("Are you sure you want to delete this message?", function () {
-    // Run the async operation separately to avoid scope issues
-    (async () => {
-      try {
-        await db.collection("messages")
-          .doc(convoId)
-          .collection("chats")
-          .doc(messageId)
-          .delete();
 
-        btn.closest(".chat-bubble").remove();
-        showCustomAlert("🗑 Message deleted successfully!", "success");
-      } catch (error) {
-        console.error("❌ Delete error:", error);
-        showCustomAlert("❌ Failed to delete message.", "error");
-      }
-    })();
+async function deleteMessage(convoId, messageId, btn) {
+  const confirmed = confirm("Are you sure you want to delete this message?");
+  if (!confirmed) return;
+
+  try {
+    await db.collection("messages").doc(convoId).collection("chats").doc(messageId).delete();
+    btn.closest(".chat-bubble").remove();
+  } catch (error) {
+    alert("❌ Failed to delete message. Please try again.");
+    console.error(error);
+  }
+}
+function deleteMessage(convoId, messageId, btn) {
+  showCustomConfirm("Are you sure you want to delete this message?", async () => {
+    try {
+      await db.collection("messages")
+        .doc(convoId)
+        .collection("chats")
+        .doc(messageId)
+        .delete();
+
+      btn.closest(".chat-bubble").remove();
+      showCustomAlert("🗑 Message deleted successfully!", "success");
+    } catch (error) {
+      console.error("❌ Delete error:", error);
+      showCustomAlert("❌ Failed to delete message.", "error");
+    }
   });
 }
 
@@ -4068,39 +4105,72 @@ function showCustomConfirm(message, onConfirm) {
     confirmBox.style.display = "none";
   };
 }
-let confirmCallback = null;
 
-function showCustomConfirm(message, onConfirm) {
-  const box = document.getElementById("customConfirmBox");
-  const msg = document.getElementById("confirmMessage");
-  msg.textContent = message;
-  box.style.display = "block";
-  confirmCallback = onConfirm;
+function showMyChats() {
+  const container = document.getElementById("chatListContainer");
+  container.innerHTML = '';
+  showPage("chatListPage"); // switch to chat list page
+
+  db.collection("users").doc(currentUser.uid).collection("conversations")
+    .orderBy("lastTimestamp", "desc")
+    .get()
+    .then(snapshot => {
+      snapshot.forEach(doc => {
+        const convo = doc.data();
+
+        const div = document.createElement("div");
+        div.className = "conversation-item";
+        div.style.display = "flex";
+        div.style.alignItems = "center";
+        div.style.padding = "8px";
+        div.style.borderBottom = "1px solid #ccc";
+        div.style.cursor = "pointer";
+
+        // Build conversation item HTML
+        div.innerHTML = `
+          <img src="${convo.partnerPhotoUrl}" class="avatar" style="width:40px; height:40px; border-radius:50%; margin-right:8px;">
+          <div style="flex:1;">
+            <strong>${convo.partnerName}</strong><br>
+            <small>${convo.lastMessage}</small>
+          </div>
+        `;
+
+        // If there's an unread count, add badge
+        if (convo.unreadCount && convo.unreadCount > 0) {
+          const badge = document.createElement("span");
+          badge.textContent = convo.unreadCount;
+          badge.style.background = "red";
+          badge.style.color = "white";
+          badge.style.padding = "2px 6px";
+          badge.style.borderRadius = "12px";
+          badge.style.marginLeft = "8px";
+          badge.style.fontSize = "12px";
+          div.appendChild(badge);
+        }
+
+        // When clicked — start chat with this person
+        div.onclick = () => startChat(convo.partnerUid, convo.partnerName, convo.partnerPhotoUrl, "page");
+
+        container.appendChild(div);
+      });
+    });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("confirmYesBtn").onclick = () => {
-    document.getElementById("customConfirmBox").style.display = "none";
-    if (typeof confirmCallback === "function") confirmCallback();
-  };
-  document.getElementById("confirmNoBtn").onclick = () => {
-    document.getElementById("customConfirmBox").style.display = "none";
-    confirmCallback = null;
-  };
-});
+function loadMyChats() {
+  const container = document.getElementById("chatListContainer");
+  container.innerHTML = '';
 
-function showCustomAlert(message, type = "info") {
-  const alertBox = document.getElementById("customAlert");
-  alertBox.textContent = message;
-  switch (type) {
-    case "success": alertBox.style.backgroundColor = "#2e7d32"; break;
-    case "error": alertBox.style.backgroundColor = "#c62828"; break;
-    default: alertBox.style.backgroundColor = "#333";
-  }
-  alertBox.style.display = "block";
-  setTimeout(() => alertBox.style.display = "none", 3000);
+  db.collection("users").doc(currentUser.uid)
+    .collection("conversations")
+    .orderBy("lastTimestamp", "desc")
+    .get()
+    .then(snapshot => {
+      snapshot.forEach(doc => {
+        const convo = doc.data();
+        // display convo info + add click handlers to open that chat
+      });
+    });
 }
-
 
 
   </script>

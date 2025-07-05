@@ -765,6 +765,36 @@
   opacity: 0.9;
   cursor: pointer;
 }
+.job-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background-color: #f9f9f9;
+}
+
+.job-card h3 {
+  color: #2e7d32;
+}
+
+.job-card p {
+  margin-bottom: 8px;
+}
+
+.job-card button {
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.rating {
+  margin-top: 10px;
+}
+
+.rating .fas {
+  cursor: pointer;
+  color: #ccc;
+}
 
 </style>
 </head>
@@ -1181,10 +1211,6 @@
     <label style="visibility: hidden;">&nbsp;</label>
   </div>
 </div>
-
-
-
-
 <!-- Confirm Delete Modal -->
 <div id="confirmDeleteModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:9999;">
   <div style="background:white; padding:20px; border-radius:8px; text-align:center;">
@@ -1193,29 +1219,25 @@
     <button onclick="closeDeleteModal()" style="margin: 5px;">Cancel</button>
   </div>
 </div>
+
+
 <h3>
   <i class="fas fa-clipboard-list" style="color:#6f42c1; margin-right: 8px;"></i>
-  Available Job Opportunities
-</h3>
+ <h3>Available Job Opportunities</h3>
 
-  <table id="bomJobsTable">
-  <thead>
-    <tr>
-      <th>Organization Name</th>
-      <th>Type of Job</th>
-      <th>Contact</th>
-      <th>Sub-county</th>
-      <th>County</th>
-      <th>Expected Salary Range</th>
-      <th>Date Posted</th>
-      <th>Posted By</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <!-- BOM job listings will be inserted here -->
-  </tbody>
-</table>
+<div id="jobContainer" style="
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  max-width: 350px;         /* Limits to 2 columns max */
+  margin: 0 auto;           /* Centers the grid */
+  margin-top: 20px;
+  overflow-y: auto;
+  max-height: 300px;
+  scroll-snap-type: y mandatory;
+">
+  <!-- Job cards will be dynamically added here -->
+</div>
 </div>
 <div id="resources" class="page" style="display:none;">
 <h2>
@@ -1394,33 +1416,55 @@ Register To Connect With  Available Soulmates
 
   <button onclick="showPage('market')" style="margin-bottom: 12px;">← Back to Market</button>
 
-  <h2>💬 Messages</h2>
+ <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 15px;">💬 Messages</h2>
 
-  <div id="chatWith" style="font-weight: bold; margin-bottom: 8px;"></div>
+<!-- Notification Message: Avoid Paying in advance, even for delivery -->
+<div style="background-color: #ffeb3b; color: #d32f2f; padding: 12px; border-radius: 5px; margin-bottom: 20px; font-weight: 500; text-align: center; font-size: 14px;">
+ 🔺  <strong>Avoid Paying in advance, even for delivery!</strong> 🚫
+</div>
 
-  <!-- Chat messages -->
-  <div id="chatMessages" style="max-height: 300px; overflow-y: auto; background: #f9f9f9; padding: 10px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 10px;"></div>
+<div id="chatWith" style="font-weight: bold; margin-bottom: 12px; font-size: 18px;"></div>
 
-  <!-- Quick chat buttons -->
-  <div style="margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 6px;">
-    <button onclick="sendQuickMessage('Make an offer')" class="quick-chat-btn">💰 Make an offer</button>
-    <button onclick="sendQuickMessage('Is this available?')" class="quick-chat-btn">❓ Is this available?</button>
-    <button onclick="sendQuickMessage('Last price?')" class="quick-chat-btn">💸 Last price?</button>
-    <button onclick="sendQuickMessage('Please send me your location')" class="quick-chat-btn">📍 Ask for location</button>
-    <button onclick="sendQuickMessage('Please call me')" class="quick-chat-btn">📞 Please call me</button>
-  </div>
+<!-- Chat messages -->
+<div id="chatMessages" style="max-height: 300px; overflow-y: auto; background: #f9f9f9; padding: 12px; border-radius: 8px; border: 1px solid #ccc; margin-bottom: 15px; font-size: 14px; line-height: 1.6;"></div>
 
-  <!-- Input and Send -->
-  <div style="display: flex; gap: 6px;">
-    <input type="text" id="chatInput" placeholder="Type your message..." style="flex: 1; padding: 6px; border-radius: 4px; border: 1px solid #ccc;" />
-    <button onclick="sendChatMessage()" style="padding: 6px 12px; border: none; background: #4caf50; color: white; border-radius: 4px;">Send</button>
-  </div>
+<!-- Quick chat buttons -->
+<div style="margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 12px;">
+  <button onclick="sendQuickMessage('Make an offer')" class="quick-chat-btn" style="background-color: #4caf50; color: white; padding: 8px 16px; border-radius: 20px; border: none; cursor: pointer; font-size: 14px; font-weight: 500; transition: background-color 0.3s;">
+    💰 Make an offer
+  </button>
+  <button onclick="sendQuickMessage('Is this available?')" class="quick-chat-btn" style="background-color: #2196F3; color: white; padding: 8px 16px; border-radius: 20px; border: none; cursor: pointer; font-size: 14px; font-weight: 500; transition: background-color 0.3s;">
+     Is this available?
+  </button>
+  <button onclick="sendQuickMessage('Last price?')" class="quick-chat-btn" style="background-color: #f44336; color: white; padding: 8px 16px; border-radius: 20px; border: none; cursor: pointer; font-size: 14px; font-weight: 500; transition: background-color 0.3s;">
+    💸 Last price?
+  </button>
+  <button onclick="sendQuickMessage('Please send me your location')" class="quick-chat-btn" style="background-color: #9c27b0; color: white; padding: 8px 16px; border-radius: 20px; border: none; cursor: pointer; font-size: 14px; font-weight: 500; transition: background-color 0.3s;">
+    📍 Ask for location
+  </button>
+  <button onclick="sendQuickMessage('Please call me')" class="quick-chat-btn" style="background-color: #ff9800; color: white; padding: 8px 16px; border-radius: 20px; border: none; cursor: pointer; font-size: 14px; font-weight: 500; transition: background-color 0.3s;">
+    📞 Please call me
+  </button>
+</div>
+
+<!-- Input and Send -->
+<div style="display: flex; gap: 12px; align-items: center;">
+  <input type="text" id="chatInput" placeholder="Type your message..." style="flex: 1; padding: 10px; border-radius: 20px; border: 1px solid #ccc; font-size: 14px; line-height: 1.6; outline: none; transition: border-color 0.3s;">
+  <button onclick="sendChatMessage()" style="padding: 10px 20px; border-radius: 20px; border: none; background-color: #4caf50; color: white; font-size: 14px; font-weight: 500; cursor: pointer; transition: background-color 0.3s;">Send</button>
+</div>
+
   </div>
 
 <div id="notifications" class="page" style="display:none;">
   <h2>🔔 My Notifications</h2>
   <ul id="notificationList"></ul>
 </div>
+<!-- My Chats Page -->
+<div id="chatListPage" style="display:none;">
+  <h2>📂 My Chats</h2>
+  <div id="chatListContainer"></div>
+</div>
+
 <!-- Seeking Services Section -->
 <div id="seekingServices" class="page" style="display:none;">
  <h2>
@@ -1568,6 +1612,12 @@ Register To Connect With  Available Soulmates
 
     <label for="itemPhone">Phone Number</label>
     <input type="text" id="itemPhone" placeholder="e.g. 0712345678" required>
+
+<label for="itemCondition">Condition</label>
+<select id="itemCondition" required>
+  <option value="New">New</option>
+  <option value="Used">Used</option>
+</select>
 
     <label for="itemPhoto">Upload Item Photo</label>
     <input type="file" id="itemPhoto" accept="image/*">
@@ -1791,18 +1841,6 @@ Register To Connect With  Available Soulmates
 <!-- Notification Badge -->
 <span id="notifBadge" style="display:none; background:red; color:white; border-radius:50%; padding:2px 6px;">0</span>
 
-<!-- My Chats Page -->
-<div id="chatListPage" style="display:none;">
-  <h2>📂 My Chats</h2>
-  <div id="chatListContainer"></div>
-</div>
-
-<!-- Footer -->
-<footer>
-  <h3 style="text-align: center; color: #333; padding: 20px;">
-    Teachers Swaps Kenya — Empowering Teachers Through Seamless Swaps. Connect, Collaborate, and Relocate with Confidence.
-  </h3>
-</footer>
 
 <div id="toastContainer" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;"></div>
   <!-- Firebase SDKs -->
@@ -2208,10 +2246,6 @@ updateAverageRating(doc.id);
     showCustomAlert("Error loading swaps: " + err.message, "error");
   }
 }
-
-
-
-
 // ✅ BOM Job Submit (Updated Format + Notifications)
 document.getElementById("bomJobForm").addEventListener("submit", async e => {
   e.preventDefault();
@@ -2249,12 +2283,13 @@ document.getElementById("bomJobForm").addEventListener("submit", async e => {
     // 🔔 Notify matching service providers
     notifyMatchingServiceProviders(job);
 
- await db.collection("adminNotifications").add({
-  type: "Marketplace Post",
-  message: `New item posted: ${itemName} (${itemCategory}), Price: ${itemPrice}, Phone: ${itemPhone}, County: ${itemCounty}`,
-  timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-  read: false // ✅ Mark as unread for badge tracking
-});
+    // Notify Admin about the new job posting
+    await db.collection("adminNotifications").add({
+      type: "BOM Job Post",
+      message: `New BOM job posted: ${job.jobType} by ${job.organization}, Salary: ${job.salaryRange}, Phone: ${job.phone}, County: ${job.county}`,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      read: false // ✅ Mark as unread for badge tracking
+    });
 
   } catch (err) {
     showCustomAlert("❌ Error posting job: " + err.message, "error");
@@ -2292,8 +2327,8 @@ let jobToDeleteId = null;
 
 // ✅ Load BOM Jobs
 async function loadBOMJobs() {
-  const tbody = document.querySelector("#bomJobsTable tbody");
-  tbody.innerHTML = "";
+  const container = document.getElementById("jobContainer");
+  container.innerHTML = ""; // Clear existing jobs
 
   try {
     const snapshot = await bomRef.orderBy("timestamp", "desc").get();
@@ -2304,55 +2339,93 @@ async function loadBOMJobs() {
   }
 }
 
+// ✅ Render BOM Jobs in Cards (Grid Layout)
 function renderBOMJobs(jobs) {
-  const tbody = document.querySelector("#bomJobsTable tbody");
-  tbody.innerHTML = "";
+  const container = document.getElementById("jobContainer");
+  container.innerHTML = "";
 
   if (!jobs.length) {
-    tbody.innerHTML = `<tr><td colspan="9">No BOM jobs found.</td></tr>`;
+    container.innerHTML = `<p>No BOM jobs found.</p>`;
     return;
   }
 
   jobs.forEach(job => {
-    const tr = document.createElement("tr");
+    const card = document.createElement("div");
+    card.className = "job-card";
     const isPoster = currentUser && job.postedBy === (currentUser.email || currentUser.displayName);
 
- tr.innerHTML = `
-  <td>${job.organization}</td>
-  <td>${job.jobType}</td>
-  <td>
-    <a href="tel:${job.phone}" style="color:green;">📞 Call</a><br>
-    <a href="https://wa.me/254${job.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a><br>
-    <button onclick="openChatModal('${job.phone}', '${job.organization}')" 
-      style="margin-top:4px; background:#673ab7; color:white; border:none; border-radius:4px; padding:4px 8px; cursor:pointer;">
-      💬 Chat
-    </button>
-  </td>
-  <td>${job.subCounty}</td>
-  <td>${job.county}</td>
-  <td>${job.salaryRange}</td>
-  <td>${job.datePosted}</td>
-  <td>${job.postedBy}</td>
+    card.innerHTML = `
+      <h3 style="color:#2e7d32;">${job.jobType}</h3>
+      <p><strong>Organization:</strong> ${job.organization}</p>
+      <p><strong>Phone:</strong> 
+        <a href="tel:${job.phone}" style="color:green;">📞 Call</a>
+        <br>
+        <a href="https://wa.me/254${job.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a>
+      </p>
+      <p><strong>Location:</strong> ${job.county}, ${job.subCounty}</p>
+      <p><strong>Salary Range:</strong> KES ${parseInt(job.salaryRange).toLocaleString()}</p>
+      <p><strong>Date Posted:</strong> ${job.datePosted}</p>
+      <p><strong>Posted By:</strong> ${job.postedBy}</p>
 
-  <!-- ⭐ Rating Column -->
-  <td>
-    <div class="rating" data-id="${job.id}">
-      <span class="avg-rating" id="avgRating-${job.id}">Loading...</span><br>
-      ${[1, 2, 3, 4, 5].map(star => `
-        <i class="fas fa-star" onclick="rateService('${job.id}', ${star})"
-           style="cursor:pointer; color:#ccc;" id="star-${job.id}-${star}"></i>
-      `).join('')}
-    </div>
-  </td>
+      <div style="margin-top: 10px;">
+        ${
+          !isPoster
+            ? `<button onclick="openChatModal('${job.phone}', '${job.organization}')"
+               style="background:#673ab7; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
+               💬 Chat
+             </button>`
+            : `<button onclick="confirmDeleteBOMJob('${job.id}')"
+               style="background:#dc3545; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
+               🗑️ Delete
+             </button>`
+        }
+      </div>
 
-  ${isAdmin ? `<td><button onclick="confirmDeleteBOMJob('${job.id}')">🗑️ Delete</button></td>` : ''}
-`;
+      <div class="rating" data-id="${job.id}" style="margin-top: 10px;">
+        <span class="avg-rating" id="avgRating-${job.id}">Loading...</span><br>
+        ${[1, 2, 3, 4, 5].map(star => `
+          <i class="fas fa-star" onclick="rateService('${job.id}', ${star})"
+             style="cursor:pointer; color:#ccc;" id="star-${job.id}-${star}"></i>
+        `).join('')}
+      </div>
+    `;
 
-    tbody.appendChild(tr);
-updateAverageRating(job.id);
-
+    container.appendChild(card);
+    updateAverageRating(job.id);
   });
 }
+
+// ✅ Delete BOM Job
+async function confirmDeleteBOMJob(jobId) {
+  if (confirm("Are you sure you want to delete this job posting?")) {
+    try {
+      await bomRef.doc(jobId).delete();
+      showCustomAlert("✅ BOM job deleted successfully!", "success");
+      loadBOMJobs(); // Refresh the job listings
+    } catch (err) {
+      showCustomAlert("❌ Failed to delete job: " + err.message, "error");
+    }
+  }
+}
+
+// ✅ Update Average Rating
+async function updateAverageRating(jobId) {
+  const ratingRef = db.collection("ratings").where("jobId", "==", jobId);
+  const snapshot = await ratingRef.get();
+
+  let totalRating = 0;
+  let totalReviews = snapshot.size;
+
+  snapshot.forEach(doc => {
+    totalRating += doc.data().rating;
+  });
+
+  const avgRating = totalReviews ? (totalRating / totalReviews).toFixed(1) : 0;
+  const avgRatingElement = document.getElementById(`avgRating-${jobId}`);
+
+  avgRatingElement.textContent = `⭐ ${avgRating} (${totalReviews} Reviews)`;
+}
+
 
 
 // ✅ BOM Job Filters (Optional)
@@ -2735,6 +2808,164 @@ function closeChat() {
   // Optionally reset chat header if you have one
   document.getElementById("chatWith").textContent = 'No active chat';
 }
+
+// Real-time listener for new messages
+function listenForMessages(convoId) {
+  const container = document.getElementById("chatMessages");
+  container.innerHTML = ''; // Clear old chat
+  const sound = new Audio("https://notificationsounds.com/notification-sounds/eventually-590/download/mp3");
+  const myName = currentUser.displayName || currentUser.email;
+
+  db.collection("messages").doc(convoId).collection("chats")
+    .orderBy("timestamp")
+    .onSnapshot(snapshot => {
+      let unreadCount = 0; // Track unread messages
+      snapshot.forEach(doc => {
+        const d = doc.data();
+        const isMe = d.from === myName;
+        const messageId = doc.id;
+
+        if (document.getElementById(`msg-${messageId}`)) return;
+
+        const timeString = d.timestamp
+          ? new Date(d.timestamp.toDate()).toLocaleTimeString()
+          : 'Sent';
+
+        const chatBubble = document.createElement("div");
+        chatBubble.id = `msg-${messageId}`;
+        chatBubble.className = `chat-bubble ${isMe ? 'right' : 'left'}`;
+        chatBubble.innerHTML = `
+          <div class="chat-avatar">${d.from.charAt(0).toUpperCase()}</div>
+          <div class="chat-content">
+            <div class="chat-name">${d.from}</div>
+            <div class="chat-text">${d.content}</div>
+            <div class="chat-time">${timeString}</div>
+            ${isMe ? `<button onclick="deleteMessage('${convoId}', '${messageId}', this)" style="margin-top:5px; background:red; color:white; border:none; border-radius:5px; padding:4px 8px; font-size: 12px;">🗑 Delete</button>` : ''}
+          </div>
+        `;
+        container.appendChild(chatBubble);
+
+        // If the message is to the current user and unread, increment unreadCount
+        if (d.to === myName && d.read === false) {
+          doc.ref.update({ read: true });
+          sound.play();
+          unreadCount++; // Increment unread count
+        }
+      });
+
+      // If there are unread messages, show notification
+      if (unreadCount > 0) {
+        updateNotificationBadge(unreadCount);
+      }
+
+      snapshot.docChanges().forEach(change => {
+        if (change.type === "modified") {
+          const d = change.doc.data();
+          const messageId = change.doc.id;
+          const chatBubble = document.getElementById(`msg-${messageId}`);
+          if (!chatBubble) return;
+
+          const timeString = d.timestamp
+            ? new Date(d.timestamp.toDate()).toLocaleTimeString()
+            : 'Sent';
+
+          chatBubble.querySelector(".chat-time").textContent = timeString;
+        }
+      });
+
+      container.scrollTop = container.scrollHeight;
+    });
+}
+
+// Function to update notification badge
+function updateNotificationBadge(unreadCount) {
+  const badge = document.getElementById('notifBadge');
+  badge.style.display = 'inline'; // Show the badge
+  badge.textContent = unreadCount; // Update the unread count
+}
+
+// Handle notification click to show chat messages
+document.querySelector('#notifBadge').addEventListener('click', function() {
+  const convoId = getCurrentConvoId();  // Get the current conversation ID
+  showPage('messages');  // Show the messages page
+  listenForMessages(convoId);  // Start listening for messages in that conversation
+  resetUnreadCount(convoId);  // Reset unread count when the conversation is opened
+});
+
+// Function to get the current conversation ID (stored in localStorage or URL)
+function getCurrentConvoId() {
+  return localStorage.getItem('currentConvoId'); // Or retrieve from the URL or other source
+}
+
+// Reset unread count when the chat is opened
+function resetUnreadCount(convoId) {
+  db.collection("users")
+    .doc(currentUser.uid)
+    .collection("conversations")
+    .doc(convoId)
+    .update({
+      unreadCount: 0 // Reset the unread count to 0
+    })
+    .then(() => {
+      updateNotificationBadge(0); // Hide the notification badge
+    });
+}
+
+// Show My Chats - fetch and display the list of chats for the current user
+function showMyChats() {
+  // Show the "My Chats" page
+  showPage('chatListPage');
+
+  // Get the current user's chats from Firestore
+  const currentUserUid = currentUser.uid;
+
+  // Get chat list from Firestore
+  db.collection("users").doc(currentUserUid).collection("conversations")
+    .get()
+    .then(snapshot => {
+      const chatListContainer = document.getElementById('chatListContainer');
+      chatListContainer.innerHTML = '';  // Clear any existing chats
+
+      snapshot.forEach(doc => {
+        const chatData = doc.data();
+        const chatPartnerName = chatData.partnerName;
+        const chatPartnerUid = chatData.partnerUid;
+
+        // Create a list item for each chat conversation
+        const chatItem = document.createElement('div');
+        chatItem.className = 'chat-item';
+        chatItem.innerHTML = `
+          <div class="chat-partner-name">${chatPartnerName}</div>
+          <button onclick="loadChat('${chatPartnerUid}')">Open Chat</button>
+        `;
+
+        // Append the chat item to the list
+        chatListContainer.appendChild(chatItem);
+      });
+    })
+    .catch(error => {
+      console.error("Error fetching chats: ", error);
+    });
+}
+
+// Load Chat conversation based on the selected partner
+function loadChat(chatPartnerUid) {
+  const chatConversationId = getChatConversationId(currentUser.uid, chatPartnerUid);  // You need a function to generate a unique chat ID
+
+  // Show the chat page
+  showPage('messages');
+  
+  // Start listening for messages in the selected chat
+  listenForMessages(chatConversationId);
+}
+
+// Function to Generate Chat Conversation ID
+function getChatConversationId(userUid1, userUid2) {
+  const sortedUids = [userUid1, userUid2].sort();  // Sort to ensure same order
+  return `${sortedUids[0]}_${sortedUids[1]}`;  // Return concatenated ID
+}
+
+// Example of sending a message (includes adding to Firestore and updating conversations)
 async function sendChatMessage() {
   const input = document.getElementById("chatInput");
   const msg = input.value.trim();
@@ -2782,7 +3013,7 @@ async function sendChatMessage() {
         partnerPhotoUrl: currentUser.photoURL || "",
         lastMessage: msg,
         lastTimestamp: timestamp,
-        unreadCount: firebase.firestore.FieldValue.increment(1)
+        unreadCount: firebase.firestore.FieldValue.increment(1) // Increment unread count
       }, { merge: true });
 
     // ✅ Clear the input box
@@ -2793,68 +3024,6 @@ async function sendChatMessage() {
     console.error("❌ Error sending message:", error);
     showCustomAlert("❌ Failed to send message. Try again.", "error");
   }
-}
-
-
-
-
-function listenForMessages(convoId) {
-  const container = document.getElementById("chatMessages");
-  container.innerHTML = ''; // clear old chat
-  const sound = new Audio("https://notificationsounds.com/notification-sounds/eventually-590/download/mp3");
-  const myName = currentUser.displayName || currentUser.email;
-
-  db.collection("messages").doc(convoId).collection("chats")
-    .orderBy("timestamp")
-    .onSnapshot(snapshot => {
-      snapshot.forEach(doc => {
-        const d = doc.data();
-        const isMe = d.from === myName;
-        const messageId = doc.id;
-
-        if (document.getElementById(`msg-${messageId}`)) return;
-
-        const timeString = d.timestamp
-          ? new Date(d.timestamp.toDate()).toLocaleTimeString()
-          : 'Sent';
-
-        const chatBubble = document.createElement("div");
-        chatBubble.id = `msg-${messageId}`;
-        chatBubble.className = `chat-bubble ${isMe ? 'right' : 'left'}`;
-        chatBubble.innerHTML = `
-          <div class="chat-avatar">${d.from.charAt(0).toUpperCase()}</div>
-          <div class="chat-content">
-            <div class="chat-name">${d.from}</div>
-            <div class="chat-text">${d.content}</div>
-            <div class="chat-time">${timeString}</div>
-            ${isMe ? `<button onclick="deleteMessage('${convoId}', '${messageId}', this)" style="margin-top:5px; background:red; color:white; border:none; border-radius:5px; padding:4px 8px; font-size: 12px;">🗑 Delete</button>` : ''}
-          </div>
-        `;
-        container.appendChild(chatBubble);
-
-        if (d.to === myName && d.read === false) {
-          doc.ref.update({ read: true });
-          sound.play();
-        }
-      });
-
-      snapshot.docChanges().forEach(change => {
-        if (change.type === "modified") {
-          const d = change.doc.data();
-          const messageId = change.doc.id;
-          const chatBubble = document.getElementById(`msg-${messageId}`);
-          if (!chatBubble) return;
-
-          const timeString = d.timestamp
-            ? new Date(d.timestamp.toDate()).toLocaleTimeString()
-            : 'Sent';
-
-          chatBubble.querySelector(".chat-time").textContent = timeString;
-        }
-      });
-
-      container.scrollTop = container.scrollHeight;
-    });
 }
 
 
@@ -2957,61 +3126,65 @@ async function loadServices() {
     return;
   }
 
-snapshot.forEach(doc => {
-  const d = doc.data();
-  const id = doc.id;
-  const isPoster = currentUser && currentUser.uid === d.postedBy;
-  const isAdminUser = isAdmin;
+  snapshot.forEach(doc => {
+    const d = doc.data();
+    const id = doc.id;
+    const isPoster = currentUser && currentUser.uid === d.postedBy;
+    const isAdminUser = isAdmin;
 
-  const card = document.createElement("div");
-  card.className = "service-card";
-  card.dataset.county = d.county;
-  card.dataset.occupation = d.occupation.toLowerCase();
-card.innerHTML = `
-  <strong>${d.name}</strong><br>
-  ${d.county}, ${d.subcounty}<br>
-  <em>${d.occupation}</em><br>
-  ${d.experience} years experience<br>
+    const card = document.createElement("div");
+    card.className = "service-card";
+    card.dataset.county = d.county;
+    card.dataset.occupation = d.occupation.toLowerCase();
+    
+    // Highlight occupation in red
+    const occupationStyle = "color: red; font-weight: bold; background-color: #ffebee; padding: 4px; border-radius: 4px;";
 
-  <!-- ⭐ Rating UI -->
-  <div class="rating" data-id="${id}" style="margin: 4px 0;">
-    <span class="avg-rating" id="avgRating-${id}">Loading...</span><br>
-    <span>
-      ${[1, 2, 3, 4, 5].map(star => `
-        <i class="fas fa-star" onclick="rateService('${id}', ${star})"
-           style="cursor:pointer; color:#ccc;" id="star-${id}-${star}"></i>
-      `).join('')}
-    </span>
-  </div>
+    card.innerHTML = `
+      <strong>${d.name}</strong><br>
+      ${d.county}, ${d.subcounty}<br>
+      <em style="${occupationStyle}">${d.occupation}</em><br> <!-- Highlight occupation -->
+      ${d.experience} years experience<br>
 
-  <!-- Contact Options -->
-  <a href="tel:${d.phone}" style="color:green;">📞 Call</a><br>
-  <a href="https://wa.me/254${d.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a><br>
+      <!-- ⭐ Rating UI -->
+      <div class="rating" data-id="${id}" style="margin: 4px 0;">
+        <span class="avg-rating" id="avgRating-${id}">Loading...</span><br>
+        <span>
+          ${[1, 2, 3, 4, 5].map(star => `
+            <i class="fas fa-star" onclick="rateService('${id}', ${star})"
+               style="cursor:pointer; color:#ccc;" id="star-${id}-${star}"></i>
+          `).join('')}
+        </span>
+      </div>
 
-  <!-- 💬 Chat (non-posters only) -->
-  ${
-    !isPoster ? `
-      <button onclick="openChatModal('${d.phone}', '${d.name}')" 
-        style="margin-top:4px; background:#673ab7; color:white; border:none; border-radius:4px; padding:4px 8px; cursor:pointer;">
-        💬 Chat
-      </button><br>
-    ` : ''
-  }
+      <!-- Contact Options -->
+      <a href="tel:${d.phone}" style="color:green;">📞 Call</a><br>
+      <a href="https://wa.me/254${d.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a><br>
 
-  <!-- 🛠️ Admin / Poster Controls -->
-  ${
-    (isPoster || isAdminUser) ? `
-      <button onclick="deleteService('${id}')" style="background:#e53935; color:white; border:none; padding:4px 8px; border-radius:4px; margin-top:4px;">🗑️ Delete</button>
-      <button onclick='editService(${JSON.stringify(d)}, "${id}")' style="background:#0288d1; color:white; border:none; padding:4px 8px; border-radius:4px; margin-left:4px;">✏️ Edit</button>
-    ` : ''
-  }
-`;
+      <!-- 💬 Chat (non-posters only) -->
+      ${
+        !isPoster ? `
+          <button onclick="openChatModal('${d.phone}', '${d.name}')" 
+            style="margin-top:4px; background:#673ab7; color:white; border:none; border-radius:4px; padding:4px 8px; cursor:pointer;">
+            💬 Chat
+          </button><br>
+        ` : ''
+      }
 
-container.appendChild(card);
-updateAverageRating(id); // ✅ load average rating after rendering
+      <!-- 🛠️ Admin / Poster Controls -->
+      ${
+        (isPoster || isAdminUser) ? `
+          <button onclick="deleteService('${id}')" style="background:#e53935; color:white; border:none; padding:4px 8px; border-radius:4px; margin-top:4px;">🗑️ Delete</button>
+          <button onclick='editService(${JSON.stringify(d)}, "${id}")' style="background:#0288d1; color:white; border:none; padding:4px 8px; border-radius:4px; margin-left:4px;">✏️ Edit</button>
+        ` : ''
+      }
+    `;
 
-});
+    container.appendChild(card);
+    updateAverageRating(id); // ✅ Load average rating after rendering
+  });
 }
+
 
 // ✅ Delete service
 async function deleteService(id) {
@@ -3102,15 +3275,23 @@ async function submitMarketHandler(e) {
   const itemPhone = document.getElementById("itemPhone").value.trim();
   const itemPhotoFile = document.getElementById("itemPhoto").files[0];
 
+  // ✅ Add this if you add a dropdown for condition
+  const itemConditionInput = document.getElementById("itemCondition");
+  const itemCondition = itemConditionInput ? itemConditionInput.value : "New";
+
+  const posterName = currentUser.displayName || currentUser.email || "Anonymous";
+
   const itemData = {
     name: itemName,
     category: itemCategory,
-    description: itemDescription,
+    description: itemDescription, // this will appear as "Status"
     price: itemPrice,
     county: itemCounty,
     subcounty: itemSubcounty,
     phone: itemPhone,
     postedBy: currentUser.uid,
+    posterName: posterName,  // Storing the poster's name (updated)
+    condition: itemCondition,
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   };
 
@@ -3127,17 +3308,103 @@ async function submitMarketHandler(e) {
     loadMarketItems();
 
     // ✅ Notify Admin
-   await db.collection("adminNotifications").add({
-  type: "Marketplace Post",
-  message: `New item posted: ${itemName} (${itemCategory}), Price: ${itemPrice}, Phone: ${itemPhone}, County: ${itemCounty}`,
-  timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-  read: false // ✅ Mark as unread for badge tracking
-});
+    await db.collection("adminNotifications").add({
+      type: "Marketplace Post",
+      message: `New item posted: ${itemName} (${itemCategory}), Price: ${itemPrice}, Phone: ${itemPhone}, County: ${itemCounty}`,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      read: false
+    });
 
   } catch (err) {
     showCustomAlert("❌ Error: " + err.message, "error");
   }
 }
+
+
+// ✅ Attach Market Form Handler (safe and reusable)
+function attachMarketFormSubmit() {
+  const oldForm = document.getElementById("marketForm");
+  if (!oldForm) return;
+
+  const newForm = oldForm.cloneNode(true);
+  oldForm.parentNode.replaceChild(newForm, oldForm);
+  newForm.addEventListener("submit", submitMarketHandler);
+}
+
+// ✅ Load All Market Items
+async function loadMarketItems() {
+  const container = document.getElementById("marketContainer");
+  container.innerHTML = "";
+
+  try {
+    const snapshot = await marketRef.orderBy("timestamp", "desc").get();
+    if (snapshot.empty) {
+      container.innerHTML = "<p>No items posted yet.</p>";
+      return;
+    }
+
+    snapshot.forEach(doc => {
+      const d = doc.data();
+      const id = doc.id;
+      const isPoster = currentUser && currentUser.uid === d.postedBy;
+
+      const card = document.createElement("div");
+      card.className = "market-card";
+      card.dataset.category = d.category;
+      card.dataset.county = d.county;
+      card.innerHTML = `
+        <h3 style="margin-bottom: 6px; color:#2e7d32;">${d.posterName || "Unknown Seller"}</h3>
+
+        ${d.photoURL ? `<img src="${d.photoURL}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;">` : ""}
+
+        <p>📦 <strong>Item name:</strong> ${d.name}</p>
+        <p>📝 <strong>Status:</strong> ${d.description}</p>
+        <p>🏷️ <strong>Category:</strong> ${d.category}</p>
+        <p>💰 <strong>Price:</strong> KES ${parseInt(d.price).toLocaleString()}</p>
+        <p>🧰 <strong>Condition:</strong> ${d.condition || "New"}</p>
+        <p>📍 <strong>Location:</strong> ${d.county}, ${d.subcounty}</p>
+
+        <div class="rating" data-id="${id}" style="margin: 6px 0;">
+          <span class="avg-rating" id="avgRating-${id}">⭐ No ratings yet (0)</span><br>
+          <span>
+            ${[1, 2, 3, 4, 5].map(star => `
+              <i class="fas fa-star" onclick="rateService('${id}', ${star})"
+                 style="cursor:pointer; color:#ccc;" id="star-${id}-${star}"></i>
+            `).join('')}
+          </span>
+        </div>
+
+        <div style="margin-top: 8px;">
+          <a href="tel:${d.phone}" style="color:green;">📞 Call</a> |
+          <a href="https://wa.me/254${d.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a>
+        </div>
+
+        ${
+          !isPoster 
+            ? `<div style="margin-top: 10px;">
+                 <button onclick="openChatModal('${d.phone}', '${d.posterName || "Seller"}')"
+                   style="background:#673ab7; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
+                   <i class="fas fa-comments"></i> Chat
+                 </button>
+               </div>`
+            : `<div style="margin-top: 10px;">
+                 <button onclick="deleteMarketItem('${id}')" style="background:#dc3545; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
+                   🗑️ Delete
+                 </button>
+               </div>`
+        }
+      `;
+
+      // ✅ Append card and trigger rating update
+      container.appendChild(card);
+      updateAverageRating(id);
+    });
+
+  } catch (err) {
+    showCustomAlert("❌ Failed to load items: " + err.message, "error");
+  }
+}
+
 
 // ✅ Attach Market Form Handler (safe and reusable)
 function attachMarketFormSubmit() {
@@ -4025,8 +4292,6 @@ function sendQuickMessage(text) {
   document.getElementById("chatInput").value = text;
   sendChatMessage();
 }
-
-
 async function deleteMessage(convoId, messageId, btn) {
   const confirmed = confirm("Are you sure you want to delete this message?");
   if (!confirmed) return;
@@ -4055,55 +4320,6 @@ function deleteMessage(convoId, messageId, btn) {
       showCustomAlert("❌ Failed to delete message.", "error");
     }
   });
-}
-
-function showCustomAlert(message, type = "info") {
-  const alertBox = document.getElementById("customAlert");
-  alertBox.textContent = message;
-
-  // Set background color based on type
-  switch (type) {
-    case "success":
-      alertBox.style.backgroundColor = "#2e7d32"; // green
-      break;
-    case "error":
-      alertBox.style.backgroundColor = "#c62828"; // red
-      break;
-    case "info":
-    default:
-      alertBox.style.backgroundColor = "#333"; // dark gray
-  }
-
-  alertBox.style.display = "block";
-
-  setTimeout(() => {
-    alertBox.style.display = "none";
-  }, 3000);
-}
-
-function showCustomConfirm(message, onConfirm) {
-  const confirmBox = document.getElementById("customConfirmBox");
-  const confirmMessage = document.getElementById("confirmMessage");
-  const yesBtn = document.getElementById("confirmYesBtn");
-  const noBtn = document.getElementById("confirmNoBtn");
-
-  confirmMessage.textContent = message;
-  confirmBox.style.display = "block";
-
-  // Cleanup previous listeners
-  const cloneYes = yesBtn.cloneNode(true);
-  const cloneNo = noBtn.cloneNode(true);
-  yesBtn.parentNode.replaceChild(cloneYes, yesBtn);
-  noBtn.parentNode.replaceChild(cloneNo, noBtn);
-
-  cloneYes.onclick = () => {
-    confirmBox.style.display = "none";
-    onConfirm();
-  };
-
-  cloneNo.onclick = () => {
-    confirmBox.style.display = "none";
-  };
 }
 
 function showMyChats() {
@@ -4172,6 +4388,43 @@ function loadMyChats() {
     });
 }
 
+function updateUnreadMessages() {
+  const badge = document.getElementById('notifBadge');
+  
+  // Fetch unread count from Firestore
+  db.collection("users")
+    .doc(chatPartner.uid) // Get the chat partner's document
+    .collection("conversations")
+    .doc(chatConversationId)
+    .get()
+    .then(doc => {
+      const unreadCount = doc.exists ? doc.data().unreadCount : 0;
+      if (unreadCount > 0) {
+        badge.style.display = 'inline';
+        badge.textContent = unreadCount;
+      } else {
+        badge.style.display = 'none';
+      }
+    });
+}
+document.querySelector('#notifBadge').addEventListener('click', function() {
+  showPage('messages'); // Open the messages page
+  resetUnreadCount(); // Reset unread count to 0
+});
+
+function resetUnreadCount() {
+  // Reset the unread count in Firestore when the user opens the chat
+  db.collection("users")
+    .doc(currentUser.uid)
+    .collection("conversations")
+    .doc(chatConversationId)
+    .update({
+      unreadCount: 0
+    })
+    .then(() => {
+      updateUnreadMessages(); // Re-check and update the badge
+    });
+}
 
   </script>
 </body>

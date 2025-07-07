@@ -1038,6 +1038,26 @@
   cursor: pointer;
   color: #ccc;
 }
+.verified-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #e6f2ff;
+  color: #007bff;
+  font-weight: bold;
+  font-size: 0.85em;
+  padding: 4px 8px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
 
 </style>
 </head>
@@ -1463,11 +1483,10 @@
   </div>
 </div>
 
-
 <h3>
   <i class="fas fa-clipboard-list" style="color:#6f42c1; margin-right: 8px;"></i>
- <h3>Available Job Opportunities</h3>
-
+  Available Job Opportunities
+</h3>
 <div id="jobContainer" style="
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -1597,7 +1616,6 @@ Register To Connect With  Available Soulmates
   <img src="https://i.imgur.com/4pi7IZ6.jpeg " alt="Right Side" class="side-image" />
 </div>
 
-
 <div style="margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
   <label for="ageFilter" style="width: 150px; font-weight: bold; color: #4caf50;">Filter by Age:</label>
   <select
@@ -1618,6 +1636,7 @@ Register To Connect With  Available Soulmates
   <i class="fas fa-heart" style="color:#00796b; margin-right: 8px;"></i>
   Available Soulmates
 </h3>
+
 
 <!-- Soulmates Cards Container -->
 <div id="soulmateContainer" style="
@@ -2369,7 +2388,7 @@ if (missing) {
       showCustomAlert("Error saving swap: " + err.message, "error");
     }
   }
- async function loadSwaps() {
+async function loadSwaps() {
   const tbody = document.querySelector("#swapTable tbody");
   tbody.innerHTML = "";
 
@@ -2381,65 +2400,82 @@ if (missing) {
       return;
     }
 
-   snapshot.forEach(doc => {
-  const s = doc.data();
-  const blur = !hasPaid && !isAdmin;
-  const tr = document.createElement("tr");
+    snapshot.forEach(doc => {
+      const s = doc.data();
+      const blur = !hasPaid && !isAdmin;
+      const tr = document.createElement("tr");
 
-  const isHotCounty = vipHotCounties.includes(s.county) || vipHotCounties.includes(s.swapCounty);
-  const vipBtn = isAdmin && isHotCounty && !s.isVIP
-    ? `<button onclick="markAsVIPSwap('${doc.id}')">🔥 Sell VIP</button>`
-    : s.isVIP ? `<span style="color:crimson; font-weight:bold;">🔥 VIP</span>` : '-';
+      const isHotCounty = vipHotCounties.includes(s.county) || vipHotCounties.includes(s.swapCounty);
+      const vipBtn = isAdmin && isHotCounty && !s.isVIP
+        ? `<button onclick="markAsVIPSwap('${doc.id}')">🔥 Sell VIP</button>`
+        : s.isVIP ? `<span style="color:crimson; font-weight:bold;">🔥 VIP</span>` : '-';
 
-tr.innerHTML = `
-  <td>${s.teacherName}</td>
-  <td>${s.county}</td>
-  <td>${s.subCounty || '-'}</td>
-  <td class="${blur ? 'blurred' : ''}">${blur ? 'Hidden' : s.phone}</td>
-  <td class="${blur ? 'blurred' : ''}">${blur ? 'Hidden' : s.subjectCombination}</td>
-  <td>${s.swapCounty}</td>
-  <td>${s.swapSubCounty || '-'}</td>
-  <td>${s.category}</td>
-  <td>${s.hardship}</td>
-  ${
-    isAdmin
-      ? `<td>
-          <button onclick="confirmDeleteSwap('${doc.id}')">🗑️ Delete</button><br>
-          ${vipBtn}
-        </td>`
-      : `<td>${s.isVIP ? '<span style="color:crimson; font-weight:bold;">🔥 VIP</span>' : '-'}</td>`
-  }
-  <!-- ⭐ Rating Column -->
-  <td>
-    <div class="rating" data-id="${doc.id}">
-      <span class="avg-rating" id="avgRating-${doc.id}">Loading...</span><br>
-      ${[1, 2, 3, 4, 5].map(star => `
-        <i class="fas fa-star" onclick="rateService('${doc.id}', ${star})"
-           style="cursor:pointer; color:#ccc;" id="star-${doc.id}-${star}"></i>
-      `).join('')}
-    </div>
-  </td>
-`;
+      // ✅ Badge logic
+      const isVerified = s.userId !== undefined && s.userId !== null && s.userId !== "";
+      const showVerifiedBadge = isVerified
+        ? `<span style="color:#007bff; font-weight:bold; font-size: 0.85em; margin-left:6px;">
+             <i class="fas fa-check-circle"></i> Verified User
+           </span>`
+        : "";
 
+      const showVIPBadge = s.isVIP
+        ? `<span style="color:crimson; font-weight:bold; font-size: 0.85em; margin-left:6px;">
+             <i class="fas fa-fire"></i> VIP Swap
+           </span>`
+        : "";
 
-  if (blur) {
-    tr.querySelectorAll(".blurred").forEach(cell => {
-      cell.style.cursor = "pointer";
-      cell.title = "Click to unlock by payment";
-      cell.onclick = showPaymentModal;
+      const badges = `${showVerifiedBadge}${showVIPBadge}`;
+
+      // ✅ Populate row
+      tr.innerHTML = `
+        <tr>
+          <td>${s.teacherName} ${badges}</td>
+          <td>${s.county}</td>
+          <td>${s.subCounty || '-'}</td>
+          <td class="${blur ? 'blurred' : ''}">${blur ? 'Hidden' : s.phone}</td>
+          <td class="${blur ? 'blurred' : ''}">${blur ? 'Hidden' : s.subjectCombination}</td>
+          <td>${s.swapCounty}</td>
+          <td>${s.swapSubCounty || '-'}</td>
+          <td>${s.category}</td>
+          <td>${s.hardship}</td>
+          ${
+            isAdmin
+              ? `<td>
+                  <button onclick="confirmDeleteSwap('${doc.id}')">🗑️ Delete</button><br>
+                  ${vipBtn}
+                </td>`
+              : `<td>${s.isVIP ? '<span style="color:crimson; font-weight:bold;">🔥 VIP</span>' : '-'}</td>`
+          }
+          <td>
+            <div class="rating" data-id="${doc.id}">
+              <span class="avg-rating" id="avgRating-${doc.id}">Loading...</span><br>
+              ${[1, 2, 3, 4, 5].map(star => `
+                <i class="fas fa-star" onclick="rateService('${doc.id}', ${star})"
+                   style="cursor:pointer; color:#ccc;" id="star-${doc.id}-${star}"></i>
+              `).join('')}
+            </div>
+          </td>
+        </tr>
+      `;
+
+      if (blur) {
+        tr.querySelectorAll(".blurred").forEach(cell => {
+          cell.style.cursor = "pointer";
+          cell.title = "Click to unlock by payment";
+          cell.onclick = showPaymentModal;
+        });
+      }
+
+      tbody.appendChild(tr);
+      updateAverageRating(doc.id);
     });
-  }
-
-  tbody.appendChild(tr);
-updateAverageRating(doc.id);
-
-});
 
   } catch (err) {
     console.error("Error loading swaps:", err);
     showCustomAlert("Error loading swaps: " + err.message, "error");
   }
 }
+
 // ✅ BOM Job Submit (Updated Format + Notifications)
 document.getElementById("bomJobForm").addEventListener("submit", async e => {
   e.preventDefault();
@@ -2527,13 +2563,13 @@ async function loadBOMJobs() {
   try {
     const snapshot = await bomRef.orderBy("timestamp", "desc").get();
     bomJobsCache = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    console.log("✅ Loaded BOM Jobs:", bomJobsCache); // Optional debug
     renderBOMJobs(bomJobsCache);
   } catch (err) {
     showCustomAlert("❌ Failed to load BOM jobs: " + err.message, "error");
   }
 }
 
-// ✅ Render BOM Jobs in Cards (Grid Layout)
 function renderBOMJobs(jobs) {
   const container = document.getElementById("jobContainer");
   container.innerHTML = "";
@@ -2545,48 +2581,54 @@ function renderBOMJobs(jobs) {
 
   jobs.forEach(job => {
     const card = document.createElement("div");
-    card.className = "job-card";
-    const isPoster = currentUser && job.postedBy === (currentUser.email || currentUser.displayName);
+  card.className = "job-card";
+card.style.position = "relative"; // ✅ Required for absolute positioning
 
-    // Icons for job details
+    card.id = `bom-${job.id}`;
+
+    const isPoster =
+      typeof currentUser !== "undefined" &&
+      currentUser !== null &&
+      (job.postedBy === currentUser.email || job.postedBy === currentUser.displayName);
+
+    const isVerified = job.postedBy !== undefined && job.postedBy !== null && job.postedBy !== "";
+
+ const badge = isVerified
+  ? `<div class="verified-badge">
+       <i class="fas fa-check-circle"></i> Verified User
+     </div>`
+  : "";
+
+
+
     const salaryIcon = '<i class="fas fa-dollar-sign" style="margin-right: 8px;"></i>';
     const locationIcon = '<i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i>';
     const phoneIcon = '<i class="fas fa-phone-alt" style="margin-right: 8px;"></i>';
     const dateIcon = '<i class="fas fa-calendar-day" style="margin-right: 8px;"></i>';
 
     card.innerHTML = `
-      <h3 style="color:#2e7d32;">${job.jobType}</h3>
+      <h3 style="color:#2e7d32;">Occupation: ${job.jobType}</h3>
       <p><strong>Organization:</strong> ${job.organization}</p>
-
-      <!-- Phone Section with Icon -->
       <p><strong>${phoneIcon}Phone:</strong> 
-        <a href="tel:${job.phone}" style="color:green;">📞 Call</a>
-        <br>
+        <a href="tel:${job.phone}" style="color:green;">📞 Call</a><br>
         <a href="https://wa.me/254${job.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a>
       </p>
-
-      <!-- Location Section with Icon -->
       <p><strong>${locationIcon}Location:</strong> ${job.county}, ${job.subCounty}</p>
-
-      <!-- Salary Range Section with Icon -->
       <p><strong>${salaryIcon}Salary Range:</strong> KES ${parseInt(job.salaryRange).toLocaleString()}</p>
-
-      <!-- Date Posted Section with Icon -->
       <p><strong>${dateIcon}Date Posted:</strong> ${job.datePosted}</p>
-
-      <p><strong>Posted By:</strong> ${job.postedBy}</p>
+      <p><strong>Posted By:</strong> ${job.postedBy || "Unknown"} ${badge}</p>
 
       <div style="margin-top: 10px;">
         ${
           !isPoster
             ? `<button onclick="openChatModal('${job.phone}', '${job.organization}')"
-               style="background:#673ab7; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
-               💬 Chat
-             </button>`
+                 style="background:#673ab7; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
+                 💬 Chat
+               </button>`
             : `<button onclick="confirmDeleteBOMJob('${job.id}')"
-               style="background:#dc3545; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
-               🗑️ Delete
-             </button>`
+                 style="background:#dc3545; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
+                 🗑️ Delete
+               </button>`
         }
       </div>
 
@@ -2604,14 +2646,13 @@ function renderBOMJobs(jobs) {
   });
 }
 
-
-// ✅ Delete BOM Job
+// ✅ Delete BOM Job (Immediate)
 async function confirmDeleteBOMJob(jobId) {
   if (confirm("Are you sure you want to delete this job posting?")) {
     try {
       await bomRef.doc(jobId).delete();
       showCustomAlert("✅ BOM job deleted successfully!", "success");
-      loadBOMJobs(); // Refresh the job listings
+      loadBOMJobs();
     } catch (err) {
       showCustomAlert("❌ Failed to delete job: " + err.message, "error");
     }
@@ -2632,13 +2673,10 @@ async function updateAverageRating(jobId) {
 
   const avgRating = totalReviews ? (totalRating / totalReviews).toFixed(1) : 0;
   const avgRatingElement = document.getElementById(`avgRating-${jobId}`);
-
   avgRatingElement.textContent = `⭐ ${avgRating} (${totalReviews} Reviews)`;
 }
 
-
-
-// ✅ BOM Job Filters (Optional)
+// ✅ BOM Job Filters
 function applyBOMFilters() {
   const jobType = document.getElementById("filterJobType")?.value.toLowerCase() || "";
   const county = document.getElementById("filterCounty")?.value || "";
@@ -2657,7 +2695,7 @@ function applyBOMFilters() {
   renderBOMJobs(filtered);
 }
 
-// ✅ Populate Sub-county Based on County
+// ✅ County-Subcounty Select Logic
 function handleCountyChange(countyId, subCountyId) {
   const county = document.getElementById(countyId).value;
   const subCountyEl = document.getElementById(subCountyId);
@@ -2672,11 +2710,12 @@ function handleCountyChange(countyId, subCountyId) {
   }
 }
 
-// ✅ Delete BOM Job
+// ✅ Delete Modal Flow
 function confirmDeleteBOMJob(jobId) {
   jobToDeleteId = jobId;
   document.getElementById("confirmDeleteModal").style.display = "flex";
 }
+
 function closeDeleteModal() {
   jobToDeleteId = null;
   document.getElementById("confirmDeleteModal").style.display = "none";
@@ -2694,9 +2733,6 @@ document.getElementById("confirmDeleteBtn").onclick = async () => {
     showCustomAlert("❌ Failed to delete: " + err.message, "error");
   }
 };
-
-
-
 
   // ✅ Alert Helper
   function showCustomAlert(msg, type = "info") {
@@ -2834,7 +2870,7 @@ document.getElementById("soulmateForm").addEventListener("submit", async (e) => 
     showCustomAlert("Error saving profile: " + err.message, "error");
   }
 });
-// ✅ Load all soulmate profiles and display them in cards
+// ✅ Load all soulmate profiles and display them in cards 
 async function loadSoulmates() {
   const container = document.querySelector("#soulmateContainer");
   container.innerHTML = ""; // Clear existing profiles
@@ -2847,15 +2883,27 @@ async function loadSoulmates() {
 
   snapshot.forEach(doc => {
     const d = doc.data();
-    const isPoster = currentUser && d.postedBy === (currentUser.email || currentUser.displayName);
+
+    const isPoster =
+      typeof currentUser !== "undefined" &&
+      currentUser !== null &&
+      (d.postedBy === currentUser.email || d.postedBy === currentUser.displayName);
+
+    const isVerified = d.postedBy !== undefined && d.postedBy !== null && d.postedBy !== "";
+
+    const verifiedBadge = isVerified
+      ? `<span style="color:#007bff; font-weight:bold; font-size: 0.85em; margin-left:6px;">
+           <i class="fas fa-check-circle"></i> Verified User
+         </span>`
+      : "";
 
     const card = document.createElement("div");
     card.className = "soulmate-card";
 
-    // Safely encode data for modal use
-    const safeData = encodeURIComponent(JSON.stringify(d));
+    // ✅ Add ID for notification scroll targeting
+    card.id = `soulmate-${d.id}`;
 
-    // Determine the appropriate icon for the sex of the soulmate
+    // Determine icons
     let sexIcon = '';
     if (d.sex === 'Male') {
       sexIcon = '<i class="fas fa-mars" style="margin-right: 8px; color:#00796b;"></i>';
@@ -2863,7 +2911,6 @@ async function loadSoulmates() {
       sexIcon = '<i class="fas fa-venus" style="margin-right: 8px; color:#00796b;"></i>';
     }
 
-    // Determine the appropriate icon for status (optional)
     let statusIcon = '';
     if (d.status === 'Single') {
       statusIcon = '<i class="fas fa-heart-broken" style="margin-left: 8px; color:#f44336;"></i>';
@@ -2877,25 +2924,14 @@ async function loadSoulmates() {
       </div>
       <div class="soulmate-details">
         <h3 style="color:#00796b; display: flex; align-items: center;">
-          ${sexIcon}${d.name} ${statusIcon}
+          ${sexIcon}${d.name} ${verifiedBadge} ${statusIcon}
         </h3>
-        
-        <!-- Displaying Age with Icon -->
-        <p><i class="fas fa-birthday-cake" style="margin-right: 8px;"></i><strong>Age:</strong> ${d.age}</p>
-        
-        <!-- Displaying County with Icon -->
-        <p><i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i><strong>County:</strong> ${d.county}</p>
-        
-        <!-- Displaying Tribe with Icon -->
-        <p><i class="fas fa-users" style="margin-right: 8px;"></i><strong>Tribe:</strong> ${d.tribe}</p>
-        
-        <!-- Displaying Occupation with Icon -->
-        <p><i class="fas fa-briefcase" style="margin-right: 8px;"></i><strong>Occupation:</strong> ${d.occupation}</p>
 
-        <!-- Displaying Status with Icon -->
+        <p><i class="fas fa-birthday-cake" style="margin-right: 8px;"></i><strong>Age:</strong> ${d.age}</p>
+        <p><i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i><strong>County:</strong> ${d.county}</p>
+        <p><i class="fas fa-users" style="margin-right: 8px;"></i><strong>Tribe:</strong> ${d.tribe}</p>
+        <p><i class="fas fa-briefcase" style="margin-right: 8px;"></i><strong>Occupation:</strong> ${d.occupation}</p>
         <p><i class="fas fa-heart" style="margin-right: 8px;"></i><strong>Status:</strong> ${d.status || '—'}</p>
-        
-        <!-- Displaying Kids with Icon -->
         <p><i class="fas fa-baby" style="margin-right: 8px;"></i><strong>Kids:</strong> ${d.kids || '—'}</p>
 
         <div class="contact-actions">
@@ -2924,6 +2960,7 @@ async function loadSoulmates() {
     updateAverageRating(d.id);
   });
 }
+
 
 
 
@@ -3065,19 +3102,26 @@ function listenForMessages(convoId) {
           ? new Date(d.timestamp.toDate()).toLocaleTimeString()
           : 'Sent';
 
-        const chatBubble = document.createElement("div");
-        chatBubble.id = `msg-${messageId}`;
-        chatBubble.className = `chat-bubble ${isMe ? 'right' : 'left'}`;
-        chatBubble.innerHTML = `
-          <div class="chat-avatar">${d.from.charAt(0).toUpperCase()}</div>
-          <div class="chat-content">
-            <div class="chat-name">${d.from}</div>
-            <div class="chat-text">${d.content}</div>
-            <div class="chat-time">${timeString}</div>
-            ${isMe ? `<button onclick="deleteMessage('${convoId}', '${messageId}', this)" style="margin-top:5px; background:red; color:white; border:none; border-radius:5px; padding:4px 8px; font-size: 12px;">🗑 Delete</button>` : ''}
-          </div>
-        `;
-        container.appendChild(chatBubble);
+       const chatBubble = document.createElement("div");
+chatBubble.id = `msg-${messageId}`;
+chatBubble.className = `chat-bubble ${isMe ? 'right' : 'left'}`;
+chatBubble.innerHTML = `
+  <div class="chat-avatar">${d.from.charAt(0).toUpperCase()}</div>
+  <div class="chat-content">
+    <div class="chat-name">${d.from}</div>
+    <div class="chat-text">${d.content}</div>
+    <div class="chat-time">${timeString}</div>
+    ${
+      isMe
+        ? `<button onclick="deleteMessage('${convoId}', '${messageId}', this)"
+             style="margin-top:5px; background:red; color:white; border:none;
+             border-radius:5px; padding:4px 8px; font-size: 12px;">🗑 Delete</button>`
+        : ''
+    }
+  </div>
+`;
+container.appendChild(chatBubble);
+
 
         // If the message is to the current user and unread, increment unreadCount
         if (d.to === myName && d.read === false) {
@@ -3145,40 +3189,53 @@ function resetUnreadCount(convoId) {
     });
 }
 
-// Show My Chats - fetch and display the list of chats for the current user
 function showMyChats() {
-  // Show the "My Chats" page
-  showPage('chatListPage');
+  const container = document.getElementById("chatListContainer");
+  container.innerHTML = '';
+  showPage("chatListPage");
 
-  // Get the current user's chats from Firestore
-  const currentUserUid = currentUser.uid;
-
-  // Get chat list from Firestore
-  db.collection("users").doc(currentUserUid).collection("conversations")
+  db.collection("users").doc(currentUser.uid).collection("conversations")
+    .orderBy("lastTimestamp", "desc")
     .get()
     .then(snapshot => {
-      const chatListContainer = document.getElementById('chatListContainer');
-      chatListContainer.innerHTML = '';  // Clear any existing chats
-
       snapshot.forEach(doc => {
-        const chatData = doc.data();
-        const chatPartnerName = chatData.partnerName;
-        const chatPartnerUid = chatData.partnerUid;
+        const convo = doc.data();
 
-        // Create a list item for each chat conversation
-        const chatItem = document.createElement('div');
-        chatItem.className = 'chat-item';
-        chatItem.innerHTML = `
-          <div class="chat-partner-name">${chatPartnerName}</div>
-          <button onclick="loadChat('${chatPartnerUid}')">Open Chat</button>
+        const div = document.createElement("div");
+        div.className = "conversation-item";
+        div.style.display = "flex";
+        div.style.alignItems = "center";
+        div.style.padding = "8px";
+        div.style.borderBottom = "1px solid #ccc";
+        div.style.cursor = "pointer";
+
+        // ✅ Use fallback if photo is missing
+        const partnerPhoto = convo.partnerPhotoUrl || "https://www.gravatar.com/avatar/?d=mp";
+
+        div.innerHTML = `
+          <img src="${partnerPhoto}" class="avatar" style="margin-right:8px;">
+          <div style="flex:1;">
+            <strong>${convo.partnerName}</strong><br>
+            <small>${convo.lastMessage || ''}</small>
+          </div>
         `;
 
-        // Append the chat item to the list
-        chatListContainer.appendChild(chatItem);
+        // 🔔 Add unread badge if needed
+        if (convo.unreadCount && convo.unreadCount > 0) {
+          const badge = document.createElement("span");
+          badge.textContent = convo.unreadCount;
+          badge.style.background = "red";
+          badge.style.color = "white";
+          badge.style.padding = "2px 6px";
+          badge.style.borderRadius = "12px";
+          badge.style.marginLeft = "8px";
+          badge.style.fontSize = "12px";
+          div.appendChild(badge);
+        }
+
+        div.onclick = () => startChat(convo.partnerUid, convo.partnerName, convo.partnerPhotoUrl, "page");
+        container.appendChild(div);
       });
-    })
-    .catch(error => {
-      console.error("Error fetching chats: ", error);
     });
 }
 
@@ -3212,7 +3269,7 @@ async function sendChatMessage() {
   const timestamp = firebase.firestore.FieldValue.serverTimestamp();
 
   try {
-    // ✅ Add message to the chat collection
+    // ✅ 1. Send the message
     await db.collection("messages")
       .doc(chatConversationId)
       .collection("chats")
@@ -3225,40 +3282,48 @@ async function sendChatMessage() {
         timestamp: timestamp
       });
 
-    // ✅ Update sender's conversations list
+    input.value = '';
+    input.focus();
+    showCustomAlert("📤 Message sent!", "success");
+
+  } catch (error) {
+    console.error("❌ Error sending message:", error);
+    showCustomAlert("❌ Failed to send message. Try again.", "error");
+    return;
+  }
+
+  // ✅ 2. Try updating conversation metadata
+  try {
     await db.collection("users").doc(fromUid)
       .collection("conversations")
       .doc(chatConversationId)
       .set({
         partnerUid: toUid,
         partnerName: toName,
-        partnerPhotoUrl: chatPartner.photoURL || "",
+        partnerPhotoUrl: chatPartner?.photoURL || "", // ✅ Safe fallback
         lastMessage: msg,
         lastTimestamp: timestamp
       }, { merge: true });
 
-    // ✅ Update recipient's conversations list
     await db.collection("users").doc(toUid)
       .collection("conversations")
       .doc(chatConversationId)
       .set({
         partnerUid: fromUid,
         partnerName: fromName,
-        partnerPhotoUrl: currentUser.photoURL || "",
+        partnerPhotoUrl: currentUser?.photoURL || "", // ✅ Safe fallback
         lastMessage: msg,
         lastTimestamp: timestamp,
-        unreadCount: firebase.firestore.FieldValue.increment(1) // Increment unread count
+        unreadCount: firebase.firestore.FieldValue.increment(1)
       }, { merge: true });
 
-    // ✅ Clear the input box
-    input.value = '';
-    showCustomAlert("📤 Message sent!", "success");
-
-  } catch (error) {
-    console.error("❌ Error sending message:", error);
-    showCustomAlert("❌ Failed to send message. Try again.", "error");
+  } catch (metaError) {
+    console.warn("⚠️ Message sent, but conversation metadata failed:", metaError);
+    showCustomAlert("⚠️ Message sent, but conversation info failed to update.", "warning");
   }
 }
+
+
 
 
 
@@ -3279,6 +3344,7 @@ isMutualMatch(data.name).then(isMatch => {
 function closeSoulmateModal() {
   document.getElementById("soulmateModal").style.display = "none";
 }
+
 function filterSoulmatesByAge() {
   const range = document.getElementById("ageFilter").value;
   const rows = document.querySelectorAll("#soulmateTable tbody tr");
@@ -3348,7 +3414,6 @@ await db.collection("adminNotifications").add({
   }
 }
 
-// ✅ Load services and display them in cards
 async function loadServices() {
   const container = document.getElementById("servicesContainer");
   container.innerHTML = "";
@@ -3362,15 +3427,28 @@ async function loadServices() {
   snapshot.forEach(doc => {
     const d = doc.data();
     const id = doc.id;
-    const isPoster = currentUser && currentUser.uid === d.postedBy;
+
+    const isPoster =
+      typeof currentUser !== "undefined" &&
+      currentUser !== null &&
+      currentUser.uid === d.postedBy;
+
     const isAdminUser = isAdmin;
+    const isVerified = d.postedBy !== undefined && d.postedBy !== null && d.postedBy !== "";
+
+    const verifiedBadge = isVerified
+      ? `<span style="color: #007bff; font-weight: bold; font-size: 0.85em; margin-left: 6px;">
+           <i class="fas fa-check-circle"></i> Verified User
+         </span>`
+      : "";
 
     const card = document.createElement("div");
     card.className = "service-card";
+    card.id = `service-${id}`; // ✅ Make it targetable from notification
     card.dataset.county = d.county;
     card.dataset.occupation = d.occupation.toLowerCase();
 
-    // Icons for service details
+    // Icons
     const experienceIcon = '<i class="fas fa-briefcase" style="margin-right: 8px;"></i>';
     const locationIcon = '<i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i>';
     const phoneIcon = '<i class="fas fa-phone-alt" style="margin-right: 8px;"></i>';
@@ -3378,9 +3456,9 @@ async function loadServices() {
 
     card.innerHTML = `
       <!-- Service Details -->
-      <p><strong>Name:</strong> ${d.name}</p>
+      <p><strong>Name:</strong> ${d.name} ${verifiedBadge}</p>
       <p><strong>${locationIcon}County:</strong> ${d.county}</p>
-      <p><strong>Occupation:</strong> <span class="highlight-occupation">${d.occupation}</span></p> <!-- Highlight occupation -->
+      <p><strong>Occupation:</strong> <span class="highlight-occupation">${d.occupation}</span></p>
       <p><strong>${experienceIcon}Experience:</strong> ${d.experience} years</p>
       <p><strong>${phoneIcon}Phone Number:</strong> 
         <a href="tel:${d.phone}" style="color:green;">📞 Call</a>
@@ -3421,13 +3499,9 @@ async function loadServices() {
     `;
 
     container.appendChild(card);
-    updateAverageRating(id); // ✅ Load average rating after rendering
+    updateAverageRating(id);
   });
 }
-
-
-
-
 // ✅ Delete service
 async function deleteService(id) {
   if (confirm("Are you sure you want to delete this service?")) {
@@ -3561,8 +3635,6 @@ async function submitMarketHandler(e) {
     showCustomAlert("❌ Error: " + err.message, "error");
   }
 }
-
-
 // ✅ Attach Market Form Handler (safe and reusable)
 function attachMarketFormSubmit() {
   const oldForm = document.getElementById("marketForm");
@@ -3580,31 +3652,50 @@ async function loadMarketItems() {
 
   try {
     const snapshot = await marketRef.orderBy("timestamp", "desc").get();
+
     if (snapshot.empty) {
       container.innerHTML = "<p>No items posted yet.</p>";
       return;
     }
 
     snapshot.forEach(doc => {
+      if (!doc.exists) return;
+
       const d = doc.data();
       const id = doc.id;
-      const isPoster = currentUser && currentUser.uid === d.postedBy;
+
+      const isPoster =
+        typeof currentUser !== "undefined" &&
+        currentUser !== null &&
+        currentUser.uid === d.postedBy;
+
+      const isVerified = d.postedBy !== undefined && d.postedBy !== null && d.postedBy !== "";
+
+      const verifiedBadge = isVerified
+        ? `<span style="color: #007bff; font-weight: bold; font-size: 0.85em; margin-left: 6px;">
+             <i class="fas fa-check-circle"></i> Verified User
+           </span>`
+        : "";
 
       const card = document.createElement("div");
       card.className = "market-card";
-      card.dataset.category = d.category;
-      card.dataset.county = d.county;
+      card.id = `market-${id}`; // ✅ Add ID for notification scroll
+      card.dataset.category = d.category || "";
+      card.dataset.county = d.county || "";
+
       card.innerHTML = `
-        <h3 style="margin-bottom: 6px; color:#2e7d32;">${d.posterName || "Unknown Seller"}</h3>
+        <h3 style="margin-bottom: 6px; color:#2e7d32;">
+          ${d.posterName || "Unknown Seller"} ${verifiedBadge}
+        </h3>
 
         ${d.photoURL ? `<img src="${d.photoURL}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;">` : ""}
 
-        <p>📦 <strong>Item name:</strong> ${d.name}</p>
-        <p>📝 <strong>Status:</strong> ${d.description}</p>
-        <p>🏷️ <strong>Category:</strong> ${d.category}</p>
-        <p>💰 <strong>Price:</strong> KES ${parseInt(d.price).toLocaleString()}</p>
+        <p>📦 <strong>Item name:</strong> ${d.name || "-"}</p>
+        <p>📝 <strong>Status:</strong> ${d.description || "-"}</p>
+        <p>🏷️ <strong>Category:</strong> ${d.category || "-"}</p>
+        <p>💰 <strong>Price:</strong> KES ${d.price ? parseInt(d.price).toLocaleString() : "N/A"}</p>
         <p>🧰 <strong>Condition:</strong> ${d.condition || "New"}</p>
-        <p>📍 <strong>Location:</strong> ${d.county}, ${d.subcounty}</p>
+        <p>📍 <strong>Location:</strong> ${d.county || "Unknown"}, ${d.subcounty || "Unknown"}</p>
 
         <div class="rating" data-id="${id}" style="margin: 6px 0;">
           <span class="avg-rating" id="avgRating-${id}">⭐ No ratings yet (0)</span><br>
@@ -3618,7 +3709,7 @@ async function loadMarketItems() {
 
         <div style="margin-top: 8px;">
           <a href="tel:${d.phone}" style="color:green;">📞 Call</a> |
-          <a href="https://wa.me/254${d.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a>
+          <a href="https://wa.me/254${d.phone?.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a>
         </div>
 
         ${
@@ -3637,106 +3728,15 @@ async function loadMarketItems() {
         }
       `;
 
-      // ✅ Append card and trigger rating update
       container.appendChild(card);
       updateAverageRating(id);
     });
 
   } catch (err) {
+    console.error("❌ Error loading market items:", err);
     showCustomAlert("❌ Failed to load items: " + err.message, "error");
   }
 }
-
-
-// ✅ Attach Market Form Handler (safe and reusable)
-function attachMarketFormSubmit() {
-  const oldForm = document.getElementById("marketForm");
-  if (!oldForm) return;
-
-  const newForm = oldForm.cloneNode(true);
-  oldForm.parentNode.replaceChild(newForm, oldForm);
-  newForm.addEventListener("submit", submitMarketHandler);
-}
-
-// ✅ Load All Market Items
-async function loadMarketItems() {
-  const container = document.getElementById("marketContainer");
-  container.innerHTML = "";
-
-  try {
-    const snapshot = await marketRef.orderBy("timestamp", "desc").get();
-    if (snapshot.empty) {
-      container.innerHTML = "<p>No items posted yet.</p>";
-      return;
-    }
-
-   snapshot.forEach(doc => {
-  const d = doc.data();
-  const id = doc.id;
-  const isPoster = currentUser && currentUser.uid === d.postedBy;
-
-  const card = document.createElement("div");
-  card.className = "market-card";
-  card.dataset.category = d.category;
-  card.dataset.county = d.county;
-card.innerHTML = `
-  <h3 style="margin-bottom: 6px; color:#2e7d32;">${d.posterName || "Unknown Seller"}</h3>
-
-  ${d.photoURL ? `<img src="${d.photoURL}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;">` : ""}
-
-  <p>📦 <strong>Item name:</strong> ${d.name}</p>
-  <p>📝 <strong>Status:</strong> ${d.description}</p>
-  <p>🏷️ <strong>Category:</strong> ${d.category}</p>
-  <p>💰 <strong>Price:</strong> KES ${parseInt(d.price).toLocaleString()}</p>
-  <p>🧰 <strong>Condition:</strong> ${d.condition || "New"}</p>
-  <p>📍 <strong>Location:</strong> ${d.county}, ${d.subcounty}</p>
-
-  <div class="rating" data-id="${id}" style="margin: 6px 0;">
-    <span class="avg-rating" id="avgRating-${id}">⭐ No ratings yet (0)</span><br>
-    <span>
-      ${[1, 2, 3, 4, 5].map(star => `
-        <i class="fas fa-star" onclick="rateService('${id}', ${star})"
-           style="cursor:pointer; color:#ccc;" id="star-${id}-${star}"></i>
-      `).join('')}
-    </span>
-  </div>
-
-  <div style="margin-top: 8px;">
-    <a href="tel:${d.phone}" style="color:green;">📞 Call</a> |
-    <a href="https://wa.me/254${d.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a>
-  </div>
-
-  ${
-    !isPoster 
-      ? `<div style="margin-top: 10px;">
-           <button onclick="openChatModal('${d.phone}', '${d.posterName || "Seller"}')"
- 
-             style="background:#673ab7; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
-             <i class="fas fa-comments"></i> Chat
-           </button>
-         </div>`
-      : `<div style="margin-top: 10px;">
-           <button onclick="deleteMarketItem('${id}')" style="background:#dc3545; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
-             🗑️ Delete
-           </button>
-         </div>`
-  }
-`;
-
-
-
-// ✅ Append card and trigger rating update
-container.appendChild(card);
-updateAverageRating(id);
-
-});
-
-
-  } catch (err) {
-    showCustomAlert("❌ Failed to load items: " + err.message, "error");
-  }
-}
-
 function deleteMarketItem(id) {
   showCustomConfirm("Are you sure you want to delete this market item?", () => {
     marketRef.doc(id).delete()
@@ -4417,18 +4417,25 @@ async function loadAdminNotifications() {
     }
 
     const li = document.createElement("li");
-    li.style.cssText = "margin-bottom:10px;padding:10px;border:1px solid #ccc;border-radius:8px;background:#f9f9f9;";
+    li.style.cssText = "margin-bottom:10px;padding:10px;border:1px solid #ccc;border-radius:8px;background:#f9f9f9;cursor:pointer;";
+    
+    // ✅ Handle click to scroll to item
+    li.onclick = () => openPostedItem(d.type?.toLowerCase(), d.itemId);
+
     li.innerHTML = `
       <b>${d.type}</b>: ${d.message}<br>
       <small style="color:gray;">${new Date(d.timestamp?.toDate()).toLocaleString()}</small><br>
-      <button onclick="deleteNotification('${doc.id}')">🗑️ Delete</button>
+      <button onclick="event.stopPropagation(); deleteNotification('${doc.id}')"
+              style="margin-top:6px;">🗑️ Delete</button>
     `;
+
     list.appendChild(li);
   });
 
   await batch.commit(); // ✅ Apply read updates
   updateAdminNotifBadge(); // 🔄 Refresh badge
 }
+
 
 async function deleteNotification(id) {
   try {
@@ -4534,35 +4541,6 @@ function sendQuickMessage(text) {
   document.getElementById("chatInput").value = text;
   sendChatMessage();
 }
-async function deleteMessage(convoId, messageId, btn) {
-  const confirmed = confirm("Are you sure you want to delete this message?");
-  if (!confirmed) return;
-
-  try {
-    await db.collection("messages").doc(convoId).collection("chats").doc(messageId).delete();
-    btn.closest(".chat-bubble").remove();
-  } catch (error) {
-    alert("❌ Failed to delete message. Please try again.");
-    console.error(error);
-  }
-}
-function deleteMessage(convoId, messageId, btn) {
-  showCustomConfirm("Are you sure you want to delete this message?", async () => {
-    try {
-      await db.collection("messages")
-        .doc(convoId)
-        .collection("chats")
-        .doc(messageId)
-        .delete();
-
-      btn.closest(".chat-bubble").remove();
-      showCustomAlert("🗑 Message deleted successfully!", "success");
-    } catch (error) {
-      console.error("❌ Delete error:", error);
-      showCustomAlert("❌ Failed to delete message.", "error");
-    }
-  });
-}
 
 function showMyChats() {
   const container = document.getElementById("chatListContainer");
@@ -4667,6 +4645,86 @@ function resetUnreadCount() {
       updateUnreadMessages(); // Re-check and update the badge
     });
 }
+
+function openPostedItem(type, itemId) {
+  if (!type || !itemId) return;
+
+  showPage(type); // Switch to the relevant page/tab
+
+  let retries = 10; // retry every 200ms for 2 seconds
+  const targetId = `${type}-${itemId}`;
+
+  const tryScroll = () => {
+    const target = document.getElementById(targetId);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+      target.style.transition = "background-color 0.5s ease";
+      target.style.backgroundColor = "#fff9c4";
+      setTimeout(() => {
+        target.style.backgroundColor = "";
+      }, 2000);
+    } else if (retries > 0) {
+      retries--;
+      setTimeout(tryScroll, 200);
+    } else {
+      alert("❌ Item not found. It may not have loaded yet.");
+    }
+  };
+
+  tryScroll();
+}
+
+function renderNotifications(notifications) {
+  const container = document.getElementById("notificationsContainer");
+  container.innerHTML = "";
+
+  if (!notifications.length) {
+    container.innerHTML = `<p>No notifications yet.</p>`;
+    return;
+  }
+
+  notifications.forEach(n => {
+    const card = document.createElement("div");
+    card.className = "notif-card";
+    card.innerHTML = `
+      <div onclick="openPostedItem('${n.type}', '${n.itemId}')"
+        style="cursor:pointer; background:#f1f8e9; padding:10px; margin-bottom:6px; border-radius:6px;">
+        🔔 ${n.message}
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+async function deleteMessage(convoId, messageId, btn) {
+  if (!confirm("Delete this message?")) return;
+
+  try {
+    // Mark the message as deleted
+    await db.collection("messages")
+      .doc(convoId)
+      .collection("chats")
+      .doc(messageId)
+      .update({
+        content: "[Message deleted]",
+        deleted: true
+      });
+
+    showCustomAlert("🗑 Message deleted (soft).", "success");
+
+    // Optionally update DOM without reloading
+    const msgElem = document.getElementById(`msg-${messageId}`);
+    if (msgElem) {
+      msgElem.querySelector(".chat-text").textContent = "[Message deleted]";
+      if (btn) btn.remove();
+    }
+
+  } catch (err) {
+    console.error("❌ Failed to delete message:", err);
+    showCustomAlert("❌ Could not delete message. Try again.", "error");
+  }
+}
+
+
 
   </script>
 </body>

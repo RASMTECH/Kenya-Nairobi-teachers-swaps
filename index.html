@@ -2964,7 +2964,7 @@ function renderBOMJobs(jobs) {
                  style="background:#dc3545; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
                  🗑️ Delete
               </button>
-              <button onclick="boostMarketItem('${job.id}', '${job.jobType}')"
+              <button onclick="showPaymentModalFor('job', 1000, '${job.id}', '${job.jobType}')"
                  style="background:#ff9800; color:white; border:none; border-radius:5px; padding:6px 12px; margin-left:6px; cursor:pointer;">
                  🚀 Boost
               </button>
@@ -2985,7 +2985,6 @@ function renderBOMJobs(jobs) {
     updateAverageRating(job.id);
   });
 }
-
 
 // ✅ Delete BOM Job
 async function confirmDeleteBOMJob(jobId) {
@@ -3155,7 +3154,6 @@ async function loadResources() {
 // ✅ Populate counties for soulmate form
 ["smCounty", "smWorkCounty"].forEach(populateCounties);
 
-// ✅ Submit soulmate profile
 document.getElementById("soulmateForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -3164,24 +3162,29 @@ document.getElementById("soulmateForm").addEventListener("submit", async (e) => 
     return;
   }
 
-  const photoFile = document.getElementById("smPhoto").files[0];
-  if (!photoFile) {
-    showCustomAlert("Please upload a photo.", "error");
+  const ageValue = parseInt(document.getElementById("smAge").value.trim());
+  if (isNaN(ageValue) || ageValue < 18) {
+    showCustomAlert("You must be 18 years or older to submit a soulmate profile.", "error");
     return;
   }
 
+  const photoFile = document.getElementById("smPhoto").files[0];
+  let photoURL = "default.jpg"; // 🖼️ fallback image
+
   try {
-    // 🔼 Upload photo to Firebase Storage
-    const photoPath = `soulmatePhotos/${Date.now()}_${photoFile.name}`;
-    const photoSnap = await storage.ref(photoPath).put(photoFile);
-    const photoURL = await photoSnap.ref.getDownloadURL();
+    if (photoFile) {
+      // 🔼 Upload photo to Firebase Storage
+      const photoPath = `soulmatePhotos/${Date.now()}_${photoFile.name}`;
+      const photoSnap = await storage.ref(photoPath).put(photoFile);
+      photoURL = await photoSnap.ref.getDownloadURL();
+    }
 
     // 🔽 Prepare form data
     const data = {
       name: document.getElementById("smName").value.trim(),
       county: document.getElementById("smCounty").value,
       subCounty: document.getElementById("smSubCounty").value,
-      age: document.getElementById("smAge").value.trim(),
+      age: ageValue,
       tribe: document.getElementById("smTribe").value.trim(),
       sex: document.getElementById("smSex").value,
       occupation: document.getElementById("smOccupation").value.trim(),
@@ -3213,6 +3216,7 @@ document.getElementById("soulmateForm").addEventListener("submit", async (e) => 
     showCustomAlert("Error saving profile: " + err.message, "error");
   }
 });
+
 async function loadSoulmates() {
   const container = document.querySelector("#soulmateContainer");
   container.innerHTML = "";
@@ -3234,9 +3238,11 @@ async function loadSoulmates() {
   }
 
   let matchFound = false;
+  const hasAccess = typeof checkAccess === 'function' ? checkAccess("soulmate") : false;
 
   snapshot.forEach(doc => {
     const d = doc.data();
+    const id = doc.id;
 
     const age = parseInt(d.age) || 0;
     const matchesAge = age >= minAge && age <= maxAge;
@@ -3255,9 +3261,7 @@ async function loadSoulmates() {
     const isVerified = d.postedBy !== undefined && d.postedBy !== null && d.postedBy !== "";
 
     const verifiedBadge = isVerified
-      ? `<span class="verified-badge">
-           <i class="fas fa-check-circle"></i> Verified
-         </span>`
+      ? `<span class="verified-badge"><i class="fas fa-check-circle"></i> Verified</span>`
       : "";
 
     const card = document.createElement("div");
@@ -3278,6 +3282,34 @@ async function loadSoulmates() {
       statusIcon = '<i class="fas fa-ring" style="margin-left: 8px; color:#00796b;"></i>';
     }
 
+    // 🔐 CONTACT SECTION
+    let contactSection = '';
+    if (isPoster || hasAccess) {
+      contactSection = `
+        <div class="contact-actions">
+          <a href="tel:${d.phone}" style="color:green;">📞 Call</a><br>
+          <a href="https://wa.me/254${d.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a><br>
+          ${
+            !isPoster ? `
+              <button onclick="openChatModal('${d.phone}', '${d.name}')"
+                style="background:#673ab7; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
+                💬 Chat
+              </button>` : ''
+          }
+        </div>
+      `;
+    } else {
+      contactSection = `
+        <div class="contact-actions" style="margin-top:10px;">
+          <p style="color:gray;">🔒 Contact info locked</p>
+          <button onclick="showPaymentModalFor('soulmate', 250, currentUser?.uid || 'guest', 'Unlock Soulmate Contacts')"
+            style="background:#4CAF50; color:white; border:none; border-radius:5px; padding:6px 12px;">
+            🔓 Unlock Contacts
+          </button>
+        </div>
+      `;
+    }
+
     card.innerHTML = `
       ${verifiedBadge}
       <div class="soulmate-photo">
@@ -3295,30 +3327,20 @@ async function loadSoulmates() {
         <p style="color:#e91e63;"><i class="fas fa-heart" style="margin-right: 8px;"></i><strong>Status:</strong> ${d.status || '—'}</p>
         <p style="color:#795548;"><i class="fas fa-baby" style="margin-right: 8px;"></i><strong>Kids:</strong> ${d.kids || '—'}</p>
 
-        <div class="contact-actions">
-          <a href="tel:${d.phone}" style="color:green;">📞 Call</a><br>
-          <a href="https://wa.me/254${d.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a><br>
-          ${
-            !isPoster ? `
-            <button onclick="openChatModal('${d.phone}', '${d.name}')"
-              style="background:#673ab7; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
-              💬 Chat
-            </button>` : ''
-          }
-        </div>
+        ${contactSection}
       </div>
 
-      <div class="rating" data-id="${d.id}">
-        <span class="avg-rating" id="avgRating-${d.id}">Loading...</span><br>
+      <div class="rating" data-id="${id}">
+        <span class="avg-rating" id="avgRating-${id}">Loading...</span><br>
         ${[1, 2, 3, 4, 5].map(star => `
-          <i class="fas fa-star" onclick="rateService('${d.id}', ${star})"
-             style="cursor:pointer; color:#ccc;" id="star-${d.id}-${star}"></i>
+          <i class="fas fa-star" onclick="rateService('${id}', ${star})"
+             style="cursor:pointer; color:#ccc;" id="star-${id}-${star}"></i>
         `).join('')}
       </div>
     `;
 
     container.appendChild(card);
-    updateAverageRating(d.id);
+    updateAverageRating(id);
   });
 
   if (!matchFound) {
@@ -3329,14 +3351,10 @@ async function loadSoulmates() {
     `;
   }
 }
-function resetSoulmateFilters() {
-  document.getElementById("filterMinAge").value = "";
-  document.getElementById("filterMaxAge").value = "";
-  document.getElementById("filterTribe").value = "";
-  document.getElementById("filterSex").value = "";
-  loadSoulmates();
+function checkAccess(type) {
+  const expiry = localStorage.getItem(`${type}AccessExpiry`);
+  return expiry && new Date() < new Date(expiry);
 }
-
 
 
 
@@ -4107,104 +4125,103 @@ async function submitMarketHandler(e) {
     loadMarketItems();
   }
 
-  async function loadMarketItems() {
-    const container = document.getElementById("marketContainer");
-    container.innerHTML = "";
+ async function loadMarketItems() {
+  const container = document.getElementById("marketContainer");
+  container.innerHTML = "";
 
-    // Read filter values
-    const minPrice       = parseInt(document.getElementById("filterMinPrice").value) || 0;
-    const maxPrice       = parseInt(document.getElementById("filterMaxPrice").value) || Infinity;
-    const categoryFilter = document.getElementById("filterItemCategory").value.toLowerCase().trim();
-    const countyFilter   = document.getElementById("filterItemCounty").value.toLowerCase().trim();
+  const minPrice = parseInt(document.getElementById("filterMinPrice").value) || 0;
+  const maxPrice = parseInt(document.getElementById("filterMaxPrice").value) || Infinity;
+  const categoryFilter = document.getElementById("filterItemCategory").value.toLowerCase().trim();
+  const countyFilter = document.getElementById("filterItemCounty").value.toLowerCase().trim();
 
-    try {
-      const snapshot = await marketRef.get();
-      if (snapshot.empty) {
-        container.innerHTML = "<p>No items posted yet.</p>";
-        return;
-      }
-
-      const boostedItems = [], normalItems = [], now = new Date();
-
-      snapshot.forEach(doc => {
-        const d     = doc.data();
-        const id    = doc.id;
-        const price = parseFloat(d.price) || 0;
-
-        // Apply filters
-        if (price < minPrice || price > maxPrice) return;
-        if (categoryFilter && (!d.category || !d.category.toLowerCase().includes(categoryFilter))) return;
-        if (countyFilter   && (!d.county   || !d.county.toLowerCase().includes(countyFilter)))   return;
-
-        const isBoosted = d.boosted && d.boostExpiry?.toDate?.() > now;
-        (isBoosted ? boostedItems : normalItems).push({ ...d, id });
-      });
-
-      if (boostedItems.length + normalItems.length === 0) {
-        container.innerHTML = "<p>No items match your filters.</p>";
-        return;
-      }
-
-      // Render boosted first, then normal
-      [...boostedItems, ...normalItems].forEach(d => {
-        const id         = d.id;
-        const isPoster   = currentUser && currentUser.uid === d.postedBy;
-        const isVerified = !!d.postedBy;
-        const isBoosted  = d.boosted && d.boostExpiry?.toDate?.() > new Date();
-
-        const card = document.createElement("div");
-        card.className = "market-card";
-        card.id        = `market-${id}`;
-        card.dataset.category = d.category || "";
-        card.dataset.county   = d.county   || "";
-        if (isBoosted) card.dataset.boosted = "true";
-        card.style.position = "relative";
-
-        const verifiedBadge = isVerified
-          ? `<span class="verified-badge"><i class="fas fa-check-circle"></i> Verified</span>`
-          : "";
-        const boostBadge = isBoosted
-          ? `<span style="color:#ff5722; font-weight:bold; font-size:0.85em; margin-left:6px;">🔥 Boosted</span>`
-          : "";
-
-        card.innerHTML = `
-          ${verifiedBadge}
-          <h3 style="margin-bottom:6px; color:#2e7d32;">
-            ${d.posterName||"Seller"} ${boostBadge}
-          </h3>
-          ${d.photoURL
-            ? `<img src="${d.photoURL}" style="width:100%;height:180px;object-fit:cover;border-radius:8px;margin-bottom:8px;">`
-            : ""
-          }
-          <p style="color:#4caf50;">📦 <strong>Item:</strong> ${d.name||"-"}</p>
-          <p style="color:#e91e63;">🏷️ <strong>Category:</strong> ${d.category||"-"}</p>
-          <p style="color:#ff9800;">💰 <strong>Price:</strong> KES ${d.price?parseInt(d.price).toLocaleString():"N/A"}</p>
-          <p style="color:#3f51b5;">📍 <strong>Location:</strong> ${d.county||"-"}</p>
-          <div style="margin-top:8px;">
-            <a href="tel:${d.phone}" style="color:green;">📞 Call</a> |
-            <a href="https://wa.me/254${d.phone?.replace(/^0/,'')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a>
-          </div>
-          ${isPoster
-            ? `<div style="margin-top:10px;">
-                 <button onclick="deleteMarketItem('${id}')" style="background:#dc3545;color:#fff;border:none;border-radius:5px;padding:6px 12px;cursor:pointer;">🗑️ Delete</button>
-                 <button onclick="boostMarketItem('${id}','${d.name||"Unknown"}')" style="background:#ff9800;color:#fff;border:none;border-radius:5px;padding:6px 12px;cursor:pointer;margin-left:8px;">🚀 Boost</button>
-               </div>`
-            : `<div style="margin-top:10px;">
-                 <button onclick="openChatModal('${d.phone}','${d.posterName||"Seller"}')" style="background:#673ab7;color:#fff;border:none;border-radius:5px;padding:6px 12px;cursor:pointer;">
-                   <i class="fas fa-comments"></i> Chat
-                 </button>
-               </div>`
-          }
-        `;
-        container.appendChild(card);
-        updateAverageRating(id);
-      });
-
-    } catch (err) {
-      console.error("❌ Error loading market items:", err);
-      showCustomAlert("❌ Failed to load items: " + err.message, "error");
+  try {
+    const snapshot = await marketRef.get();
+    if (snapshot.empty) {
+      container.innerHTML = "<p>No items posted yet.</p>";
+      return;
     }
+
+    const boostedItems = [], normalItems = [], now = new Date();
+
+    snapshot.forEach(doc => {
+      const d = doc.data();
+      const id = doc.id;
+      const price = parseFloat(d.price) || 0;
+
+      // Apply filters
+      if (price < minPrice || price > maxPrice) return;
+      if (categoryFilter && (!d.category || !d.category.toLowerCase().includes(categoryFilter))) return;
+      if (countyFilter && (!d.county || !d.county.toLowerCase().includes(countyFilter))) return;
+
+      const isBoosted = d.boosted && d.boostExpiry?.toDate?.() > now;
+      (isBoosted ? boostedItems : normalItems).push({ ...d, id });
+    });
+
+    if (boostedItems.length + normalItems.length === 0) {
+      container.innerHTML = "<p>No items match your filters.</p>";
+      return;
+    }
+
+    [...boostedItems, ...normalItems].forEach(d => {
+      const id = d.id;
+      const isPoster = currentUser && currentUser.uid === d.postedBy;
+      const isVerified = !!d.postedBy;
+      const isBoosted = d.boosted && d.boostExpiry?.toDate?.() > new Date();
+
+      const card = document.createElement("div");
+      card.className = "market-card";
+      card.id = `market-${id}`;
+      card.dataset.category = d.category || "";
+      card.dataset.county = d.county || "";
+      if (isBoosted) card.dataset.boosted = "true";
+      card.style.position = "relative";
+
+      const verifiedBadge = isVerified
+        ? `<span class="verified-badge"><i class="fas fa-check-circle"></i> Verified</span>`
+        : "";
+      const boostBadge = isBoosted
+        ? `<span style="color:#ff5722; font-weight:bold; font-size:0.85em; margin-left:6px;">🔥 Boosted</span>`
+        : "";
+
+      card.innerHTML = `
+        ${verifiedBadge}
+        <h3 style="margin-bottom:6px; color:#2e7d32;">
+          ${d.posterName || "Seller"} ${boostBadge}
+        </h3>
+        ${d.photoURL
+          ? `<img src="${d.photoURL}" style="width:100%;height:180px;object-fit:cover;border-radius:8px;margin-bottom:8px;">`
+          : ""}
+        <p style="color:#4caf50;">📦 <strong>Item:</strong> ${d.name || "-"}</p>
+        <p style="color:#e91e63;">🏷️ <strong>Category:</strong> ${d.category || "-"}</p>
+        <p style="color:#ff9800;">💰 <strong>Price:</strong> KES ${d.price ? parseInt(d.price).toLocaleString() : "N/A"}</p>
+        <p style="color:#3f51b5;">📍 <strong>Location:</strong> ${d.county || "-"}</p>
+        <div style="margin-top:8px;">
+          <a href="tel:${d.phone}" style="color:green;">📞 Call</a> |
+          <a href="https://wa.me/254${d.phone?.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a>
+        </div>
+        ${isPoster
+          ? `<div style="margin-top:10px;">
+              <button onclick="deleteMarketItem('${id}')" style="background:#dc3545;color:#fff;border:none;border-radius:5px;padding:6px 12px;cursor:pointer;">🗑️ Delete</button>
+              <button onclick="showPaymentModalFor('market', 300, '${id}', '${d.name || "Item"}')" style="background:#ff9800;color:#fff;border:none;border-radius:5px;padding:6px 12px;margin-left:8px;cursor:pointer;">🚀 Boost</button>
+             </div>`
+          : `<div style="margin-top:10px;">
+              <button onclick="openChatModal('${d.phone}','${d.posterName || "Seller"}')" style="background:#673ab7;color:#fff;border:none;border-radius:5px;padding:6px 12px;cursor:pointer;">
+                <i class="fas fa-comments"></i> Chat
+              </button>
+            </div>`
+        }
+      `;
+
+      container.appendChild(card);
+      updateAverageRating(id);
+    });
+
+  } catch (err) {
+    console.error("❌ Error loading market items:", err);
+    showCustomAlert("❌ Failed to load items: " + err.message, "error");
   }
+}
+
 
   // Initialize
   document.addEventListener("DOMContentLoaded", () => {
@@ -4421,255 +4438,79 @@ function filterMarketItems() {
 
 // ======================= FRONTEND =======================
 
-// 🔓 Show modal to collect transaction reference
-function showPaymentModal() {
-  const paymentModal = document.createElement("div");
-  paymentModal.innerHTML = `
-    <div class="modal">
-      <div class="modal-content">
-        <h2>Unlock Numbers</h2>
-        <p>To unlock all numbers and swaps, please send <span style="color: green; font-weight: bold;">Ksh 100</span> to <strong style="color: green;">0741236547</strong>.</p>
-        <p style="color: red;">After payment, enter the <strong>Transaction Reference</strong> below.</p>
-        <input type="text" id="transactionReference" placeholder="e.g. OEI2AK4Q16" />
-        <button id="confirmPayment">Confirm Payment</button>
-        <button id="closeModal">Cancel</button>
+// ✅ Unified Payment Modal for Multiple Services
+function showPaymentModalFor(type, amount, itemId, itemName) {
+  const modalHTML = `
+    <div id="universalPayModal" class="modal" style="display:block; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999;">
+      <div class="modal-content" style="margin:10% auto; padding:20px; background:white; width:80%; max-width:400px; border-radius:8px; text-align:center;">
+        <h3>Pay to Unlock: ${itemName}</h3>
+        <p>Amount: <strong>Ksh ${amount}</strong></p>
+        <input type="tel" id="universalPhone" placeholder="Enter your MPESA number (e.g. 0712345678)" style="padding: 10px; width:100%; margin-bottom:10px;" />
+        <button onclick="initiateStkPayment('${type}', ${amount}, '${itemId}', '${itemName}')"
+                style="background:#4CAF50; color:white; border:none; padding:10px 20px; border-radius:6px;">
+          📲 Pay with MPESA
+        </button>
+        <button onclick="closeUniversalModal()" style="margin-top:10px; background:#ccc; border:none; padding:8px 16px;">Cancel</button>
+        <p id="universalPaymentStatus" style="margin-top:10px; color:#555;"></p>
       </div>
     </div>
   `;
-  document.body.appendChild(paymentModal);
-
-  // Modal styling
-  const style = document.createElement("style");
-  style.textContent = `
-    .modal {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.5); display: flex;
-      justify-content: center; align-items: center; z-index: 1000;
-    }
-    .modal-content {
-      background: #fff; padding: 20px; border-radius: 8px;
-      text-align: center; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    }
-    .modal-content button {
-      margin: 10px; padding: 10px 20px;
-      border: none; border-radius: 4px;
-      background-color: #007bff; color: #fff; cursor: pointer;
-    }
-    .modal-content button:hover {
-      background-color: #0056b3;
-    }
-    #closeModal {
-      background-color: #6c757d;
-    }
-    #closeModal:hover {
-      background-color: #5a6268;
-    }
-    #transactionReference {
-      width: 80%; margin: 10px 0;
-      padding: 8px; border: 1px solid #ccc; border-radius: 4px;
-    }
-  `;
-  document.head.appendChild(style);
-
-  // Handle confirm
-  document.getElementById("confirmPayment").onclick = async () => {
-    const ref = document.getElementById("transactionReference").value.trim();
-
-    if (!ref) {
-      showCustomAlert("Please enter a transaction reference.", "error");
-      return;
-    }
-
-    try {
-      const res = await fetch("http://localhost:3000/verify-payment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ transactionReference: ref })
-      });
-
-      const data = await res.json();
-
-      if (data.paymentConfirmed) {
-        showCustomAlert("✅ Payment confirmed! Access granted.", "success");
-
-        hasPaid = true;
-
-        await db.collection("paymentAccess").doc(currentUser.uid).set({
-          hasPaid: true,
-          verifiedAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-        loadSwaps?.();
-        loadResources?.();
-      } else {
-        showCustomAlert("❌ Payment not confirmed. Try again later.", "error");
-      }
-    } catch (err) {
-      console.error("Verification error:", err);
-      showCustomAlert("❌ Error: " + err.message, "error");
-    }
-  };
-
-  // Handle close
-  document.getElementById("closeModal").onclick = () => {
-    document.body.removeChild(paymentModal);
-  };
+  document.body.insertAdjacentHTML("beforeend", modalHTML);
 }
 
-// 🛎️ Custom alert for success/error messages
-function showCustomAlert(message, type) {
-  const alertBox = document.createElement("div");
-  alertBox.innerText = message;
-  alertBox.style.position = "fixed";
-  alertBox.style.top = "50%";
-  alertBox.style.left = "50%";
-  alertBox.style.transform = "translate(-50%, -50%)";
-  alertBox.style.padding = "20px";
-  alertBox.style.borderRadius = "8px";
-  alertBox.style.color = "white";
-  alertBox.style.zIndex = "1000";
-  alertBox.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
-  alertBox.style.fontSize = "16px";
-  alertBox.style.textAlign = "center";
-  alertBox.style.backgroundColor = type === "success" ? "#4caf50" : "#f44336";
-  document.body.appendChild(alertBox);
-  setTimeout(() => alertBox.remove(), 3000);
+function closeUniversalModal() {
+  const modal = document.getElementById("universalPayModal");
+  if (modal) modal.remove();
 }
 
-// ======================= BACKEND (server.js) =======================
+// ✅ Unified STK Push Handler
+async function initiateStkPayment(type, amount, itemId, itemName) {
+  const phone = document.getElementById("universalPhone").value.trim();
+  const statusEl = document.getElementById("universalPaymentStatus");
 
-const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
-const axios = require("axios");
+  if (!/^07\d{8}$/.test(phone)) {
+    statusEl.innerText = "⚠️ Please enter a valid Safaricom number";
+    return;
+  }
 
-const app = express();
-app.use(bodyParser.json());
-app.use(cors());
-
-// Sandbox credentials
-const consumerKey = "kXmNZSCVtFAo1yX7HxpShAZG7Gpdp3n6qvPFl0x4Cx9C7IWj";
-const consumerSecret = "snRsVAG1ne0NcgPhr1F6tDYaxNBia3llIopy4VCmMY5W7ILd8P4TqGg4Wz3WoiMm";
-const shortCode = "174379";
-const initiatorName = "testapi";
-const securityCredential = "Safaricom999!"; // for sandbox only
-
-// 🔐 Get OAuth token
-async function getAccessToken() {
-  const auth = Buffer.from(`${consumerKey}:${consumerSecret}`).toString("base64");
-  const url = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials";
-
-  const response = await axios.get(url, {
-    headers: { Authorization: `Basic ${auth}` }
-  });
-
-  return response.data.access_token;
-}
-
-// 🔍 Check payment by transaction reference
-async function verifyPayment(transactionReference) {
-  const accessToken = await getAccessToken();
-  const url = "https://sandbox.safaricom.co.ke/mpesa/transactionstatus/v1/query";
-
-  const payload = {
-    Initiator: initiatorName,
-    SecurityCredential: securityCredential,
-    CommandID: "TransactionStatusQuery",
-    TransactionID: transactionReference,
-    PartyA: shortCode,
-    IdentifierType: "4",
-    ResultURL: "https://yourdomain.com/result",
-    QueueTimeOutURL: "https://yourdomain.com/timeout",
-    Remarks: "Payment check",
-    Occasion: "UnlockAccess"
-  };
-
-  const response = await axios.post(url, payload, {
-    headers: { Authorization: `Bearer ${accessToken}` }
-  });
-
-  return response.data;
-}
-
-// 🛠️ POST /verify-payment
-app.post("/verify-payment", async (req, res) => {
-  const { transactionReference } = req.body;
+  statusEl.innerText = "⏳ Sending STK Push...";
 
   try {
-    const result = await verifyPayment(transactionReference);
-    const status = result.ResponseDescription || "";
+    const response = await fetch("http://localhost:3000/stkpush", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        phone,
+        amount,
+        accountReference: type,
+        itemId,
+        itemName,
+        userId: currentUser?.uid || "anonymous"
+      })
+    });
 
-    if (status.toLowerCase().includes("success")) {
-      res.status(200).json({ paymentConfirmed: true });
+    const data = await response.json();
+    if (data.success) {
+      statusEl.innerText = "✅ STK Push sent. Please complete payment on your phone.";
     } else {
-      res.status(400).json({ paymentConfirmed: false, message: status });
+      statusEl.innerText = `❌ Error: ${data.errorMessage || "Unknown failure"}`;
     }
   } catch (err) {
-    console.error("MPESA API error", err?.response?.data || err.message);
-    res.status(500).json({ paymentConfirmed: false, message: "Failed to verify transaction" });
+    statusEl.innerText = "❌ Network error: " + err.message;
   }
-});
+}
 
+// ✅ Legacy compatibility shim for older code
+function showPaymentModal() {
+  showPaymentModalFor("swap", 500, currentUser?.uid || "unknown", "Unlock VIP Swaps");
+}
 
-// 🚀 POST /stkpush — Boost listing via MPESA STK push
-app.post("/stkpush", async (req, res) => {
-  const { phone, amount, accountReference, itemId, itemName, userId } = req.body;
-
-  try {
-    const accessToken = await getAccessToken();
-    const timestamp = new Date().toISOString().replace(/[^0-9]/g, "").slice(0, -3);
-    const password = Buffer.from(shortCode + passkey + timestamp).toString("base64");
-
-    const payload = {
-      BusinessShortCode: shortCode,
-      Password: password,
-      Timestamp: timestamp,
-      TransactionType: "CustomerPayBillOnline",
-      Amount: amount,
-      PartyA: phone,
-      PartyB: shortCode,
-      PhoneNumber: phone,
-      CallBackURL: "https://yourdomain.com/mpesa/callback", // Update in production
-      AccountReference: accountReference,
-      TransactionDesc: "Boost Listing"
-    };
-
-    const stkRes = await axios.post("https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest", payload, {
-      headers: { Authorization: `Bearer ${accessToken}` }
-    });
-
-    // 🔄 Simulate boost confirmation after STK sent
-    const expiry = new Date();
-    expiry.setDate(expiry.getDate() + 7);
-
-    // ✅ Firestore: boost item + track earnings
-    await db.collection("marketItems").doc(itemId).update({
-      boosted: true,
-      boostExpiry: firebase.firestore.Timestamp.fromDate(expiry)
-    });
-
-    await db.collection("earnings").add({
-      type: "boost",
-      itemId,
-      itemName,
-      phone,
-      userId,
-      amount,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    });
-
-    res.status(200).json({ success: true, ...stkRes.data });
-
-  } catch (error) {
-    console.error("STK Push error", error?.response?.data || error.message);
-    res.status(500).json({ success: false, errorMessage: error.message });
-  }
-});
-
-// 🔌 Start server
-const PORT = 3000;
-app.listen(PORT, () => console.log(`✅ MPESA Sandbox Server running on http://localhost:${PORT}`));
-
+// ✅ Usage Examples
+// showPaymentModalFor("job", 1000, job.id, "Boost Job Listing")
+// showPaymentModalFor("soulmate", 250, currentUser.uid, "Soulmate Contacts")
+// showPaymentModalFor("market", 300, marketItem.id, "Boost Market Item")
+// showPaymentModalFor("swap", 500, currentUser.uid, "Unlock VIP Swaps")
+// showPaymentModalFor("service", 150, serviceId, "Get Service Contact")
 
 async function findMatchingSwaps() {
   if (!isLoggedIn || !currentUser) {
@@ -5251,22 +5092,57 @@ async function updateChatBadge() {
   }
 }
 
- async function rateService(serviceId, stars) {
-  if (!currentUser) return alert("Please login to rate.");
-  
+async function rateService(serviceId, stars) {
+  if (!currentUser) {
+    return showCustomAlert("🔐 Please login to rate a service.", "error");
+  }
+
   const userId = currentUser.uid;
   const ratingRef = db.collection("ratings").doc(serviceId).collection("byUser").doc(userId);
 
-  const existing = await ratingRef.get();
-  if (existing.exists) return alert("You already rated this service.");
+  try {
+    const existing = await ratingRef.get();
+    if (existing.exists) {
+      return showCustomAlert("⭐ You already rated this service.", "info");
+    }
 
-  await ratingRef.set({
-    stars,
-    ratedAt: firebase.firestore.FieldValue.serverTimestamp()
-  });
+    await ratingRef.set({
+      stars,
+      ratedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
 
-  updateAverageRating(serviceId);
+    updateAverageRating(serviceId);
+    showCustomAlert(`✅ Rated ${stars} star${stars > 1 ? "s" : ""}. Thank you!`, "success");
+
+  } catch (err) {
+    console.error("Rating error:", err);
+    showCustomAlert("❌ Failed to submit rating. Please try again.", "error");
+  }
 }
+function showCustomAlert(message, type = "info") {
+  const alert = document.createElement("div");
+  alert.textContent = message;
+  alert.style.cssText = `
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    background: ${type === "success" ? "#4CAF50" : type === "error" ? "#f44336" : "#2196F3"};
+    color: white;
+    font-weight: bold;
+    border-radius: 6px;
+    z-index: 9999;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    animation: fadeInOut 3s ease-in-out forwards;
+  `;
+
+  document.body.appendChild(alert);
+
+  setTimeout(() => alert.remove(), 3000);
+}
+
+
 async function updateAverageRating(serviceId) {
   const ratingSnap = await db.collection("ratings").doc(serviceId).collection("byUser").get();
   const total = ratingSnap.docs.reduce((sum, doc) => sum + doc.data().stars, 0);

@@ -36,6 +36,11 @@
       display: inline;
       margin: 0 10px;
     }
+#swapTable th {
+  color: red;
+  font-weight: bold;
+}
+
     main {
       padding: 20px;
     }
@@ -388,16 +393,15 @@
     background-color: #1976D2;
   }
 
- #swaps {
-    display: none;
-    background-image: url('  https://i.imgur.com/iqBwsWm.png     ');
-    background-size: cover;
-    background-position: center;
-    padding: 40px;
-    border-radius: 12px;
-    color: white;
-    min-height: 100vh;
-  }
+#swaps {
+  display: none;
+  background-color: #4caf50; /* Green color */
+  padding: 40px;
+  border-radius: 12px;
+  color: white;
+  min-height: 100vh;
+}
+
 
   #swaps h2,
   #swaps label {
@@ -487,23 +491,27 @@
 }
 .service-card {
   scroll-snap-align: start;
-  padding: 15px;
+  padding: 20px;
   background: #f0f8ff; /* Light blue background */
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 10px;
   min-height: 170px;
-  width: 300px; /* Reduced width */
-  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+  width: 100%; /* ✅ Makes it fill available grid column */
+  box-sizing: border-box; /* ✅ Includes padding in width */
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease; /* Optional: smooth hover effect */
 }
 
 .market-card {
-  padding: 10px;
-  background: #ffe4b5; /* Light orange background */
+  padding: 20px;
+  background: #ffe4b5;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  width: 300px; /* Reduced width */
+  border-radius: 10px;
   box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  width: 100%; /* ✅ Allow it to fully fill the grid cell */
 }
+
 #bomJobsTable {
   width: 100%;
   border-collapse: collapse;
@@ -795,18 +803,20 @@
   cursor: pointer;
   color: #ccc;
 }
-/* General Card Styling */
 .soulmate-card {
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 16px;
-  margin-bottom: 16px;
-  background-color: #f4f9f9; /* Light background for the card */
+  background-color: #f4f9f9;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  width: 100%;           /* ✅ Fill available column space */
+  box-sizing: border-box;
 }
+
+
 
 /* Photo Section */
 .soulmate-photo img {
@@ -927,16 +937,17 @@
   border-radius: 4px; /* Rounded corners */
 }
 
-/* General Service Card Styling */
 .service-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 16px;
-  background-color: #f9f9f9;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  scroll-snap-align: start;
+  padding: 20px;
+  background: #f0f8ff; /* Light blue background */
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  min-height: 170px;
+  width: 100%; /* ✅ Makes it fill available grid column */
+  box-sizing: border-box; /* ✅ Includes padding in width */
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease; /* Optional: smooth hover effect */
 }
 
 /* Service Details */
@@ -985,33 +996,6 @@
   background-color: #ffebee; /* Light red background */
   padding: 4px; /* Padding to give space around the text */
   border-radius: 4px; /* Rounded corners */
-}
-
-/* General Service Card Styling */
-.service-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 16px;
-  background-color: #f9f9f9;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* Service Details */
-.service-details {
-  font-size: 1em;
-}
-
-.service-details p {
-  margin-bottom: 5px;
-  display: flex;
-  align-items: center;
-}
-
-.service-details i {
-  margin-right: 8px; /* Space between icon and text */
 }
 
 /* Contact Buttons */
@@ -1121,6 +1105,19 @@ nav ul li {
     100% { transform: rotate(360deg); }
   }
 
+.alert {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #4CAF50;
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  text-align: center;
+  z-index: 1000;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
 .chat-item {
   display: flex;
   align-items: center;
@@ -1190,7 +1187,17 @@ nav ul li {
 </head>
 <body>
 <header>
-  <h1>Welcome to Teacher Swaps Kenya</h1>
+<h1 style="color: red; font-weight: bold; display: flex; align-items: center; gap: 10px;">
+  <i class="fas fa-star"></i>
+  Nyota Mtaani – Teacher Swaps & Daily Hustles
+</h1>
+<div style="border: 2px solid #1e90ff; border-radius: 10px; padding: 15px; background-color: #f9f9f9; max-width: 600px; margin: 20px auto;">
+  <p style="font-style: italic; color: #555; font-size: 16px; text-align: center;">
+    "From Village to City — Your Swap, Your Way: County Moves, Mtaani Vibes,All Jobs, Market,Soulmate,Services & Swaps — All in One Spot on Kenya’s #1 Nyota Platform for People Making Big Transitions."
+  </p>
+</div>
+
+
  <nav>
   <ul>
     <li><a class="menu-box" href="#" onclick="showPage('home')"><img src="https://i.imgur.com/lek58ah.jpeg" alt="Home"><span>Home</span></a></li>
@@ -1199,7 +1206,7 @@ nav ul li {
     <li><a class="menu-box" href="#" onclick="showPage('swaps')"><img src="https://i.imgur.com/6bAPpPi.jpeg" alt="Swaps"><span>View Swaps</span></a></li>
     <li><a class="menu-box" href="#" onclick="showPage('bomJobs')"><img src="https://i.imgur.com/8KM6Rib.jpeg" alt="Jobs"><span>My Jobs</span></a></li>
     <li><a class="menu-box" href="#" onclick="showPage('resources')"><img src="https://i.imgur.com/GavIBlL.jpeg" alt="Resources"><span>Resources</span></a></li>
-    <li><a class="menu-box" href="#" onclick="showPage('soulmates')"><img src="https://i.imgur.com/Goxlu9n.jpeg" alt="Soulmate"><span>Soulmate</span></a></li>
+    <li><a class="menu-box" href="#" onclick="showPage('soulmates')"><img src="https://i.imgur.com/mUbaq1y.jpeg" alt="Soulmate"><span>Soulmate</span></a></li>
     <li><a class="menu-box" href="#" onclick="showPage('seekingServices')"><img src="https://i.imgur.com/P1tHi7L.jpeg" alt="Services"><span>Services</span></a></li>
     <li><a class="menu-box" href="#" onclick="showPage('market')"><img src="https://i.imgur.com/P1MIsGM.jpeg" alt="Market"><span>Market</span></a></li>
     <li><a class="menu-box" href="#" onclick="showPage('contact')"><img src="https://i.imgur.com/SPqGvz9.jpeg" alt="Contact"><span>Contact Us</span></a></li>
@@ -1256,9 +1263,6 @@ nav ul li {
   <img src="https://i.imgur.com/buIgbl2.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
   <img src="https://i.imgur.com/vtJXjeb.jpeg" alt="Rasm" class="logo-img" style="width: 200px;">
 </div>
-
-
-
 <!-- Open Graph Meta Tags for social sharing -->
 <meta property="og:title" content="Teacher Swaps Kenya" />
 <meta property="og:description" content="Find your perfect teacher swap match across Kenya!" />
@@ -1351,88 +1355,85 @@ nav ul li {
 </button>
 
  </form>
-
 <h3><i class="fas fa-filter" style="color:#43a047; margin-right: 8px;"></i> Filter Swaps</h3>
 
-<!-- Filter Controls -->
-<div style="margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start;">
+<!-- ✅ Compact & Narrow Vertical Action Box -->
+<div style="border: 2px solid #c8e6c9; background: #f1f8e9; padding: 12px; border-radius: 10px; margin-bottom: 16px; width: 220px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px;">
 
   <!-- Category -->
   <div style="display: flex; flex-direction: column; align-items: center;">
     <select id="filterCategory"
-      style="width: 160px; background-color: #e0f7fa; border: 2px solid #26a69a; padding: 5px; border-radius: 6px; font-weight: bold;">
+      style="width: 180px; background-color: #e0f7fa; border: 2px solid #26a69a; padding: 4px; border-radius: 6px; font-weight: bold;">
       <option value="">All</option>
       <option value="Primary School">Primary School</option>
       <option value="Junior Secondary">Junior Secondary</option>
       <option value="Senior Secondary">Senior Secondary</option>
     </select>
-    <label for="filterCategory" style="margin-top: 4px; font-size: 13px; color: #00796b;">Category</label>
+    <label for="filterCategory" style="margin-top: 2px; font-size: 12px; color: #00796b;">Category</label>
   </div>
 
   <!-- Swap County -->
   <div style="display: flex; flex-direction: column; align-items: center;">
     <select id="filterSwapCounty" onchange="handleCountyChange('filterSwapCounty', 'filterSwapSubCounty')"
-      style="width: 160px; background-color: #e1f5fe; border: 2px solid #039be5; padding: 5px; border-radius: 6px; font-weight: bold;">
+      style="width: 180px; background-color: #e1f5fe; border: 2px solid #039be5; padding: 4px; border-radius: 6px; font-weight: bold;">
     </select>
-    <label for="filterSwapCounty" style="margin-top: 4px; font-size: 13px; color: #0277bd;">Swap County</label>
+    <label for="filterSwapCounty" style="margin-top: 2px; font-size: 12px; color: #0277bd;">Swap County</label>
   </div>
 
   <!-- Swap Sub-county -->
   <div style="display: flex; flex-direction: column; align-items: center;">
     <select id="filterSwapSubCounty"
-      style="width: 160px; background-color: #f3e5f5; border: 2px solid #9c27b0; padding: 5px; border-radius: 6px; font-weight: bold;">
+      style="width: 180px; background-color: #f3e5f5; border: 2px solid #9c27b0; padding: 4px; border-radius: 6px; font-weight: bold;">
       <option value="">All Sub-counties</option>
     </select>
-    <label for="filterSwapSubCounty" style="margin-top: 4px; font-size: 13px; color: #6a1b9a;">Swap Sub-county</label>
+    <label for="filterSwapSubCounty" style="margin-top: 2px; font-size: 12px; color: #6a1b9a;">Swap Sub-county</label>
   </div>
 
   <!-- Hardship -->
   <div style="display: flex; flex-direction: column; align-items: center;">
     <select id="filterHardship"
-      style="width: 160px; background-color: #fff3e0; border: 2px solid #fb8c00; padding: 5px; border-radius: 6px; font-weight: bold;">
+      style="width: 180px; background-color: #fff3e0; border: 2px solid #fb8c00; padding: 4px; border-radius: 6px; font-weight: bold;">
       <option value="">All</option>
       <option value="With Hardship">With Hardship</option>
       <option value="Without Hardship">Without Hardship</option>
     </select>
-    <label for="filterHardship" style="margin-top: 4px; font-size: 13px; color: #ef6c00;">Hardship</label>
+    <label for="filterHardship" style="margin-top: 2px; font-size: 12px; color: #ef6c00;">Hardship</label>
   </div>
 
   <!-- Subject Combination -->
   <div style="display: flex; flex-direction: column; align-items: center;">
     <input type="text" id="filterSubjectCombination" placeholder="e.g. Math/Physics"
-      style="width: 160px; background-color: #f1f8e9; border: 2px solid #8bc34a; padding: 5px; border-radius: 6px; font-weight: bold;" />
-    <label for="filterSubjectCombination" style="margin-top: 4px; font-size: 13px; color: #558b2f;">Subject</label>
+      style="width: 180px; background-color: #f1f8e9; border: 2px solid #8bc34a; padding: 4px; border-radius: 6px; font-weight: bold;" />
+    <label for="filterSubjectCombination" style="margin-top: 2px; font-size: 12px; color: #558b2f;">Subject</label>
   </div>
+  <!-- Action Buttons -->
+  <div style="display: flex; flex-direction: column; gap: 8px; align-items: center;">
 
-  <!-- Filter Button -->
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <button onclick="filterSwaps()"
-      style="width: 160px; padding: 8px; background-color: #43a047; color: white; font-weight: bold;
-             border: none; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-      <i class="fas fa-filter"></i> Apply Filters
+    <button onclick="filterSwaps()" style="width: 180px; padding: 6px 10px; background: #43a047; color: white; border: none; border-radius: 6px; cursor: pointer;">
+      <i class="fas fa-filter" style="margin-right: 6px;"></i> Filter Swaps
     </button>
-    <label style="visibility: hidden;">&nbsp;</label>
+
+    <button onclick="findMatchingSwaps()" style="width: 180px; padding: 6px 10px; background: #3f51b5; color: white; border: none; border-radius: 6px; cursor: pointer;">
+      <i class="fas fa-handshake" style="margin-right: 6px;"></i> Find Matching Swaps
+    </button>
+
+    <button id="showTriangularSwap" class="trigger-button" style="width: 180px; padding: 6px 10px; background: #795548; color: white; border: none; border-radius: 6px; cursor: pointer;">
+      <i class="fas fa-project-diagram" style="margin-right: 6px;"></i> Find Triangular Swap
+    </button>
+
+    <button onclick="showVipSwaps()" style="width: 180px; background: crimson; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">
+      🔥 View VIP Swaps
+    </button>
+<button id="showTriangularSwap" class="trigger-button" ...>
+
   </div>
 </div>
 
-<!-- Swap Action Buttons -->
-<div style="margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 10px;">
-  <button onclick="filterSwaps()" style="padding: 8px 12px; background: #43a047; color: white; border: none; border-radius: 6px; cursor: pointer;">
-    <i class="fas fa-filter" style="margin-right: 6px;"></i> Filter Swaps
-  </button>
+<!-- ✅ End Vertical Action Box -->
 
-  <button onclick="findMatchingSwaps()" style="padding: 8px 12px; background: #3f51b5; color: white; border: none; border-radius: 6px; cursor: pointer;">
-    <i class="fas fa-handshake" style="margin-right: 6px;"></i> Find Matching Swaps
-  </button>
+<!-- ✅ Compact Action Box Wrapper End -->
 
-  <button id="showTriangularSwap" class="trigger-button" style="padding: 8px 12px; background: #795548; color: white; border: none; border-radius: 6px; cursor: pointer;">
-    <i class="fas fa-project-diagram" style="margin-right: 6px;"></i> Find Triangular Swap
-  </button>
-
-  <button onclick="showVipSwaps()" style="background: crimson; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer;">
-    🔥 View VIP Swaps
-  </button>
-</div>
+<!-- ✅ Action Box Wrapper End -->
 
 <h3>
   <i class="fas fa-people-arrows" style="color:#ff9800; margin-right: 8px;"></i>
@@ -1448,28 +1449,28 @@ nav ul li {
   </div>
 </div>
 
-<!-- Swap Table -->
 <table id="swapTable">
   <thead>
     <tr>
-      <th>Teacher's Name</th>
-      <th>Current County</th>
-      <th>Current Sub-county</th>
-      <th>Phone Number</th>
-      <th>Subject Combination</th>
-      <th>Swap County To</th>
-      <th>Swap Sub-county To</th>
-      <th>Category</th>
-      <th>Hardship</th>
-      <th>Actions</th>
+      <th style="color: red; font-weight: bold;">Teacher's Name</th>
+      <th style="color: red; font-weight: bold;">Current County</th>
+      <th style="color: red; font-weight: bold;">Current Sub-county</th>
+      <th style="color: red; font-weight: bold;">Phone Number</th>
+      <th style="color: red; font-weight: bold;">Subject Combination</th>
+      <th style="color: red; font-weight: bold;">Swap County To</th>
+      <th style="color: red; font-weight: bold;">Swap Sub-county To</th>
+      <th style="color: red; font-weight: bold;">Category</th>
+      <th style="color: red; font-weight: bold;">Hardship</th>
+      <th style="color: red; font-weight: bold;">VIP/Delete</th>
+      <th style="color: red; font-weight: bold;">Rating</th>
     </tr>
   </thead>
   <tbody>
-    <!-- Swap entries will be dynamically added here -->
+    <!-- Swap entries dynamically added here -->
   </tbody>
 </table>
 
-</div>
+  </div>
 
 
 <div id="bomJobs" class="page" style="display:none;">
@@ -1482,7 +1483,11 @@ nav ul li {
   
   <!-- Left Image -->
   <div class="side-image">
-    <img src="  https://i.imgur.com/WYA3tbh.jpeg   " alt="Left Side" />
+ <img src="https://i.imgur.com/5bWHfIX.jpeg " alt="Left Side" class="side-image" />
+ <img src="https://i.imgur.com/2YaRtCe.jpeg " alt="Left Side" class="side-image" />
+ <img src="https://i.imgur.com/y4n1NSY.jpeg " alt="Left Side" class="side-image" />
+ <img src="https://i.imgur.com/kKIs8rW.jpeg " alt="Left Side" class="side-image" />
+
   </div>
 
   <!-- The Form -->
@@ -1523,25 +1528,18 @@ nav ul li {
 
   <!-- Right Image -->
   <div class="side-image">
-    <img src="      https://i.imgur.com/vtJXjeb.jpeg " alt="Right Side" />
+   <img src="https://i.imgur.com/lIZ1IQi.jpeg " alt="Left Side" class="side-image" />
+ <img src="https://i.imgur.com/XRks66A.jpeg " alt="Left Side" class="side-image" />
+ <img src="https://i.imgur.com/KdsEBmH.jpeg " alt="Left Side" class="side-image" />
+ <img src="https://i.imgur.com/rXTm8kr.jpeg " alt="Left Side" class="side-image" />
+
   </div>
 
 </div>
 
 
-<!-- Filter Inputs -->
-<div style="margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start;">
-
-  <!-- Subject Filter -->
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <input
-      type="text"
-      id="filterSubject"
-      placeholder="Filter by subject"
-      style="width: 160px; background-color: #e8f5e9; border: 2px solid #66bb6a; padding: 6px; border-radius: 6px; font-weight: bold;"
-    />
-    <label for="filterSubject" style="margin-top: 2px; font-size: 13px; color: #388e3c;">Subject</label>
-  </div>
+<!-- 📦 BOM Filter Action Box -->
+<div style="border: 2px solid #c8e6c9; background: #f1f8e9; padding: 12px; border-radius: 10px; margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start;">
 
   <!-- County Filter -->
   <div style="display: flex; flex-direction: column; align-items: center;">
@@ -1582,13 +1580,14 @@ nav ul li {
     <button
       onclick="applyBOMFilters()"
       style="width: 160px; padding: 8px; background-color: #43a047; color: white; font-weight: bold;
-             border: none; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;"
-    >
+             border: none; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
       <i class="fas fa-filter"></i> Apply Filters
     </button>
     <label style="visibility: hidden;">&nbsp;</label>
   </div>
+
 </div>
+
 <!-- Confirm Delete Modal -->
 <div id="confirmDeleteModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:9999;">
   <div style="background:white; padding:20px; border-radius:8px; text-align:center;">
@@ -1597,24 +1596,32 @@ nav ul li {
     <button onclick="closeDeleteModal()" style="margin: 5px;">Cancel</button>
   </div>
 </div>
-
 <h3>
   <i class="fas fa-clipboard-list" style="color:#6f42c1; margin-right: 8px;"></i>
   Available Job Opportunities
 </h3>
+
 <div id="jobContainer" style="
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
-  max-width: 350px;         /* Limits to 2 columns max */
-  margin: 0 auto;           /* Centers the grid */
+  width: 100%;               /* Fill full width of screen */
+  padding: 10px 20px;        /* Optional horizontal padding */
   margin-top: 20px;
   overflow-y: auto;
-  max-height: 300px;
+  max-height: 600px;         /* Increase height to show more rows */
   scroll-snap-type: y mandatory;
+  box-sizing: border-box;
 ">
-  <!-- Job cards will be dynamically added here -->
+  <!-- Example job cards -->
+  <div style="background: #f1f1f1; padding: 15px; border-radius: 8px;">Job 1</div>
+  <div style="background: #f1f1f1; padding: 15px; border-radius: 8px;">Job 2</div>
+  <div style="background: #f1f1f1; padding: 15px; border-radius: 8px;">Job 3</div>
+  <div style="background: #f1f1f1; padding: 15px; border-radius: 8px;">Job 4</div>
+  <div style="background: #f1f1f1; padding: 15px; border-radius: 8px;">Job 5</div>
 </div>
+
+
 </div>
 <div id="resources" class="page" style="display:none;">
 <h2>
@@ -1623,7 +1630,7 @@ nav ul li {
 </h2>
 
  <div class="form-container">
-  <img src="   https://i.imgur.com/vtJXjeb.jpeg" alt="Left Side" class="side-image" />
+  <img src="  https://i.imgur.com/x9v3Czl.jpeg" alt="Left Side" class="side-image" />
 
   <form id="resourceForm">
     <label for="resourceTitle">Title:</label>
@@ -1640,7 +1647,7 @@ nav ul li {
     </button>
   </form>
 
-  <img src="   https://i.imgur.com/vtJXjeb.jpeg" alt="Right Side" class="side-image" />
+  <img src="   https://i.imgur.com/ytrul2r.jpeg" alt="Right Side" class="side-image" />
 </div>
 
  <h3>
@@ -1665,10 +1672,10 @@ nav ul li {
 Register To Connect With  Available Soulmates
 </h3>
 <div class="form-container">
-  <img src="   https://i.imgur.com/vtJXjeb.jpeg " alt="Left Side" class="side-image" />
+  <img src="   https://i.imgur.com/pfeMjzi.jpeg " alt="Left Side" class="side-image" />
 <img src="   https://i.imgur.com/WKwJ73A.jpeg" alt="Left Side" class="side-image" />
-
-
+<img src="   https://i.imgur.com/kngaoSj.jpeg" alt="Left Side" class="side-image" />
+<img src="   https://i.imgur.com/dlbQbGo.jpeg" alt="Left Side" class="side-image" />
   <form id="soulmateForm">
     <label for="smName">Your Name:</label>
     <input type="text" id="smName" required />
@@ -1727,46 +1734,108 @@ Register To Connect With  Available Soulmates
       <i class="fas fa-heart"></i> Submit Profile
     </button>
   </form>
-   <img src="https://i.imgur.com/kkjlixE.jpeg " alt="Right Side" class="side-image" />
+   <img src="https://i.imgur.com/mUvDPiM.jpeg " alt="Right Side" class="side-image" />
   <img src="https://i.imgur.com/4pi7IZ6.jpeg " alt="Right Side" class="side-image" />
+ <img src="https://i.imgur.com/R0QCWyv.jpeg " alt="Right Side" class="side-image" />
+<img src="https://i.imgur.com/dYvavhy.jpeg " alt="Right Side" class="side-image" />
+
+
 </div>
 
-<div style="margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
-  <label for="ageFilter" style="width: 150px; font-weight: bold; color: #4caf50;">Filter by Age:</label>
-  <select
-    id="ageFilter"
-    onchange="filterSoulmatesByAge()"
-    style="width: 150px; background-color: #f0f8ff; border: 1px solid #ccc; padding: 5px; border-radius: 4px;"
-  >
-    <option value="">All</option>
-    <option value="20-29">20–29</option>
-    <option value="30-39">30–39</option>
-    <option value="40-49">40–49</option>
-    <option value="50+">50+</option>
-  </select>
+<!-- ─── FILTER UI ─────────────────────────────────────────────────────────────────── -->
+<!-- ─── ACTION BOX ─────────────────────────────────────────────────────────────── -->
+<div 
+  class="action-box" 
+  style="
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #fafafa;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+  "
+>
+  <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+    <!-- Age Filter -->
+    <label for="ageFilter" style="width: 150px; font-weight: bold; color: #4caf50;">
+      Filter by Age:
+    </label>
+    <select
+      id="ageFilter"
+      style="width: 150px; background-color: #f0f8ff; border: 1px solid #ccc; padding: 5px; border-radius: 4px;"
+    >
+      <option value="">All</option>
+      <option value="20-29">20–29</option>
+      <option value="30-39">30–39</option>
+      <option value="40-49">40–49</option>
+      <option value="50+">50+</option>
+    </select>
+
+    <!-- Tribe Filter -->
+    <label for="filterTribe" style="width: 100px; font-weight: bold; color: #4caf50;">
+      Tribe:
+    </label>
+    <input
+      type="text"
+      id="filterTribe"
+      placeholder="e.g. Kikuyu"
+      style="width: 120px; background:#f0f8ff; border:1px solid #ccc; padding:5px; border-radius:4px;"
+    />
+
+    <!-- Gender Filter -->
+    <label for="filterSex" style="width: 100px; font-weight: bold; color: #4caf50;">
+      Gender:
+    </label>
+    <select
+      id="filterSex"
+      style="width: 120px; background-color: #f0f8ff; border: 1px solid #ccc; padding: 5px; border-radius: 4px;"
+    >
+      <option value="">All</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+    </select>
+
+    <!-- Actions -->
+    <button 
+      onclick="loadSoulmates()" 
+      style="padding:6px 12px; background:#4caf50; color:#fff; border:none; border-radius:4px; cursor:pointer;"
+    >
+      Apply Filters
+    </button>
+    <button 
+      onclick="resetSoulmateFilters()" 
+      style="padding:6px 12px; background:#f44336; color:#fff; border:none; border-radius:4px; cursor:pointer;"
+    >
+      Reset
+    </button>
+  </div>
 </div>
-<h3>
+
+<h3 style="margin-top: 0;">
   <i class="fas fa-venus-mars" style="color:#e91e63; margin-right: 8px;"></i>
-<h3>
   <i class="fas fa-heart" style="color:#00796b; margin-right: 8px;"></i>
   Available Soulmates
 </h3>
+
+<div id="soulmateContainer"></div>
 
 
 <!-- Soulmates Cards Container -->
 <div id="soulmateContainer" style="
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-  max-width: 400px;         /* Limits to 2 columns max */
-  margin: 0 auto;           /* Centers the grid */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* ⬅️ reduced min width */
+  gap: 25px;
+  width: 100%;
+  padding: 20px;
   margin-top: 20px;
-  overflow-y: auto;
-  max-height: 500px;
-  scroll-snap-type: y mandatory;
+  box-sizing: border-box;
 ">
-  <!-- Soulmate cards will be dynamically added here -->
+  <div class="soulmate-card">Card 1</div>
+  <div class="soulmate-card">Card 2</div>
+  <div class="soulmate-card">Card 3</div>
 </div>
+
+
 
 
 </div>
@@ -1844,11 +1913,15 @@ Register To Connect With  Available Soulmates
 <div id="seekingServices" class="page" style="display:none;">
  <h2>
   <i class="fas fa-concierge-bell" style="color:#009688; margin-right: 8px;"></i>
-  Post Your Service
-</h2>
+ <h2 style="color: crimson;">Post Your Service</h2>
+
 
  <div class="form-container">
-  <img src="h https://i.imgur.com/5v3tav5.jpeg " alt="Left Side" class="side-image" />
+  <img src="https://i.imgur.com/3Bdn0Dx.jpeg " alt="Left Side" class="side-image" />
+ <img src="https://i.imgur.com/79Aw5LM.jpeg " alt="Left Side" class="side-image" />
+ <img src="https://i.imgur.com/yw7eeD6.jpeg " alt="Left Side" class="side-image" />
+<img src="https://i.imgur.com/D83bieA.jpeg " alt="Left Side" class="side-image" />
+
 
   <form id="serviceForm">
     <label for="svcName">Name:</label>
@@ -1875,56 +1948,103 @@ Register To Connect With  Available Soulmates
       <i class="fas fa-concierge-bell"></i> Submit Service
     </button>
   </form>
-
-  <img src="https://i.imgur.com/WYA3tbh.jpeg  " alt="Right Side" class="side-image" />
+ <img src="https://i.imgur.com/qUGmfzC.jpeg " alt="Left Side" class="side-image" />
+ <img src="https://i.imgur.com/V2t9pgK.jpeg " alt="Left Side" class="side-image" />
+ <img src="https://i.imgur.com/lPPcTF4.jpeg " alt="Left Side" class="side-image" />
+ <img src="https://i.imgur.com/GHIpXpv.jpeg " alt="Left Side" class="side-image" />
 </div>
 <h3>
-  <i class="fas fa-filter" style="color:#009688; margin-right: 8px;"></i>
-  Filter Services
-<h3>Filter Services</h3>
-<div style="margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 10px;">
-  <select id="filterServiceCounty" style="width: 180px;">
-    <option value="">-- Select County --</option>
-  </select>
+ 
+<!-- ✅ Services Filter Action Box -->
+<div style="border: 2px solid #c8e6c9; background: #f1f8e9; padding: 12px 16px; border-radius: 10px; margin-bottom: 20px;">
 
+  <h3 style="margin-bottom: 12px; color: #2e7d32;"><i class="fas fa-filter" style="margin-right: 6px;"></i> Filter Services</h3>
 
+  <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start;">
 
-  <input
-    type="text"
-    id="filterOccupation"
-    placeholder="Search Occupation..."
-    onkeyup="filterServices()"
-    style="width: 150px; background-color: #f0f8ff; border: 1px solid #ccc; padding: 5px; border-radius: 4px;"
-  />
+    <!-- County Dropdown -->
+    <div style="display: flex; flex-direction: column; align-items: flex-start;">
+      <select id="filterServiceCounty"
+        onchange="filterServices()"
+        style="width: 180px; background-color: #e8f5e9; border: 2px solid #81c784; padding: 6px; border-radius: 6px; font-weight: bold;">
+        <option value="">-- Select County --</option>
+        <option value="All Kenya">All Kenya</option>
+        <!-- Other counties will be dynamically inserted -->
+      </select>
+      <label for="filterServiceCounty" style="font-size: 13px; color: #388e3c; margin-top: 4px;">County</label>
+    </div>
+
+    <!-- Occupation Input -->
+    <div style="display: flex; flex-direction: column; align-items: flex-start;">
+      <input type="text" id="filterOccupation" placeholder="Search Occupation..."
+        onkeyup="filterServices()"
+        style="width: 180px; background-color: #f0f8ff; border: 2px solid #64b5f6; padding: 6px; border-radius: 6px; font-weight: bold;" />
+      <label for="filterOccupation" style="font-size: 13px; color: #1976d2; margin-top: 4px;">Occupation</label>
+    </div>
+
+  </div>
 </div>
+
 
 <h3>
   <i class="fas fa-users-cog" style="color:#00796b; margin-right: 8px;"></i>
-  Available Service Providers
-</h3>
+ <h3 style="color: crimson;">Available Service Providers</h3>
 
+
+<!-- Services Cards Container -->
 <div id="servicesContainer" style="
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-  max-width: 800px;         /* ✅ limits to 2 columns max */
-  margin: 0 auto;           /* ✅ center the grid */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px; /* ✅ Increased gap between cards */
+  width: 100%;
+  padding: 20px; /* ✅ Adds spacing inside the container */
   margin-top: 20px;
   overflow-y: auto;
-  max-height: 300px;
+  max-height: 600px;
   scroll-snap-type: y mandatory;
+  box-sizing: border-box;
 ">
-  <!-- Cards will be dynamically added here -->
-</div>
-</div>
+  <!-- Service cards will be dynamically added here -->
+  <!-- Example cards for testing -->
+  <div style="
+    background: #e6f7ff;
+    padding: 20px;             /* ✅ Spacing inside each card */
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Optional for nicer separation */
+  ">
+    <h4 style="margin: 0 0 10px;">Service 1</h4>
+    <p style="margin: 0;">Description goes here.</p>
+  </div>
 
+  <div style="
+    background: #e6f7ff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  ">
+    <h4 style="margin: 0 0 10px;">Service 2</h4>
+    <p style="margin: 0;">Description goes here.</p>
+  </div>
 
+  <div style="
+    background: #e6f7ff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  ">
+    <h4 style="margin: 0 0 10px;">Service 3</h4>
+    <p style="margin: 0;">Description goes here.</p>
+  </div>
+  </div>
+  </div>
 <div id="market" class="page" style="display:none;">
-  <h2>🛒 Marketplace - Post & Browse Items</h2>
+<h2 style="color: crimson;">🛒 Market place - Post & Browse Items</h2>
 
 <div class="form-container">
-  <img src="https://i.imgur.com/WFVirtF.jpeg " class="side-image" />
-
+   <img src=" https://i.imgur.com/nxHMHAI.jpeg" class="side-image" />
+ <img src="https://i.imgur.com/nYPCM6a.jpeg " class="side-image" />
+ <img src="https://i.imgur.com/uyloDlg.jpeg " class="side-image" />
+ <img src="https://i.imgur.com/CLnRHF4.jpeg" class="side-image" />
   <form id="marketForm">
     <div class="form-section-title">📦 Post Marketplace Item</div>
 
@@ -2002,82 +2122,162 @@ Register To Connect With  Available Soulmates
     </button>
   </form>
 
-  <img src="https://i.imgur.com/XotAbEs.jpeg " alt="Right Side" class="side-image" />
+ <img src="https://i.imgur.com/vwwqSJU.jpeg " class="side-image" />
+ <img src="https://i.imgur.com/s4w8sJa.jpeg " class="side-image" />
+ <img src="https://i.imgur.com/bpolGgB.jpeg " class="side-image" />
+ <img src="https://i.imgur.com/b3gZc2W.jpeg " class="side-image" />
 </div>
   <div>
-  <label for="filterItemCategory">
-  <i class="fas fa-tags" style="color:#607d8b; margin-right: 6px;"></i>
-  Filter by Category:
-</label>
+<!-- ✅ Market Filter Action Box -->
+<div style="border: 2px solid #cfd8dc; background: #f5f5f5; padding: 12px 16px; border-radius: 10px; margin-bottom: 20px;">
 
-    <select id="filterItemCategory" style="width: 150px;" onchange="filterMarketItems()">
-        <option value="">All</option>
-   <option value="">🔽 Select Category</option>
- <option value="Electronics">💻 Electronics</option>
-<option value="Phones">📱 Phones</option>
-<option value="Cars">🚗 Cars</option>
-<option value="HousesApartments">🏠 Houses & Apartments</option>
-<option value="Clothes">👗 Clothes</option>
-<option value="Shoes">👟 Shoes</option>
-<option value="Bags">👜 Bags</option>
-<option value="Jewelry">💍 Jewelry</option>
-<option value="Watches">⌚ Watches</option>
-<option value="Books">📚 Books</option>
-<option value="Furniture">🪑 Furniture</option>
-<option value="HomeAppliances">🔌 Home Appliances</option>
-<option value="Toys">👯👯 Toys</option>
-<option value="Food">🍔 Food</option>
-<option value="Health">💊 Health</option>
-<option value="Beauty">💄 Beauty</option>
-<option value="Sports">🏀 Sports</option>
-<option value="Gaming">🎮 Gaming</option>
-<option value="Cameras">📷 Cameras</option>
-<option value="PetSupplies">🐶 Pet Supplies</option>
-<option value="BabyProducts">🍼 Baby Products</option>
-<option value="Stationery">🖊️ Stationery</option>
-<option value="MusicalInstruments">🎸 Musical Instruments</option>
-<option value="Bicycles">🚴 Bicycles</option>
-<option value="Gardening">🪴 Gardening</option>
-<option value="Art">🎨 Art</option>
-<option value="Software">🧠 Software</option>
-<option value="Cleaning">🧼 Cleaning Supplies</option>
-<option value="Travel">🧳 Travel</option>
-<option value="AgricultureFarming">🌾 Agriculture & Farming</option>
-<option value="RepairConstruction">🛠️ Repair & Construction</option>
-<option value="LeisureActivities">🏖️ Leisure & Activities</option>
-<option value="Other">🌟 Other</option>
-</select><br>
+  <h3 style="margin-bottom: 12px; color: #455a64;">
+    <i class="fas fa-filter" style="margin-right: 6px;"></i>
+    Filter Marketplace Items
+  </h3>
 
+  <div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-start;">
+
+    <!-- Category Filter -->
+    <div style="display: flex; flex-direction: column;">
+      <label for="filterItemCategory" style="font-size: 13px; color: #607d8b; margin-bottom: 4px;">
+        <i class="fas fa-tags" style="margin-right: 6px;"></i>Filter by Category:
+      </label>
+      <select id="filterItemCategory" onchange="filterMarketItems()"
+        style="width: 180px; background-color: #e3f2fd; border: 2px solid #90caf9; padding: 6px; border-radius: 6px; font-weight: bold;">
+        <option value="">🔽 Select Category</option>
+        <option value="Electronics">💻 Electronics</option>
+        <option value="Phones">📱 Phones</option>
+        <option value="Cars">🚗 Cars</option>
+        <option value="HousesApartments">🏠 Houses & Apartments</option>
+        <option value="Clothes">👗 Clothes</option>
+        <option value="Shoes">👟 Shoes</option>
+        <option value="Bags">👜 Bags</option>
+        <option value="Jewelry">💍 Jewelry</option>
+        <option value="Watches">⌚ Watches</option>
+        <option value="Books">📚 Books</option>
+        <option value="Furniture">🪑 Furniture</option>
+        <option value="HomeAppliances">🔌 Home Appliances</option>
+        <option value="Toys">👯👯 Toys</option>
+        <option value="Food">🍔 Food</option>
+        <option value="Health">💊 Health</option>
+        <option value="Beauty">💄 Beauty</option>
+        <option value="Sports">🏀 Sports</option>
+        <option value="Gaming">🎮 Gaming</option>
+        <option value="Cameras">📷 Cameras</option>
+        <option value="PetSupplies">🐶 Pet Supplies</option>
+        <option value="BabyProducts">🍼 Baby Products</option>
+        <option value="Stationery">🖊️ Stationery</option>
+        <option value="MusicalInstruments">🎸 Musical Instruments</option>
+        <option value="Bicycles">🚴 Bicycles</option>
+        <option value="Gardening">🪴 Gardening</option>
+        <option value="Art">🎨 Art</option>
+        <option value="Software">🧠 Software</option>
+        <option value="Cleaning">🧼 Cleaning Supplies</option>
+        <option value="Travel">🧳 Travel</option>
+        <option value="AgricultureFarming">🌾 Agriculture & Farming</option>
+        <option value="RepairConstruction">🛠️ Repair & Construction</option>
+        <option value="LeisureActivities">🏖️ Leisure & Activities</option>
+        <option value="Other">🌟 Other</option>
+      </select>
+    </div>
+
+    <!-- County Filter -->
+    <div style="display: flex; flex-direction: column;">
+      <label for="filterItemCounty" style="font-size: 13px; color: #37474f; margin-bottom: 4px;">
+        <i class="fas fa-map-marker-alt" style="margin-right: 6px;"></i>County:
+      </label>
+      <select id="filterItemCounty" onchange="filterMarketItems()"
+        style="width: 180px; background-color: #ede7f6; border: 2px solid #9575cd; padding: 6px; border-radius: 6px; font-weight: bold;">
+        <option value="">All Kenya</option>
+        <!-- More county options will be populated dynamically -->
+      </select>
+    </div>
+
+    <!-- Min Price Filter -->
+    <div style="display: flex; flex-direction: column;">
+      <label for="filterMinPrice" style="font-size: 13px; color: #388e3c; margin-bottom: 4px;">
+        <i class="fas fa-dollar-sign" style="margin-right: 6px;"></i>Min Price:
+      </label>
+      <input type="number" id="filterMinPrice" placeholder="KES 0" onchange="filterMarketItems()"
+        style="width: 120px; background-color: #e8f5e9; border: 2px solid #a5d6a7; padding: 6px; border-radius: 6px; font-weight: bold;" />
+    </div>
+
+    <!-- Max Price Filter -->
+    <div style="display: flex; flex-direction: column;">
+      <label for="filterMaxPrice" style="font-size: 13px; color: #d84315; margin-bottom: 4px;">
+        <i class="fas fa-dollar-sign" style="margin-right: 6px;"></i>Max Price:
+      </label>
+      <input type="number" id="filterMaxPrice" placeholder="KES 10000" onchange="filterMarketItems()"
+        style="width: 120px; background-color: #ffebee; border: 2px solid #ef9a9a; padding: 6px; border-radius: 6px; font-weight: bold;" />
+    </div>
+
+    <!-- Apply & Reset Buttons -->
+    <div style="display: flex; gap: 8px; margin-top: 6px;">
+      <button onclick="filterMarketItems()"
+        style="padding: 6px 12px; background: #4caf50; color: #fff; border: none; border-radius: 6px; cursor: pointer;">
+        Apply Filters
+      </button>
+      <button onclick="resetMarketFilters()"
+        style="padding: 6px 12px; background: #f44336; color: #fff; border: none; border-radius: 6px; cursor: pointer;">
+        Reset
+      </button>
+    </div>
+
+  </div>
 </div>
 
-<!-- County Filter Dropdown -->
-<div>
-  <label for="filterItemCounty">County:</label>
-  <select id="filterItemCounty" style="width: 150px;" onchange="filterMarketItems()">
-    <!-- County options will be dynamically populated -->
-  </select>
-</div>
+
+
+
 <!-- Market Items Container -->
 <div id="marketContainer" style="
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;                      /* ✅ Bigger space between cards */
+  width: 100%;
+  padding: 40px 30px;            /* ✅ Padding inside container */
   margin-top: 20px;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;">
-  <!-- Cards will be dynamically added here -->
+  box-sizing: border-box;
+  background-color: #f9fbff;     /* Optional soft background */
+">
+  <!-- Example Market Cards -->
+  <div style="
+    background: #ffffff;
+    padding: 20px;               /* ✅ Space inside the card */
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  ">
+    <h4 style="margin: 0 0 10px;">Market Item 1</h4>
+    <p style="margin: 0;">Description of the item here.</p>
+  </div>
+
+  <div style="
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  ">
+    <h4 style="margin: 0 0 10px;">Market Item 2</h4>
+    <p style="margin: 0;">Description of the item here.</p>
+  </div>
+
+  <div style="
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  ">
+    <h4 style="margin: 0 0 10px;">Market Item 3</h4>
+    <p style="margin: 0;">Description of the item here.</p>
+  </div>
 </div>
-
-
-
 <div id="contact" class="page" style="display:none;">
   <div>
     <h2><i class="fas fa-envelope-open-text"></i> Contact Us</h2>
     <p><i class="fas fa-envelope"></i> Email: support@teacherswapskenya.com</p>
     <p><i class="fas fa-phone"></i> Phone: +254 700 000 000</p>
     <p><i class="fas fa-phone"></i> Phone: +254 792 755 676</p>
-    <p><i class="fas fa-phone"></i> Phone: +254 795 854 571</p>
     <p><i class="fab fa-facebook"></i> Facebook: <a href="#">Link</a></p>
     <p><i class="fab fa-youtube"></i> YouTube: <a href="#">Link</a></p>
     <p><i class="fab fa-telegram"></i> Telegram: <a href="#">Link</a></p>
@@ -2101,12 +2301,6 @@ Register To Connect With  Available Soulmates
   <i class="fab fa-whatsapp" style="font-size: 20px; margin-right: 8px;"></i> Chat with Us
 </a>
 
-<a href="mailto:support@teacherswapskenya.com?subject=Help Needed&body=Hi, I need help with Teacher Swaps Kenya."
-   style="position: fixed; bottom: 80px; right: 20px; background-color: #007bff; color: white;
-          border-radius: 50px; padding: 14px 20px; text-decoration: none; font-size: 16px;
-          display: flex; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 9999;">
-  <i class="fas fa-envelope" style="font-size: 20px; margin-right: 8px;"></i> Email Us
-</a>
 
 <a href="tel:+254792755676"
    style="position: fixed; bottom: 140px; right: 20px; background-color: #e74c3c; color: white;
@@ -2170,15 +2364,17 @@ Register To Connect With  Available Soulmates
 <!-- Notification Badge -->
 <span id="notifBadge" style="display:none; background:red; color:white; border-radius:50%; padding:2px 6px;">0</span>
 
-
 <div id="toastContainer" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;"></div>
+
+
+
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
 
-  <script>
+<script>
   // ✅ Firebase Config
   const firebaseConfig = {
     apiKey: "AIzaSyD7qfXm0hmz4oyvKzICwFQ2xQR1_RkLNYg",
@@ -2191,7 +2387,7 @@ Register To Connect With  Available Soulmates
     measurementId: "G-V9Q98Q09F2"
   };
 
-  // ✅ Firebase Init
+   // ✅ Firebase Init
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
   const db = firebase.firestore();
@@ -2205,41 +2401,63 @@ const marketRef = db.collection("marketItems");
   // ✅ Global State
   let isLoggedIn = false;
   let hasPaid = false;
+  let hasPaid100 = false;
+  let hasPaidVip1000 = false;
   let currentUser = null;
   let isAdmin = false;
+  let currentUserId = null;
 
- // ✅ Monitor Auth State 
-auth.onAuthStateChanged(user => {
-  if (user) {
-    currentUser = user;
-    isLoggedIn = true;
+  // ✅ Load user payment status
+  async function loadUserPaymentStatus() {
+    if (!currentUserId) return;
 
-    const adminEmails = [
-      "mashabiki@teacherswapskenya.com",
-      "sironga@teacherswapskenya.com",
-      "sironga1@teacherswapskenya.com",
-      "admin@teacherswapskenya.com"
-    ];
-    isAdmin = adminEmails.includes(user.email);
+    try {
+      const userDoc = await db.collection("users").doc(currentUserId).get();
+      const data = userDoc.data();
 
-    attachMarketFormSubmit();
-    loadMarketItems(); // ✅ Load marketplace (without redirect)
-
-    // ✅ Load admin notifications and badge if user is admin
-    if (isAdmin) {
-      loadAdminNotifications();
-      updateAdminNotifBadge(); // 🔴 Show notification count
+      hasPaid100 = data?.hasPaid100 || false;
+      hasPaidVip1000 = data?.hasPaidVip1000 || false;
+    } catch (error) {
+      console.error("Error loading payment status:", error.message);
     }
-
-  } else {
-    isLoggedIn = false;
-    currentUser = null;
-    isAdmin = false;
-    hasPaid = false;
-    showPage("home");
   }
-});
 
+  // ✅ Monitor Auth State 
+  auth.onAuthStateChanged(async user => {
+    if (user) {
+      currentUser = user;
+      isLoggedIn = true;
+      currentUserId = user.uid;
+
+      const adminEmails = [
+        "mashabiki@teacherswapskenya.com",
+        "sironga@teacherswapskenya.com",
+        "sironga1@teacherswapskenya.com",
+        "admin@teacherswapskenya.com"
+      ];
+      isAdmin = adminEmails.includes(user.email);
+
+      await loadUserPaymentStatus(); // ✅ Load payment info immediately after login
+
+      attachMarketFormSubmit();
+      loadMarketItems(); // ✅ Load marketplace (without redirect)
+
+      if (isAdmin) {
+        loadAdminNotifications();
+        updateAdminNotifBadge();
+      }
+
+    } else {
+      isLoggedIn = false;
+      currentUser = null;
+      currentUserId = null;
+      isAdmin = false;
+      hasPaid = false;
+      hasPaid100 = false;
+      hasPaidVip1000 = false;
+      showPage("home");
+    }
+  });
 
 // ✅ Hot counties for VIP swap prioritization
 const vipHotCounties = ["Nairobi", "Kisumu", "Mombasa", "Kisii", "Nakuru"];
@@ -2344,53 +2562,47 @@ countySubCountyPairs.forEach(pair => populateCounties(pair.county, pair.subCount
 // ✅ Initialize all county-subcounty dropdowns
 countySubCountyPairs.forEach(pair => populateCounties(pair.county, pair.subCounty));
 
+
+
 async function showPage(pageId) {
-  // Show spinner
-  const spinner = document.getElementById("loadingSpinner");
-  if (spinner) spinner.style.display = "flex";
-
-  // Wait a short time for visual feedback
-  await new Promise(resolve => setTimeout(resolve, 200));
-
-  // LOGIN PROTECTION CHECKS
   if (pageId === "swaps" && !isLoggedIn) {
     showCustomAlert("You must be logged in to view swaps.", "error");
-    if (spinner) spinner.style.display = "none";
-    return showPage("login");
+    showPage("login");
+    return;
   }
 
   if (pageId === "resources" && !isLoggedIn) {
     showCustomAlert("Please login to view resources.", "error");
-    if (spinner) spinner.style.display = "none";
-    return showPage("login");
+    showPage("login");
+    return;
   }
 
   if (pageId === "messages" && !isLoggedIn) {
     showCustomAlert("Please login to access your messages.", "error");
-    if (spinner) spinner.style.display = "none";
-    return showPage("login");
+    showPage("login");
+    return;
   }
 
   if (pageId === "soulmates" && !isLoggedIn) {
     showCustomAlert("Please login to view or post soulmate profiles.", "error");
-    if (spinner) spinner.style.display = "none";
-    return showPage("login");
+    showPage("login");
+    return;
   }
 
   if (pageId === "seekingServices" && !isLoggedIn) {
     showCustomAlert("Please login to view or post services.", "error");
-    if (spinner) spinner.style.display = "none";
-    return showPage("login");
+    showPage("login");
+    return;
   }
 
-  // HIDE ALL SECTIONS
+  // Hide all pages
   document.querySelectorAll(".page").forEach(p => p.style.display = "none");
 
-  // SHOW TARGET SECTION
+  // Show requested page
   const page = document.getElementById(pageId);
   if (page) page.style.display = "block";
 
-  // PAGE-SPECIFIC LOGIC
+  // Page-specific logic
   if (pageId === "swaps" && isLoggedIn) loadSwaps();
   if (pageId === "bomJobs") loadBOMJobs();
   if (pageId === "resources") {
@@ -2399,19 +2611,19 @@ async function showPage(pageId) {
   }
   if (pageId === "soulmates") loadSoulmates();
   if (pageId === "seekingServices") loadServices();
-  if (pageId === "market") {
-    populateCounties("itemCounty", "itemSubcounty");
-    loadMarketItems();
-  }
+
+  // ✅ If admin is viewing notifications, load them
   if (pageId === "notifications" && isAdmin) {
     loadAdminNotifications();
     updateAdminNotifBadge();
   }
 
-  // HIDE SPINNER AFTER EVERYTHING IS READY
-  if (spinner) spinner.style.display = "none";
+if (pageId === "market") {
+  populateCounties("itemCounty", "itemSubcounty"); // ✅ exact match for element ID
+  loadMarketItems();
 }
 
+}
 
 
 
@@ -2518,62 +2730,88 @@ async function loadSwaps() {
     const snapshot = await db.collection("teacherSwaps").orderBy("timestamp", "desc").get();
 
     if (snapshot.empty) {
-      tbody.innerHTML = `<tr><td colspan="10">No swaps found.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="11">No swaps found.</td></tr>`;
       return;
     }
 
-    snapshot.forEach(doc => {
+    const now = new Date();
+    const boostedSwaps = [];
+    const normalSwaps = [];
+
+    for (const doc of snapshot.docs) {
       const s = doc.data();
+      const id = doc.id;
+      const boostExpiry = s.boostExpiry?.toDate?.();
+      const isBoosted = s.boosted && boostExpiry && boostExpiry > now;
+
+      if (s.boosted && (!boostExpiry || boostExpiry <= now)) {
+        await db.collection("teacherSwaps").doc(id).update({ boosted: false, boostExpiry: null });
+      }
+
+      const swap = { id, ...s, isBoosted, boostExpiry };
+      (isBoosted ? boostedSwaps : normalSwaps).push(swap);
+    }
+
+    const orderedSwaps = [...boostedSwaps, ...normalSwaps];
+
+    for (const s of orderedSwaps) {
       const blur = !hasPaid && !isAdmin;
       const tr = document.createElement("tr");
 
       const isHotCounty = vipHotCounties.includes(s.county) || vipHotCounties.includes(s.swapCounty);
       const vipBtn = isAdmin && isHotCounty && !s.isVIP
-        ? `<button onclick="markAsVIPSwap('${doc.id}')">🔥 Sell VIP</button>`
+        ? `<button onclick="markAsVIPSwap('${s.id}')">🔥 Sell VIP</button>`
         : s.isVIP ? `<span style="color:crimson; font-weight:bold;">🔥 VIP</span>` : '-';
 
-      // ✅ Badge logic
-      const isVerified = s.userId !== undefined && s.userId !== null && s.userId !== "";
+      const isVerified = !!s.userId;
+
       const showVerifiedBadge = isVerified
-        ? `<span style="color:#007bff; font-weight:bold; font-size: 0.85em; margin-left:6px;">
-             <i class="fas fa-check-circle"></i> Verified User
-           </span>`
+        ? `<span class="verified-badge"><i class="fas fa-check-circle"></i> Verified</span>`
         : "";
 
       const showVIPBadge = s.isVIP
         ? `<span style="color:crimson; font-weight:bold; font-size: 0.85em; margin-left:6px;">
              <i class="fas fa-fire"></i> VIP Swap
-           </span>`
+           </span>` : "";
+
+      const showBoostedBadge = s.isBoosted && s.boostExpiry
+        ? `<span style="background:orange; color:white; font-size:0.75em; padding:2px 6px; border-radius:6px; margin-left:6px;">🔥 Boosted</span>
+           <span style="font-size: 0.75em; color:gray;">(${Math.ceil((s.boostExpiry - now) / (1000 * 60 * 60 * 24))} day${Math.ceil((s.boostExpiry - now) / (1000 * 60 * 60 * 24)) !== 1 ? 's' : ''} left)</span>`
         : "";
 
-      const badges = `${showVerifiedBadge}${showVIPBadge}`;
+      const badges = `${showVerifiedBadge}${showVIPBadge}${showBoostedBadge}`;
 
-      // ✅ Populate row
       tr.innerHTML = `
         <tr>
-          <td>${s.teacherName} ${badges}</td>
-          <td>${s.county}</td>
-          <td>${s.subCounty || '-'}</td>
-          <td class="${blur ? 'blurred' : ''}">${blur ? 'Hidden' : s.phone}</td>
-          <td class="${blur ? 'blurred' : ''}">${blur ? 'Hidden' : s.subjectCombination}</td>
-          <td>${s.swapCounty}</td>
-          <td>${s.swapSubCounty || '-'}</td>
-          <td>${s.category}</td>
-          <td>${s.hardship}</td>
+          <td style="color:#2e7d32;">${s.teacherName} ${badges}</td>
+          <td style="color:#3f51b5;">${s.county}</td>
+          <td style="color:#009688;">${s.subCounty || '-'}</td>
+          <td class="${blur ? 'blurred' : ''}" style="color:${blur ? '#aaa' : '#d32f2f'};">${blur ? 'Hidden' : s.phone}</td>
+          <td class="${blur ? 'blurred' : ''}" style="color:${blur ? '#aaa' : '#6a1b9a'};">${blur ? 'Hidden' : s.subjectCombination}</td>
+          <td style="color:#ef6c00;">${s.swapCounty}</td>
+          <td style="color:#5d4037;">${s.swapSubCounty || '-'}</td>
+          <td style="color:#1976d2;">${s.category}</td>
+          <td style="color:#e91e63;">${s.hardship}</td>
           ${
             isAdmin
               ? `<td>
-                  <button onclick="confirmDeleteSwap('${doc.id}')">🗑️ Delete</button><br>
+                  <button onclick="confirmDeleteSwap('${s.id}')"
+                    style="background:#e53935; color:white; border:none; padding:4px 8px; border-radius:4px;">🗑️ Delete</button><br>
                   ${vipBtn}
+                  <br>
+                  <button onclick="boostMarketItem('${s.id}', '${s.teacherName}')"
+                    style="margin-top:6px; background:#ff9800; color:white; border:none; border-radius:4px; padding:4px 8px; cursor:pointer;">
+                    🚀 Boost
+                  </button>
                 </td>`
               : `<td>${s.isVIP ? '<span style="color:crimson; font-weight:bold;">🔥 VIP</span>' : '-'}</td>`
           }
           <td>
-            <div class="rating" data-id="${doc.id}">
-              <span class="avg-rating" id="avgRating-${doc.id}">Loading...</span><br>
+            <div class="rating" data-id="${s.id}">
+              <span class="avg-rating" id="avgRating-${s.id}">Loading...</span><br>
               ${[1, 2, 3, 4, 5].map(star => `
-                <i class="fas fa-star" onclick="rateService('${doc.id}', ${star})"
-                   style="cursor:pointer; color:#ccc;" id="star-${doc.id}-${star}"></i>
+                <i class="fas fa-star" onclick="rateService('${s.id}', ${star})"
+                   style="cursor:pointer; color:#ccc;" id="star-${s.id}-${star}"></i>
               `).join('')}
             </div>
           </td>
@@ -2589,14 +2827,16 @@ async function loadSwaps() {
       }
 
       tbody.appendChild(tr);
-      updateAverageRating(doc.id);
-    });
+      updateAverageRating(s.id);
+    }
 
   } catch (err) {
     console.error("Error loading swaps:", err);
     showCustomAlert("Error loading swaps: " + err.message, "error");
   }
 }
+
+
 
 // ✅ BOM Job Submit (Updated Format + Notifications)
 document.getElementById("bomJobForm").addEventListener("submit", async e => {
@@ -2677,16 +2917,32 @@ function capitalize(str) {
 let bomJobsCache = [];
 let jobToDeleteId = null;
 
-// ✅ Load BOM Jobs
+// ✅ Load BOM Jobs with Boost Logic
 async function loadBOMJobs() {
   const container = document.getElementById("jobContainer");
-  container.innerHTML = ""; // Clear existing jobs
+  container.innerHTML = "";
 
   try {
     const snapshot = await bomRef.orderBy("timestamp", "desc").get();
-    bomJobsCache = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    console.log("✅ Loaded BOM Jobs:", bomJobsCache); // Optional debug
+    const now = new Date();
+    bomJobsCache = [];
+
+    for (const doc of snapshot.docs) {
+      const data = doc.data();
+      const boostExpiry = data.boostExpiry?.toDate?.();
+      const isBoosted = data.boosted && boostExpiry && boostExpiry > now;
+
+      // ⏳ Auto-expire boost
+      if (data.boosted && (!boostExpiry || boostExpiry <= now)) {
+        await bomRef.doc(doc.id).update({ boosted: false, boostExpiry: null });
+      }
+
+      bomJobsCache.push({ id: doc.id, ...data, isBoosted, boostExpiry });
+    }
+
+    console.log("✅ Loaded BOM Jobs:", bomJobsCache);
     renderBOMJobs(bomJobsCache);
+
   } catch (err) {
     showCustomAlert("❌ Failed to load BOM jobs: " + err.message, "error");
   }
@@ -2697,69 +2953,143 @@ function renderBOMJobs(jobs) {
   container.innerHTML = "";
 
   if (!jobs.length) {
-    container.innerHTML = `<p>No BOM jobs found.</p>`;
+    container.innerHTML = `<p>🌝🌝🌝🌝Oops, no jobs found🌝🌝🌝</p>`;
     return;
   }
 
+  const hasAccess = hasBomJobAccess();
+
   jobs.forEach(job => {
     const card = document.createElement("div");
-  card.className = "job-card";
-card.style.position = "relative"; // ✅ Required for absolute positioning
-
-    card.id = `bom-${job.id}`;
+    card.className = "job-card";
+    card.style.cssText = `
+      position: relative;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      background: #fff;
+      text-align: center;
+    `;
 
     const isPoster =
       typeof currentUser !== "undefined" &&
       currentUser !== null &&
       (job.postedBy === currentUser.email || job.postedBy === currentUser.displayName);
 
-    const isVerified = job.postedBy !== undefined && job.postedBy !== null && job.postedBy !== "";
+    const isVerified = job.postedBy !== undefined && job.postedBy !== null;
 
- const badge = isVerified
-  ? `<div class="verified-badge">
-       <i class="fas fa-check-circle"></i> Verified User
-     </div>`
-  : "";
-
-
+    const badge = isVerified
+      ? `<div class="verified-badge"><i class="fas fa-check-circle"></i> Verified</div>`
+      : "";
 
     const salaryIcon = '<i class="fas fa-dollar-sign" style="margin-right: 8px;"></i>';
     const locationIcon = '<i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i>';
     const phoneIcon = '<i class="fas fa-phone-alt" style="margin-right: 8px;"></i>';
     const dateIcon = '<i class="fas fa-calendar-day" style="margin-right: 8px;"></i>';
 
-    card.innerHTML = `
-      <h3 style="color:#2e7d32;">Occupation: ${job.jobType}</h3>
-      <p><strong>Organization:</strong> ${job.organization}</p>
-      <p><strong>${phoneIcon}Phone:</strong> 
-        <a href="tel:${job.phone}" style="color:green;">📞 Call</a><br>
-        <a href="https://wa.me/254${job.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a>
-      </p>
-      <p><strong>${locationIcon}Location:</strong> ${job.county}, ${job.subCounty}</p>
-      <p><strong>${salaryIcon}Salary Range:</strong> KES ${parseInt(job.salaryRange).toLocaleString()}</p>
-      <p><strong>${dateIcon}Date Posted:</strong> ${job.datePosted}</p>
-      <p><strong>Posted By:</strong> ${job.postedBy || "Unknown"} ${badge}</p>
+    let boostBadge = "";
+    if (job.isBoosted && job.boostExpiry) {
+      const daysLeft = Math.ceil((job.boostExpiry - new Date()) / (1000 * 60 * 60 * 24));
+      boostBadge = `
+        <span style="background: orange; color: white; font-size: 0.75em; padding: 2px 6px; border-radius: 6px;">
+          🔥 Boosted
+        </span>
+        <span style="color: gray; font-size: 0.75em;">(${daysLeft} day${daysLeft !== 1 ? "s" : ""} left)</span>
+      `;
+    }
 
-      <div style="margin-top: 10px;">
-        ${
-          !isPoster
-            ? `<button onclick="openChatModal('${job.phone}', '${job.organization}')"
-                 style="background:#673ab7; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
-                 💬 Chat
-               </button>`
-            : `<button onclick="confirmDeleteBOMJob('${job.id}')"
-                 style="background:#dc3545; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
-                 🗑️ Delete
-               </button>`
-        }
+    // ✅ Icon & color by jobType
+    const jobType = job.jobType.toLowerCase();
+    let iconClass = "fa-user-tie";
+    let bgColor = "#607d8b";
+
+    if (jobType.includes("teacher")) {
+      iconClass = "fa-chalkboard-teacher";
+      bgColor = "#42a5f5";
+    } else if (jobType.includes("driver")) {
+      iconClass = "fa-car";
+      bgColor = "#26a69a";
+    } else if (jobType.includes("nurse")) {
+      iconClass = "fa-user-nurse";
+      bgColor = "#ec407a";
+    } else if (jobType.includes("accountant")) {
+      iconClass = "fa-calculator";
+      bgColor = "#ffa726";
+    } else if (jobType.includes("lawyer")) {
+      iconClass = "fa-balance-scale";
+      bgColor = "#5c6bc0";
+    } else if (jobType.includes("chef")) {
+      iconClass = "fa-utensils";
+      bgColor = "#8d6e63";
+    }
+
+    const iconHTML = `
+      <div style="padding: 18px; background: ${bgColor};">
+        <i class="fas ${iconClass}" style="font-size: 50px; color: #fff;"></i>
       </div>
+    `;
 
-      <div class="rating" data-id="${job.id}" style="margin-top: 10px;">
-        <span class="avg-rating" id="avgRating-${job.id}">Loading...</span><br>
-        ${[1, 2, 3, 4, 5].map(star => `
-          <i class="fas fa-star" onclick="rateService('${job.id}', ${star})"
-             style="cursor:pointer; color:#ccc;" id="star-${job.id}-${star}"></i>
-        `).join('')}
+    const contactSection = (isPoster || hasAccess)
+      ? `
+        <p style="color:#009688;">
+          <strong>${phoneIcon}Phone:</strong><br>
+          <a href="tel:${job.phone}" style="color:green;">📞 Call</a><br>
+          <a href="https://wa.me/254${job.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a>
+        </p>
+        <button onclick="openChatModal('${job.phone}', '${job.organization}')"
+          style="background:#673ab7; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
+          💬 Chat
+        </button>
+      `
+      : `
+        <div class="blurred">
+          <p style="color:gray;">🔒 Contacts Locked – Pay Ksh 350 to Unlock for 2 Weeks</p>
+        </div>
+        <button onclick="unlockBomJobs()"
+          style="background:crimson; color:white; padding:6px 12px; border:none; border-radius:6px;">
+          💳 Pay Ksh 350
+        </button>
+      `;
+
+    card.innerHTML = `
+      ${iconHTML}
+      <div style="padding: 14px; text-align:left;">
+        ${badge}
+        <h3 style="color:#2e7d32;">${job.jobType} ${boostBadge}</h3>
+
+        <p style="color:#3f51b5;"><strong>Organization:</strong> ${job.organization}</p>
+        ${contactSection}
+        <p style="color:#e91e63;"><strong>${locationIcon}Location:</strong> ${job.county}, ${job.subCounty}</p>
+        <p style="color:#ff9800;"><strong>${salaryIcon}Salary Range:</strong> KES ${parseInt(job.salaryRange).toLocaleString()}</p>
+        <p style="color:#6a1b9a;"><strong>${dateIcon}Date Posted:</strong> ${job.datePosted}</p>
+        <p style="color:#795548;"><strong>Posted By:</strong> ${job.postedBy || "Unknown"}</p>
+
+        <div style="margin-top: 10px;">
+          ${
+            isPoster
+              ? `
+                <button onclick="confirmDeleteBOMJob('${job.id}')"
+                  style="background:#dc3545; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
+                  🗑️ Delete
+                </button>
+                <button onclick="showPaymentModalFor('job', 1000, '${job.id}', '${job.jobType}')"
+                  style="background:#ff9800; color:white; border:none; border-radius:5px; padding:6px 12px; margin-left:6px; cursor:pointer;">
+                  🚀 Boost
+                </button>
+              `
+              : ''
+          }
+        </div>
+
+        <div class="rating" data-id="${job.id}" style="margin-top: 10px;">
+          <span class="avg-rating" id="avgRating-${job.id}">Loading...</span><br>
+          ${[1, 2, 3, 4, 5].map(star => `
+            <i class="fas fa-star" onclick="rateService('${job.id}', ${star})"
+              style="cursor:pointer; color:#ccc;" id="star-${job.id}-${star}"></i>
+          `).join('')}
+        </div>
       </div>
     `;
 
@@ -2768,13 +3098,42 @@ card.style.position = "relative"; // ✅ Required for absolute positioning
   });
 }
 
-// ✅ Delete BOM Job (Immediate)
+function hasBomJobAccess() {
+  const paidAt = localStorage.getItem("paidForBomJobs");
+  if (!paidAt) return false;
+
+  const paidDate = new Date(paidAt);
+  const now = new Date();
+  const diffDays = (now - paidDate) / (1000 * 60 * 60 * 24);
+
+  return diffDays <= 14; // valid for 2 weeks
+}
+
+function unlockBomJobs() {
+  if (!currentUser || !currentUser.uid) {
+    showCustomAlert("Please login to unlock BOM job contacts.", "error");
+    return;
+  }
+
+  showPaymentModalFor("bomjobs", 350, currentUser.uid, "BOM Job Contacts");
+
+  const checkPaid = setInterval(() => {
+    if (localStorage.getItem("paidForBomJobs")) {
+      clearInterval(checkPaid);
+      showCustomAlert("BOM Job contacts unlocked for 2 weeks!", "success");
+      closeUniversalModal();
+      loadBOMJobs(); // re-render if function exists
+    }
+  }, 3000);
+}
+
+// ✅ Delete BOM Job
 async function confirmDeleteBOMJob(jobId) {
   if (confirm("Are you sure you want to delete this job posting?")) {
     try {
       await bomRef.doc(jobId).delete();
-      showCustomAlert("✅ BOM job deleted successfully!", "success");
-      loadBOMJobs();
+      showCustomAlert("✅  job deleted successfully!", "success");
+      loadBOMJobs(); // Refresh the job listings
     } catch (err) {
       showCustomAlert("❌ Failed to delete job: " + err.message, "error");
     }
@@ -2795,10 +3154,13 @@ async function updateAverageRating(jobId) {
 
   const avgRating = totalReviews ? (totalRating / totalReviews).toFixed(1) : 0;
   const avgRatingElement = document.getElementById(`avgRating-${jobId}`);
+
   avgRatingElement.textContent = `⭐ ${avgRating} (${totalReviews} Reviews)`;
 }
 
-// ✅ BOM Job Filters
+
+
+// ✅ BOM Job Filters (Optional)
 function applyBOMFilters() {
   const jobType = document.getElementById("filterJobType")?.value.toLowerCase() || "";
   const county = document.getElementById("filterCounty")?.value || "";
@@ -2817,7 +3179,7 @@ function applyBOMFilters() {
   renderBOMJobs(filtered);
 }
 
-// ✅ County-Subcounty Select Logic
+// ✅ Populate Sub-county Based on County
 function handleCountyChange(countyId, subCountyId) {
   const county = document.getElementById(countyId).value;
   const subCountyEl = document.getElementById(subCountyId);
@@ -2832,12 +3194,11 @@ function handleCountyChange(countyId, subCountyId) {
   }
 }
 
-// ✅ Delete Modal Flow
+// ✅ Delete BOM Job
 function confirmDeleteBOMJob(jobId) {
   jobToDeleteId = jobId;
   document.getElementById("confirmDeleteModal").style.display = "flex";
 }
-
 function closeDeleteModal() {
   jobToDeleteId = null;
   document.getElementById("confirmDeleteModal").style.display = "none";
@@ -2934,7 +3295,6 @@ async function loadResources() {
 // ✅ Populate counties for soulmate form
 ["smCounty", "smWorkCounty"].forEach(populateCounties);
 
-// ✅ Submit soulmate profile
 document.getElementById("soulmateForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -2943,29 +3303,53 @@ document.getElementById("soulmateForm").addEventListener("submit", async (e) => 
     return;
   }
 
-  const photoFile = document.getElementById("smPhoto").files[0];
-  if (!photoFile) {
-    showCustomAlert("Please upload a photo.", "error");
+  const age = parseInt(document.getElementById("smAge").value.trim());
+  if (isNaN(age) || age < 18) {
+    showCustomAlert("⚠️ Age must be 18 or above to post a profile.", "error");
     return;
   }
 
-  try {
-    // 🔼 Upload photo to Firebase Storage
-    const photoPath = `soulmatePhotos/${Date.now()}_${photoFile.name}`;
-    const photoSnap = await storage.ref(photoPath).put(photoFile);
-    const photoURL = await photoSnap.ref.getDownloadURL();
+  const phone = document.getElementById("smPhone").value.trim();
 
-    // 🔽 Prepare form data
+  // ✅ Kenyan phone validation
+  if (!/^07\d{8}$/.test(phone) && !/^2547\d{8}$/.test(phone)) {
+    showCustomAlert("⚠️ Enter a valid Kenyan phone number (e.g. 0712345678 or 254712345678).", "error");
+    return;
+  }
+
+  // ✅ Prevent duplicate phone use
+  try {
+    const existing = await soulmateRef.where("phone", "==", phone).get();
+    if (!existing.empty) {
+      showCustomAlert("⚠️ This phone number is already used in another profile.", "error");
+      return;
+    }
+  } catch (err) {
+    showCustomAlert("❌ Failed to check existing phone numbers.", "error");
+    return;
+  }
+
+  const photoFile = document.getElementById("smPhoto").files[0];
+  let photoURL = "";
+
+  try {
+    // ✅ Upload photo if available
+    if (photoFile) {
+      const photoPath = `soulmatePhotos/${Date.now()}_${photoFile.name}`;
+      const photoSnap = await storage.ref(photoPath).put(photoFile);
+      photoURL = await photoSnap.ref.getDownloadURL();
+    }
+
     const data = {
       name: document.getElementById("smName").value.trim(),
       county: document.getElementById("smCounty").value,
       subCounty: document.getElementById("smSubCounty").value,
-      age: document.getElementById("smAge").value.trim(),
+      age,
       tribe: document.getElementById("smTribe").value.trim(),
       sex: document.getElementById("smSex").value,
       occupation: document.getElementById("smOccupation").value.trim(),
       workCounty: document.getElementById("smWorkCounty").value,
-      phone: document.getElementById("smPhone").value.trim(),
+      phone,
       status: document.getElementById("smStatus").value,
       kids: document.getElementById("smKids").value,
       photoURL,
@@ -2973,13 +3357,11 @@ document.getElementById("soulmateForm").addEventListener("submit", async (e) => 
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
     };
 
-    // ✅ Save to Firestore
     await soulmateRef.add(data);
     showCustomAlert("✅ Profile submitted!", "success");
     document.getElementById("soulmateForm").reset();
     loadSoulmates();
 
-    // ✅ Notify Admin
     await db.collection("adminNotifications").add({
       type: "Soulmate Profile",
       message: `New soulmate profile posted: ${data.name}, Age: ${data.age}, Phone: ${data.phone}`,
@@ -2988,23 +3370,46 @@ document.getElementById("soulmateForm").addEventListener("submit", async (e) => 
     });
 
   } catch (err) {
-    console.error("Error uploading soulmate:", err);
-    showCustomAlert("Error saving profile: " + err.message, "error");
+    console.error("Error saving profile:", err);
+    showCustomAlert("❌ Error saving profile: " + err.message, "error");
   }
 });
-// ✅ Load all soulmate profiles and display them in cards 
 async function loadSoulmates() {
   const container = document.querySelector("#soulmateContainer");
-  container.innerHTML = ""; // Clear existing profiles
+  container.innerHTML = "";
+
+  const minAge = parseInt(document.getElementById("filterMinAge")?.value || 0);
+  const maxAge = parseInt(document.getElementById("filterMaxAge")?.value || 100);
+  const tribeFilter = document.getElementById("filterTribe")?.value.toLowerCase().trim() || "";
+  const sexFilter = document.getElementById("filterSex")?.value || "";
+
+  const hasPaid = localStorage.getItem("paidForSoulmates") === "yes";
 
   const snapshot = await soulmateRef.orderBy("timestamp", "desc").get();
   if (snapshot.empty) {
-    container.innerHTML = `<p>No soulmate profiles found.</p>`;
+    container.innerHTML = `
+      <div style="text-align:center; padding:30px 10px; color:#777;">
+        <p style="font-size:18px;">💔 No soulmate profiles found</p>
+        <p style="font-size:14px;">Make your goods be viewed by thousands of our users who visit our site.</p>
+      </div>
+    `;
     return;
   }
 
+  let matchFound = false;
+
   snapshot.forEach(doc => {
     const d = doc.data();
+    const id = doc.id;
+
+    const age = parseInt(d.age) || 0;
+    const matchesAge = age >= minAge && age <= maxAge;
+    const matchesTribe = tribeFilter === "" || (d.tribe && d.tribe.toLowerCase().includes(tribeFilter));
+    const matchesSex = sexFilter === "" || d.sex === sexFilter;
+
+    if (!matchesAge || !matchesTribe || !matchesSex) return;
+
+    matchFound = true;
 
     const isPoster =
       typeof currentUser !== "undefined" &&
@@ -3012,26 +3417,17 @@ async function loadSoulmates() {
       (d.postedBy === currentUser.email || d.postedBy === currentUser.displayName);
 
     const isVerified = d.postedBy !== undefined && d.postedBy !== null && d.postedBy !== "";
-
     const verifiedBadge = isVerified
-      ? `<span style="color:#007bff; font-weight:bold; font-size: 0.85em; margin-left:6px;">
-           <i class="fas fa-check-circle"></i> Verified User
-         </span>`
+      ? `<span class="verified-badge"><i class="fas fa-check-circle"></i> Verified</span>`
       : "";
 
     const card = document.createElement("div");
     card.className = "soulmate-card";
+    card.style.position = "relative";
 
-    // ✅ Add ID for notification scroll targeting
-    card.id = `soulmate-${d.id}`;
-
-    // Determine icons
-    let sexIcon = '';
-    if (d.sex === 'Male') {
-      sexIcon = '<i class="fas fa-mars" style="margin-right: 8px; color:#00796b;"></i>';
-    } else if (d.sex === 'Female') {
-      sexIcon = '<i class="fas fa-venus" style="margin-right: 8px; color:#00796b;"></i>';
-    }
+    let sexIcon = d.sex === 'Male'
+      ? '<i class="fas fa-mars" style="margin-right: 8px; color:#00796b;"></i>'
+      : '<i class="fas fa-venus" style="margin-right: 8px; color:#00796b;"></i>';
 
     let statusIcon = '';
     if (d.status === 'Single') {
@@ -3040,50 +3436,117 @@ async function loadSoulmates() {
       statusIcon = '<i class="fas fa-ring" style="margin-left: 8px; color:#00796b;"></i>';
     }
 
+    const contactHTML = `
+      <a href="tel:${d.phone}" style="color:green;">📞 Call</a><br>
+      <a href="https://wa.me/254${d.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a><br>
+      <button onclick="openChatModal('${d.phone}', '${d.name}')"
+        style="background:#673ab7; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
+        💬 Chat
+      </button>
+    `;
+
     card.innerHTML = `
+      ${verifiedBadge}
       <div class="soulmate-photo">
         <img src="${d.photoURL || 'default.jpg'}" alt="Photo" style="width:100%; height:auto; border-radius:8px; object-fit:cover;" />
+        <p style="text-align:center; font-weight:bold; margin-top:6px;">${d.name}</p>
       </div>
       <div class="soulmate-details">
         <h3 style="color:#00796b; display: flex; align-items: center;">
-          ${sexIcon}${d.name} ${verifiedBadge} ${statusIcon}
+          ${sexIcon}${d.name} ${statusIcon}
         </h3>
+        <p style="color:#ff5722;"><i class="fas fa-birthday-cake"></i> <strong>Age:</strong> ${d.age}</p>
+        <p style="color:#3f51b5;"><i class="fas fa-map-marker-alt"></i> <strong>County:</strong> ${d.county}</p>
+        <p style="color:#8e24aa;"><i class="fas fa-users"></i> <strong>Tribe:</strong> ${d.tribe}</p>
+        <p style="color:#009688;"><i class="fas fa-briefcase"></i> <strong>Occupation:</strong> ${d.occupation}</p>
+        <p style="color:#e91e63;"><i class="fas fa-heart"></i> <strong>Status:</strong> ${d.status || '—'}</p>
+        <p style="color:#795548;"><i class="fas fa-baby"></i> <strong>Kids:</strong> ${d.kids || '—'}</p>
 
-        <p><i class="fas fa-birthday-cake" style="margin-right: 8px;"></i><strong>Age:</strong> ${d.age}</p>
-        <p><i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i><strong>County:</strong> ${d.county}</p>
-        <p><i class="fas fa-users" style="margin-right: 8px;"></i><strong>Tribe:</strong> ${d.tribe}</p>
-        <p><i class="fas fa-briefcase" style="margin-right: 8px;"></i><strong>Occupation:</strong> ${d.occupation}</p>
-        <p><i class="fas fa-heart" style="margin-right: 8px;"></i><strong>Status:</strong> ${d.status || '—'}</p>
-        <p><i class="fas fa-baby" style="margin-right: 8px;"></i><strong>Kids:</strong> ${d.kids || '—'}</p>
-
-        <div class="contact-actions">
-          <a href="tel:${d.phone}" style="color:green;">📞 Call</a><br>
-          <a href="https://wa.me/254${d.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a><br>
+        <div class="contact-actions" id="contact-actions-${id}">
           ${
-            !isPoster ? `
-            <button onclick="openChatModal('${d.phone}', '${d.name}')"
-              style="background:#673ab7; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
-              💬 Chat
-            </button>` : ''
+            isPoster || hasPaid
+              ? contactHTML
+              : `
+              <div class="blurred">
+                <p style="color:gray; text-align:center;">🔒 Contacts Locked – Pay Ksh 200 to Unlock</p>
+              </div>
+              <button onclick="unlockSoulmateContacts()" style="background:crimson; color:white; padding:6px 12px; border-radius:6px; border:none; cursor:pointer;">
+                💳 Pay Ksh 200
+              </button>`
           }
         </div>
       </div>
 
-      <div class="rating" data-id="${d.id}">
-        <span class="avg-rating" id="avgRating-${d.id}">Loading...</span><br>
+      <div class="rating" data-id="${id}">
+        <span class="avg-rating" id="avgRating-${id}">Loading...</span><br>
         ${[1, 2, 3, 4, 5].map(star => `
-          <i class="fas fa-star" onclick="rateService('${d.id}', ${star})"
-             style="cursor:pointer; color:#ccc;" id="star-${d.id}-${star}"></i>
+          <i class="fas fa-star" onclick="rateService('${id}', ${star})"
+             style="cursor:pointer; color:#ccc;" id="star-${id}-${star}"></i>
         `).join('')}
       </div>
     `;
 
     container.appendChild(card);
-    updateAverageRating(d.id);
+    updateAverageRating(id);
   });
+
+  if (!matchFound) {
+    container.innerHTML = `
+      <div style="text-align:center; padding:30px 10px; color:#999;">
+        <p style="font-size:16px;">🔍 No results match your filter</p>
+      </div>
+    `;
+  }
+}
+
+function resetSoulmateFilters() {
+  document.getElementById("filterMinAge").value = "";
+  document.getElementById("filterMaxAge").value = "";
+  document.getElementById("filterTribe").value = "";
+  document.getElementById("filterSex").value = "";
+  loadSoulmates();
 }
 
 
+function unlockSoulmateContacts() {
+  if (!currentUser || !currentUser.uid) {
+    showCustomAlert("Please login to unlock contacts.", "error");
+    return;
+  }
+
+  showPaymentModalFor("soulmate", 200, currentUser.uid, "Soulmate Contacts");
+
+  const checkPaid = setInterval(() => {
+    if (localStorage.getItem("paidForSoulmates") === "yes") {
+      clearInterval(checkPaid);
+      showCustomAlert("Contacts unlocked! Reloading...", "success");
+      closeUniversalModal();
+      loadSoulmates();
+    }
+  }, 3000);
+}
+
+
+
+function boostMarketItem(itemId) {
+  const confirmBoost = confirm("Boost this item for Ksh 100? Your item will be promoted for 7 days.");
+  if (!confirmBoost) return;
+
+  alert("✅ Payment simulated. Boosting now...");
+
+  const boostExpiry = new Date();
+  boostExpiry.setDate(boostExpiry.getDate() + 7);
+
+  marketRef.doc(itemId).update({
+    boosted: true,
+    boostExpiry: firebase.firestore.Timestamp.fromDate(boostExpiry)
+  }).then(() => {
+    showCustomAlert("🚀 Item boosted successfully!", "success");
+    loadMarketItems();
+  }).catch(err => {
+    showCustomAlert("❌ Boost failed: " + err.message, "error");
+  });
+}
 
 
 
@@ -3103,7 +3566,7 @@ function showSoulmateModal(data) {
   const detailHTML = `
     <p style="text-align:center;">
       <img src="${photo}" alt="Photo of ${data.name}" 
-           style="max-width:120px; height:120px; border-radius:50%; object-fit:cover; border:4px solid #e91e63; box-shadow: 0 0 8px #e91e63;">
+           style="max-width:90px; height:90px; border-radius:50%; object-fit:cover; border:4px solid #e91e63; box-shadow: 0 0 8px #e91e63;">
     </p>
     <p><strong>Name:</strong> ${data.name}</p>
     <p><strong>County:</strong> ${data.county}</p>
@@ -3256,17 +3719,21 @@ function listenForMessages(convoId) {
       container.scrollTop = container.scrollHeight;
     });
 }
-
-// Delete a specific message
+// ✅ Delete a specific message with toast-style confirm and feedback
 function deleteMessage(convoId, messageId) {
-  if (!confirm("Are you sure you want to delete this message?")) return;
-  db.collection("messages").doc(convoId).collection("chats").doc(messageId)
-    .delete()
-    .then(() => {
+  showCustomConfirm("Are you sure you want to delete this message?", async () => {
+    try {
+      await db.collection("messages").doc(convoId).collection("chats").doc(messageId).delete();
+
       const elem = document.getElementById(`msg-${messageId}`);
       if (elem) elem.remove();
-    })
-    .catch(err => console.error("Failed to delete message:", err));
+
+      showCustomAlert("Message deleted successfully", "success");
+    } catch (err) {
+      console.error("Failed to delete message:", err);
+      showCustomAlert("Failed to delete the message. Try again later.", "error");
+    }
+  });
 }
 
 // Typing indicator handler
@@ -3459,25 +3926,9 @@ document.querySelector('#notifBadge')?.addEventListener('click', function () {
   resetUnreadCount(getCurrentConvoId());
 });
 
+
 function closeSoulmateModal() {
   document.getElementById("soulmateModal").style.display = "none";
-}
-
-function filterSoulmatesByAge() {
-  const range = document.getElementById("ageFilter").value;
-  const rows = document.querySelectorAll("#soulmateTable tbody tr");
-
-  rows.forEach(row => {
-    const age = parseInt(row.children[2].innerText); // Age column
-    let show = true;
-
-    if (range === "20-29") show = age >= 20 && age <= 29;
-    else if (range === "30-39") show = age >= 30 && age <= 39;
-    else if (range === "40-49") show = age >= 40 && age <= 49;
-    else if (range === "50+") show = age >= 50;
-
-    row.style.display = show ? "" : "none";
-  });
 }
 
   // ✅ Populate counties
@@ -3531,7 +3982,6 @@ await db.collection("adminNotifications").add({
     showCustomAlert("❌ Error: " + err.message, "error");
   }
 }
-
 async function loadServices() {
   const container = document.getElementById("servicesContainer");
   container.innerHTML = "";
@@ -3542,96 +3992,214 @@ async function loadServices() {
     return;
   }
 
-  snapshot.forEach(doc => {
+  const now = new Date();
+
+  let hasServiceAccess = false;
+  if (currentUser?.uid) {
+    const doc = await firebase.firestore().collection("users").doc(currentUser.uid).get();
+    hasServiceAccess = doc.exists && doc.data()?.paidForService === true;
+    if (hasServiceAccess) {
+      localStorage.setItem("paidForService", "yes");
+    }
+  }
+
+  snapshot.forEach(async doc => {
     const d = doc.data();
     const id = doc.id;
 
-    const isPoster =
-      typeof currentUser !== "undefined" &&
-      currentUser !== null &&
-      currentUser.uid === d.postedBy;
+    const boostExpiry = d.boostExpiry?.toDate?.();
+    const isBoosted = d.boosted && boostExpiry && boostExpiry > now;
 
+    if (d.boosted && (!boostExpiry || boostExpiry <= now)) {
+      await servicesRef.doc(id).update({ boosted: false, boostExpiry: null });
+    }
+
+    const isPoster = currentUser?.uid === d.postedBy;
     const isAdminUser = isAdmin;
-    const isVerified = d.postedBy !== undefined && d.postedBy !== null && d.postedBy !== "";
+    const isVerified = !!d.postedBy;
 
     const verifiedBadge = isVerified
-      ? `<span style="color: #007bff; font-weight: bold; font-size: 0.85em; margin-left: 6px;">
-           <i class="fas fa-check-circle"></i> Verified User
-         </span>`
+      ? `<span class="verified-badge"><i class="fas fa-check-circle"></i> Verified</span>`
       : "";
+
+    let boostBadge = "";
+    if (isBoosted && boostExpiry) {
+      const daysLeft = Math.ceil((boostExpiry - now) / (1000 * 60 * 60 * 24));
+      boostBadge = `
+        <span style="background: orange; color: white; font-size: 0.75em; padding: 2px 6px; border-radius: 6px; margin-left: 6px;">🔥 Boosted</span>
+        <span style="color: gray; font-size: 0.75em;">(${daysLeft} day${daysLeft !== 1 ? "s" : ""} left)</span>
+      `;
+    }
 
     const card = document.createElement("div");
     card.className = "service-card";
-    card.id = `service-${id}`; // ✅ Make it targetable from notification
+    card.id = `service-${id}`;
     card.dataset.county = d.county;
     card.dataset.occupation = d.occupation.toLowerCase();
+    card.style.cssText = `
+      position: relative;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      background: #fff;
+      text-align: center;
+    `;
 
-    // Icons
-    const experienceIcon = '<i class="fas fa-briefcase" style="margin-right: 8px;"></i>';
-    const locationIcon = '<i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i>';
-    const phoneIcon = '<i class="fas fa-phone-alt" style="margin-right: 8px;"></i>';
-    const whatsappIcon = '<i class="fab fa-whatsapp" style="margin-right: 8px;"></i>';
+    // ✅ Color & icon based on occupation
+    const occupation = d.occupation.toLowerCase();
+    let iconClass = "fa-user-tie";
+    let bgColor = "#607d8b";
+
+    if (occupation.includes("lawyer")) {
+      iconClass = "fa-balance-scale";
+      bgColor = "#5c6bc0";
+    } else if (occupation.includes("teacher")) {
+      iconClass = "fa-chalkboard-teacher";
+      bgColor = "#42a5f5";
+    } else if (occupation.includes("driver")) {
+      iconClass = "fa-car";
+      bgColor = "#26a69a";
+    } else if (occupation.includes("nurse")) {
+      iconClass = "fa-user-nurse";
+      bgColor = "#ec407a";
+    } else if (occupation.includes("chef")) {
+      iconClass = "fa-utensils";
+      bgColor = "#ffa726";
+    } else if (occupation.includes("plumber")) {
+      iconClass = "fa-tools";
+      bgColor = "#7e57c2";
+    }
+
+    const iconHTML = `
+      <div style="padding: 18px; background: ${bgColor};">
+        <i class="fas ${iconClass}" style="font-size: 50px; color: #fff;"></i>
+      </div>
+    `;
+
+    const experienceIcon = '<i class="fas fa-briefcase" style="margin-right: 6px;"></i>';
+    const locationIcon = '<i class="fas fa-map-marker-alt" style="margin-right: 6px;"></i>';
+    const phoneIcon = '<i class="fas fa-phone-alt" style="margin-right: 6px;"></i>';
+    const whatsappIcon = '<i class="fab fa-whatsapp" style="margin-right: 6px;"></i>';
+
+    const contactHTML = (isPoster || hasServiceAccess)
+      ? `
+        <p style="color:#2e7d32;"><strong>${phoneIcon}Phone:</strong> 
+          <a href="tel:${d.phone}" style="color:green;">📞 Call</a>
+        </p>
+        <p style="color:#25D366;"><strong>${whatsappIcon}
+          <a href="https://wa.me/254${d.phone.replace(/^0/, '')}" target="_blank">💬 WhatsApp</a></strong></p>
+        <button onclick="openChatModal('${d.phone}', '${d.name}')"
+          style="margin-top:6px; background:#673ab7; color:white; border:none; border-radius:4px; padding:6px 12px; cursor:pointer;">
+          💬 Chat
+        </button>
+      `
+      : `
+        <div class="blurred">
+          <p style="color:gray;">🔒 Contacts Locked – Pay Ksh 200 to Unlock</p>
+        </div>
+        <button onclick="unlockServiceContacts()" 
+          style="background:crimson; color:white; padding:6px 12px; border:none; border-radius:6px; margin-top:6px;">
+          💳 Pay Ksh 200
+        </button>
+      `;
 
     card.innerHTML = `
-      <!-- Service Details -->
-      <p><strong>Name:</strong> ${d.name} ${verifiedBadge}</p>
-      <p><strong>${locationIcon}County:</strong> ${d.county}</p>
-      <p><strong>Occupation:</strong> <span class="highlight-occupation">${d.occupation}</span></p>
-      <p><strong>${experienceIcon}Experience:</strong> ${d.experience} years</p>
-      <p><strong>${phoneIcon}Phone Number:</strong> 
-        <a href="tel:${d.phone}" style="color:green;">📞 Call</a>
-      </p>
-
-      <!-- Rating UI -->
-      <div class="rating" data-id="${id}" style="margin: 4px 0;">
-        <span class="avg-rating" id="avgRating-${id}">Loading...</span><br>
-        <span>
-          ${[1, 2, 3, 4, 5].map(star => `
-            <i class="fas fa-star" onclick="rateService('${id}', ${star})"
-              style="cursor:pointer; color:#ccc;" id="star-${id}-${star}"></i>
-          `).join('')}
-        </span>
+      ${iconHTML}
+      <div style="padding: 14px; text-align:left;">
+        ${verifiedBadge}
+        <h3 style="margin: 6px 0; color:#00796b;">${d.name} ${boostBadge}</h3>
+        <p style="color:#3f51b5;"><strong>${locationIcon}County:</strong> ${d.county}</p>
+        <p style="color:#d32f2f;"><strong>Occupation:</strong> <span class="highlight-occupation">${d.occupation}</span></p>
+        <p style="color:#6a1b9a;"><strong>${experienceIcon}Experience:</strong> ${d.experience} years</p>
+        ${contactHTML}
       </div>
-
-      <!-- Contact Options -->
-      <p><strong>${phoneIcon}<a href="tel:${d.phone}" style="color:green;">📞 Call</a></strong></p>
-      <p><strong>${whatsappIcon}<a href="https://wa.me/254${d.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a></strong></p>
-
-      <!-- 💬 Chat (non-posters only) -->
-      ${
-        !isPoster ? `
-          <button onclick="openChatModal('${d.phone}', '${d.name}')" 
-            style="margin-top:4px; background:#673ab7; color:white; border:none; border-radius:4px; padding:4px 8px; cursor:pointer;">
-            💬 Chat
-          </button><br>
-        ` : ''
-      }
-
-      <!-- 🛠️ Admin / Poster Controls -->
-      ${
-        (isPoster || isAdminUser) ? `
-          <button onclick="deleteService('${id}')" style="background:#e53935; color:white; border:none; padding:4px 8px; border-radius:4px; margin-top:4px;">🗑️ Delete</button>
-          <button onclick='editService(${JSON.stringify(d)}, "${id}")' style="background:#0288d1; color:white; border:none; padding:4px 8px; border-radius:4px; margin-left:4px;">✏️ Edit</button>
-        ` : ''
-      }
     `;
 
     container.appendChild(card);
     updateAverageRating(id);
   });
 }
-// ✅ Delete service
-async function deleteService(id) {
-  if (confirm("Are you sure you want to delete this service?")) {
-    try {
-      await servicesRef.doc(id).delete();
-      showCustomAlert("Service deleted successfully.", "success");
-      loadServices();
-    } catch (err) {
-      showCustomAlert("Error deleting: " + err.message, "error");
-    }
+
+function unlockServiceContacts() {
+  if (!currentUser || !currentUser.uid) {
+    showCustomAlert("Please login to unlock service contacts.", "error");
+    return;
   }
+
+  showPaymentModalFor("service", 200, currentUser.uid, "Service Provider Contacts");
+
+  const checkPaid = setInterval(() => {
+    if (localStorage.getItem("paidForService") === "yes") {
+      clearInterval(checkPaid);
+      showCustomAlert("Service provider contacts unlocked!", "success");
+      closeUniversalModal();
+      loadServices(); // reload services to show contacts
+    }
+  }, 3000);
 }
+
+// ✅ Show toast message (success or error)
+function showToast(message, type = "success") {
+  Toastify({
+    text: message,
+    duration: 3000,
+    gravity: "top",
+    position: "right",
+    backgroundColor: type === "success" ? "#28a745" : "#dc3545",
+    close: true,
+  }).showToast();
+}
+
+function promptToast(message, onConfirm) {
+  // Remove any existing prompt
+  const oldBox = document.getElementById("customConfirmBox");
+  if (oldBox) oldBox.remove();
+
+  const box = document.createElement("div");
+  box.id = "customConfirmBox"; // important for duplicate removal
+  box.innerHTML = `
+    <div style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;z-index:9999;">
+      <div style="background:#fff;padding:20px 30px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,0.3);text-align:center;font-family:sans-serif;">
+        <p style="margin-bottom:20px;font-size:16px;">${message}</p>
+        <button id="promptYesBtn" style="margin-right:10px;padding:8px 16px;background:#28a745;color:#fff;border:none;border-radius:5px;cursor:pointer;">Yes</button>
+        <button id="promptNoBtn" style="padding:8px 16px;background:#dc3545;color:#fff;border:none;border-radius:5px;cursor:pointer;">No</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(box);
+
+  // ✅ Attach event listeners after element is added
+  document.getElementById("promptYesBtn").onclick = () => {
+    box.remove();
+    onConfirm(true);
+  };
+  document.getElementById("promptNoBtn").onclick = () => {
+    box.remove();
+    onConfirm(false);
+  };
+}
+
+
+// ✅ Delete service using promptToast + showToast
+async function deleteService(id) {
+  promptToast("Are you sure you want to delete this service?", async (confirmed) => {
+    if (confirmed) {
+      try {
+        await servicesRef.doc(id).delete();
+        showToast("Service deleted successfully.", "success");
+        loadServices();
+      } catch (err) {
+        showToast("Error deleting: " + err.message, "error");
+      }
+    } else {
+      showToast("Deletion cancelled.", "error");
+    }
+  });
+}
+
 
 // ✅ Edit service and rebind default submit
 function editService(data, id) {
@@ -3763,86 +4331,90 @@ function attachMarketFormSubmit() {
   newForm.addEventListener("submit", submitMarketHandler);
 }
 
-// ✅ Load All Market Items
-async function loadMarketItems() {
+ async function loadMarketItems() {
   const container = document.getElementById("marketContainer");
   container.innerHTML = "";
 
-  try {
-    const snapshot = await marketRef.orderBy("timestamp", "desc").get();
+  const minPrice = parseInt(document.getElementById("filterMinPrice").value) || 0;
+  const maxPrice = parseInt(document.getElementById("filterMaxPrice").value) || Infinity;
+  const categoryFilter = document.getElementById("filterItemCategory").value.toLowerCase().trim();
+  const countyFilter = document.getElementById("filterItemCounty").value.toLowerCase().trim();
 
+  try {
+    const snapshot = await marketRef.get();
     if (snapshot.empty) {
       container.innerHTML = "<p>No items posted yet.</p>";
       return;
     }
 
-    snapshot.forEach(doc => {
-      if (!doc.exists) return;
+    const boostedItems = [], normalItems = [], now = new Date();
 
+    snapshot.forEach(doc => {
       const d = doc.data();
       const id = doc.id;
+      const price = parseFloat(d.price) || 0;
 
-      const isPoster =
-        typeof currentUser !== "undefined" &&
-        currentUser !== null &&
-        currentUser.uid === d.postedBy;
+      // Apply filters
+      if (price < minPrice || price > maxPrice) return;
+      if (categoryFilter && (!d.category || !d.category.toLowerCase().includes(categoryFilter))) return;
+      if (countyFilter && (!d.county || !d.county.toLowerCase().includes(countyFilter))) return;
 
-      const isVerified = d.postedBy !== undefined && d.postedBy !== null && d.postedBy !== "";
+      const isBoosted = d.boosted && d.boostExpiry?.toDate?.() > now;
+      (isBoosted ? boostedItems : normalItems).push({ ...d, id });
+    });
 
-      const verifiedBadge = isVerified
-        ? `<span style="color: #007bff; font-weight: bold; font-size: 0.85em; margin-left: 6px;">
-             <i class="fas fa-check-circle"></i> Verified User
-           </span>`
-        : "";
+    if (boostedItems.length + normalItems.length === 0) {
+      container.innerHTML = "<p>No items match your filters.</p>";
+      return;
+    }
+
+    [...boostedItems, ...normalItems].forEach(d => {
+      const id = d.id;
+      const isPoster = currentUser && currentUser.uid === d.postedBy;
+      const isVerified = !!d.postedBy;
+      const isBoosted = d.boosted && d.boostExpiry?.toDate?.() > new Date();
 
       const card = document.createElement("div");
       card.className = "market-card";
-      card.id = `market-${id}`; // ✅ Add ID for notification scroll
+      card.id = `market-${id}`;
       card.dataset.category = d.category || "";
       card.dataset.county = d.county || "";
+      if (isBoosted) card.dataset.boosted = "true";
+      card.style.position = "relative";
+
+      const verifiedBadge = isVerified
+        ? `<span class="verified-badge"><i class="fas fa-check-circle"></i> Verified</span>`
+        : "";
+      const boostBadge = isBoosted
+        ? `<span style="color:#ff5722; font-weight:bold; font-size:0.85em; margin-left:6px;">🔥 Boosted</span>`
+        : "";
 
       card.innerHTML = `
-        <h3 style="margin-bottom: 6px; color:#2e7d32;">
-          ${d.posterName || "Unknown Seller"} ${verifiedBadge}
+        ${verifiedBadge}
+        <h3 style="margin-bottom:6px; color:#2e7d32;">
+          ${d.posterName || "Seller"} ${boostBadge}
         </h3>
-
-        ${d.photoURL ? `<img src="${d.photoURL}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;">` : ""}
-
-        <p>📦 <strong>Item name:</strong> ${d.name || "-"}</p>
-        <p>📝 <strong>Status:</strong> ${d.description || "-"}</p>
-        <p>🏷️ <strong>Category:</strong> ${d.category || "-"}</p>
-        <p>💰 <strong>Price:</strong> KES ${d.price ? parseInt(d.price).toLocaleString() : "N/A"}</p>
-        <p>🧰 <strong>Condition:</strong> ${d.condition || "New"}</p>
-        <p>📍 <strong>Location:</strong> ${d.county || "Unknown"}, ${d.subcounty || "Unknown"}</p>
-
-        <div class="rating" data-id="${id}" style="margin: 6px 0;">
-          <span class="avg-rating" id="avgRating-${id}">⭐ No ratings yet (0)</span><br>
-          <span>
-            ${[1, 2, 3, 4, 5].map(star => `
-              <i class="fas fa-star" onclick="rateService('${id}', ${star})"
-                 style="cursor:pointer; color:#ccc;" id="star-${id}-${star}"></i>
-            `).join('')}
-          </span>
-        </div>
-
-        <div style="margin-top: 8px;">
+        ${d.photoURL
+          ? `<img src="${d.photoURL}" style="width:100%;height:180px;object-fit:cover;border-radius:8px;margin-bottom:8px;">`
+          : ""}
+        <p style="color:#4caf50;">📦 <strong>Item:</strong> ${d.name || "-"}</p>
+        <p style="color:#e91e63;">🏷️ <strong>Category:</strong> ${d.category || "-"}</p>
+        <p style="color:#ff9800;">💰 <strong>Price:</strong> KES ${d.price ? parseInt(d.price).toLocaleString() : "N/A"}</p>
+        <p style="color:#3f51b5;">📍 <strong>Location:</strong> ${d.county || "-"}</p>
+        <div style="margin-top:8px;">
           <a href="tel:${d.phone}" style="color:green;">📞 Call</a> |
           <a href="https://wa.me/254${d.phone?.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a>
         </div>
-
-        ${
-          !isPoster 
-            ? `<div style="margin-top: 10px;">
-                 <button onclick="openChatModal('${d.phone}', '${d.posterName || "Seller"}')"
-                   style="background:#673ab7; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
-                   <i class="fas fa-comments"></i> Chat
-                 </button>
-               </div>`
-            : `<div style="margin-top: 10px;">
-                 <button onclick="deleteMarketItem('${id}')" style="background:#dc3545; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
-                   🗑️ Delete
-                 </button>
-               </div>`
+        ${isPoster
+          ? `<div style="margin-top:10px;">
+              <button onclick="deleteMarketItem('${id}')" style="background:#dc3545;color:#fff;border:none;border-radius:5px;padding:6px 12px;cursor:pointer;">🗑️ Delete</button>
+              <button onclick="showPaymentModalFor('market', 300, '${id}', '${d.name || "Item"}')" style="background:#ff9800;color:#fff;border:none;border-radius:5px;padding:6px 12px;margin-left:8px;cursor:pointer;">🚀 Boost</button>
+             </div>`
+          : `<div style="margin-top:10px;">
+              <button onclick="openChatModal('${d.phone}','${d.posterName || "Seller"}')" style="background:#673ab7;color:#fff;border:none;border-radius:5px;padding:6px 12px;cursor:pointer;">
+                <i class="fas fa-comments"></i> Chat
+              </button>
+            </div>`
         }
       `;
 
@@ -3855,12 +4427,201 @@ async function loadMarketItems() {
     showCustomAlert("❌ Failed to load items: " + err.message, "error");
   }
 }
-function deleteMarketItem(id) {
+
+
+  // Initialize
+  document.addEventListener("DOMContentLoaded", () => {
+    loadMarketItems();
+  });
+
+function boostMarketItem(itemId, itemName) {
+  showPhonePrompt(`🚀 Boost "${itemName}" for Ksh 100`, function (phone) {
+    // Replace native confirm with a custom modal
+    showBoostConfirmModal(itemName, phone, async () => {
+      try {
+        const response = await fetch("http://localhost:3000/stkpush", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            phone,
+            amount: 100,
+            accountReference: `BOOST_${itemId}`,
+            itemId,
+            itemName,
+            userId: currentUser?.uid || "anonymous"
+          })
+        });
+
+        const result = await response.json();
+
+        if (!result.success || result.ResponseCode !== "0") {
+          showCustomAlert("❌ MPESA STK Push failed. Try again.", "error");
+          return;
+        }
+
+        showCustomAlert("✅ MPESA prompt sent. Check your phone!", "success");
+      } catch (err) {
+        console.error("Boost error:", err);
+        showCustomAlert("❌ Boost error: " + err.message, "error");
+      }
+    });
+  });
+}
+
+function showPhonePrompt(title = "Enter MPESA Number", callback) {
+  const modal = document.createElement("div");
+  modal.innerHTML = `
+    <div class="modal">
+      <div class="modal-content">
+        <h3>${title}</h3>
+        <input type="text" id="mpesaPhone" placeholder="0712345678 or +2547..." style="width: 90%; padding: 8px; margin-top: 10px;" />
+        <div style="margin-top: 15px;">
+          <button id="confirmPhone" style="background:#4caf50; color:white; margin-right: 10px;">Confirm</button>
+          <button id="cancelPhone" style="background:#f44336; color:white;">Cancel</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  // Style
+  const style = document.createElement("style");
+  style.textContent = `
+    .modal {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.5); display: flex;
+      justify-content: center; align-items: center; z-index: 1000;
+    }
+    .modal-content {
+      background: #fff; padding: 20px; border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); text-align: center;
+    }
+    .modal-content input {
+      border: 1px solid #ccc; border-radius: 5px;
+    }
+    .modal-content button {
+      padding: 10px 15px; border: none;
+      border-radius: 5px; cursor: pointer;
+    }
+    .modal-content button:hover {
+      opacity: 0.9;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Confirm button with flexible validation
+  document.getElementById("confirmPhone").onclick = () => {
+    let phone = document.getElementById("mpesaPhone").value.trim();
+
+    // Normalize phone number to 2547XXXXXXXX
+    if (/^07\d{8}$/.test(phone)) {
+      phone = "254" + phone.slice(1);
+    } else if (/^\+2547\d{8}$/.test(phone)) {
+      phone = phone.replace("+", "");
+    }
+
+    if (!/^2547\d{8}$/.test(phone)) {
+      showCustomAlert("❌ Invalid phone number. Use formats like 0712345678 or +254712345678", "error");
+      return;
+    }
+
+    document.body.removeChild(modal);
+    callback(phone); // Pass normalized valid phone
+  };
+
+  // Cancel button
+  document.getElementById("cancelPhone").onclick = () => {
+    document.body.removeChild(modal);
+    showCustomAlert("❌ Boost cancelled.", "error");
+  };
+}
+
+function showBoostConfirmModal(itemName, phone, onConfirm) {
+  const modal = document.createElement("div");
+  modal.className = "modal";
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h3>📢 Confirm Boost</h3>
+      <p>You're about to <strong>boost "${itemName}"</strong> for <strong>Ksh 100</strong>.</p>
+      <p>We will send a <strong>MPESA STK prompt</strong> to:</p>
+      <p style="font-weight:bold; font-size: 18px;">📱 ${phone}</p>
+      <div style="margin-top: 20px;">
+        <button id="confirmBoost" style="background:#4caf50; color:white; margin-right: 10px;">✅ Confirm Boost</button>
+        <button id="cancelBoost" style="background:#f44336; color:white;">Cancel</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  // Confirm
+  document.getElementById("confirmBoost").onclick = () => {
+    document.body.removeChild(modal);
+    onConfirm(); // Call the function passed from boostMarketItem
+  };
+
+  // Cancel
+  document.getElementById("cancelBoost").onclick = () => {
+    document.body.removeChild(modal);
+    showCustomAlert("❌ Boost cancelled.", "error");
+  };
+}
+
+
+function showCustomConfirm(message, onConfirm) {
+  // Remove existing confirm box if any
+  const existing = document.getElementById("customConfirmBox");
+  if (existing) existing.remove();
+
+  // Create confirm box wrapper
+  const wrapper = document.createElement("div");
+  wrapper.id = "customConfirmBox";
+  wrapper.style.position = "fixed";
+  wrapper.style.top = "0";
+  wrapper.style.left = "0";
+  wrapper.style.width = "100vw";
+  wrapper.style.height = "100vh";
+  wrapper.style.background = "rgba(0,0,0,0.5)";
+  wrapper.style.display = "flex";
+  wrapper.style.alignItems = "center";
+  wrapper.style.justifyContent = "center";
+  wrapper.style.zIndex = "9999";
+
+  // Create modal box
+  const modal = document.createElement("div");
+  modal.style.background = "#fff";
+  modal.style.padding = "20px 30px";
+  modal.style.borderRadius = "10px";
+  modal.style.boxShadow = "0 0 10px rgba(0,0,0,0.3)";
+  modal.style.textAlign = "center";
+
+  modal.innerHTML = `
+    <p style="margin-bottom:20px;font-size:16px;">${message}</p>
+    <button id="confirmYesBtn" style="margin-right:10px;padding:8px 16px;background:#28a745;color:#fff;border:none;border-radius:5px;cursor:pointer;">Yes</button>
+    <button id="confirmNoBtn" style="padding:8px 16px;background:#dc3545;color:#fff;border:none;border-radius:5px;cursor:pointer;">No</button>
+  `;
+
+  wrapper.appendChild(modal);
+  document.body.appendChild(wrapper);
+
+  // Wait until DOM is ready before binding events
+  setTimeout(() => {
+    document.getElementById("confirmYesBtn").onclick = () => {
+      document.body.removeChild(wrapper);
+      onConfirm();
+    };
+
+    document.getElementById("confirmNoBtn").onclick = () => {
+      document.body.removeChild(wrapper);
+    };
+  }, 0);
+}
+
+function deleteMarketItem(id) { 
   showCustomConfirm("Are you sure you want to delete this market item?", () => {
     marketRef.doc(id).delete()
       .then(() => {
         showCustomAlert("🗑️ Item deleted successfully.", "success");
-        loadMarketItems(); // ✅ refresh the list
+        loadMarketItems(); // refresh
       })
       .catch(err => {
         console.error("❌ Error deleting item:", err);
@@ -3868,8 +4629,6 @@ function deleteMarketItem(id) {
       });
   });
 }
-
-
 
 // ✅ Filter Market Items by Category or County
 function filterMarketItems() {
@@ -3883,239 +4642,108 @@ function filterMarketItems() {
   });
 }
 
+// ======================= FRONTEND =======================
 
-function showPaymentModal() {
-  const paymentModal = document.createElement("div");
-  paymentModal.innerHTML = `
-    <div class="modal">
-      <div class="modal-content">
-        <h2>Unlock Numbers</h2>
-        <p>To unlock all numbers and swaps, please send <span style="color: green; font-weight: bold;">Ksh 100</span> to <strong style="color: green;">0741236547</strong>.</p>
-        <p style="color: red;">After payment, click the "Confirm Payment" button below and enter the transaction reference.</p>
-        <input type="text" id="transactionReference" placeholder="Enter Transaction Reference" />
-        <button id="confirmPayment">Confirm Payment</button>
-        <button id="closeModal">Cancel</button>
+// ✅ Unified Payment Modal for Multiple Services
+function showPaymentModalFor(type, amount, itemId, itemName) {
+  const modalHTML = `
+    <div id="universalPayModal" class="modal" style="display:block; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999;">
+      <div class="modal-content" style="margin:10% auto; padding:20px; background:white; width:80%; max-width:400px; border-radius:8px; text-align:center;">
+        <h3>Pay to Unlock: ${itemName}</h3>
+        <p>Amount: <strong>Ksh ${amount}</strong></p>
+        <input type="tel" id="universalPhone" placeholder="Enter your MPESA number (e.g. 0712345678)" style="padding: 10px; width:100%; margin-bottom:10px;" />
+        <button onclick="initiateStkPayment('${type}', ${amount}, '${itemId}', '${itemName}')"
+                style="background:#4CAF50; color:white; border:none; padding:10px 20px; border-radius:6px;">
+          📲 Pay with MPESA
+        </button>
+        <button onclick="closeUniversalModal()" style="margin-top:10px; background:#ccc; border:none; padding:8px 16px;">Cancel</button>
+        <p id="universalPaymentStatus" style="margin-top:10px; color:#555;"></p>
       </div>
     </div>
   `;
+  document.body.insertAdjacentHTML("beforeend", modalHTML);
+}
 
-  document.body.appendChild(paymentModal);
+function closeUniversalModal() {
+  const modal = document.getElementById("universalPayModal");
+  if (modal) modal.remove();
+}
 
-  // Style the modal
-  const style = document.createElement("style");
-  style.textContent = `
-    .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-    .modal-content {
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      text-align: center;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    }
-    .modal-content button {
-      margin: 10px;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 4px;
-      background-color: #007bff;
-      color: #fff;
-      cursor: pointer;
-    }
-    .modal-content button:hover {
-      background-color: #0056b3;
-    }
-    #closeModal {
-      background-color: #6c757d;
-    }
-    #closeModal:hover {
-      background-color: #5a6268;
-  
-      }
-    #transactionReference {
-      width: 80%;
-      margin: 10px 0;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-  `;
-  document.head.appendChild(style);
+// ✅ Unified STK Push Handler with unlock logic for Soulmates, BOM Jobs, Market, and Services
+async function initiateStkPayment(type, amount, itemId, itemName) {
+  const phone = document.getElementById("universalPhone").value.trim();
+  const statusEl = document.getElementById("universalPaymentStatus");
 
-// Handle payment confirmation
-document.getElementById("confirmPayment").onclick = async () => {
-  const transactionReference = document.getElementById("transactionReference").value;
-
-  if (!transactionReference) {
-    showCustomAlert("Please enter a transaction reference.", "error");
+  if (!/^07\d{8}$/.test(phone)) {
+    statusEl.innerText = "⚠️ Please enter a valid Safaricom number";
     return;
   }
 
+  statusEl.innerText = "⏳ Sending STK Push...";
+
   try {
-    const response = await fetch("http://localhost:3000/verify-payment", {
+    const response = await fetch("http://localhost:3000/stkpush", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ transactionReference }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        phone,
+        amount,
+        accountReference: type,
+        itemId,
+        itemName,
+        userId: currentUser?.uid || "anonymous"
+      })
     });
 
-    const result = await response.json();
+    const data = await response.json();
 
-    if (result.paymentConfirmed) {
-      showCustomAlert("✅ Payment confirmed! You can now access premium content.", "success");
+    if (data.success) {
+      statusEl.innerText = "✅ STK Push sent. Please complete payment on your phone.";
 
-      // ✅ Update local state
-      hasPaid = true;
+      const now = new Date().toISOString();
 
-      // ✅ Store payment record in Firestore
-      await db.collection("paymentAccess").doc(currentUser.uid).set({
-        hasPaid: true,
-        verifiedAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
+      if (currentUser?.uid) {
+        const userRef = firebase.firestore().collection("users").doc(currentUser.uid);
 
-      // ✅ Refresh protected content
-      loadSwaps();
-      loadResources();
+        if (type === "soulmate") {
+          await userRef.set({ paidForSoulmates: true }, { merge: true });
+          localStorage.setItem("paidForSoulmates", "yes");
+        }
+
+        if (type === "bomjobs") {
+          await userRef.set({ paidForBomJobs: now }, { merge: true });
+          localStorage.setItem("paidForBomJobs", now);
+        }
+
+        if (type === "market") {
+          await userRef.set({ paidToPostMarket: true }, { merge: true });
+          localStorage.setItem("paidToPostMarket", "yes");
+        }
+
+        if (type === "service") {
+          await userRef.set({ paidForService: true }, { merge: true });
+          localStorage.setItem("paidForService", "yes");
+        }
+      }
 
     } else {
-      showCustomAlert("❌ Payment not confirmed. Please try again.", "error");
-    }
-  } catch (error) {
-    console.error("Payment verification error:", error);
-    showCustomAlert("❌ Error verifying payment: " + error.message, "error");
-  }
-};
-
-  // Handle modal close
-  document.getElementById("closeModal").onclick = () => {
-    document.body.removeChild(paymentModal);
-  };
-}
-
-const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
-const axios = require("axios");
-
-const app = express();
-app.use(bodyParser.json());
-app.use(cors());
-
-// M-Pesa credentials for Sandbox
-const consumerKey = "kXmNZSCVtFAo1yX7HxpShAZG7Gpdp3n6qvPFl0x4Cx9C7IWj"; // Sandbox Consumer Key
-const consumerSecret = "snRsVAG1ne0NcgPhr1F6tDYaxNBia3llIopy4VCmMY5W7ILd8P4TqGg4Wz3WoiMm"; // Sandbox Consumer Secret
-const shortCode = "174379"; // Sandbox Shortcode for testing
-const passkey = "bfb279f9aa9bdbcf158e97dd71a467cd2cbfdf6f8b7190e3c1d7c3ebbf4b1b21"; // Sandbox Lipa na M-Pesa passkey
-
-// Function to get access token
-async function getAccessToken() {
-  const auth = Buffer.from(`${consumerKey}:${consumerSecret}`).toString("base64");
-  const url = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials";
-
-  try {
-    const response = await axios.get(url, {
-      headers: {
-        Authorization: `Basic ${auth}`,
-      },
-    });
-    return response.data.access_token;
-  } catch (error) {
-    throw new Error("Failed to fetch access token");
-  }
-}
-
-// Function to verify payment
-async function verifyPayment(transactionReference) {
-  const accessToken = await getAccessToken();
-  const url = "https://sandbox.safaricom.co.ke/mpesa/transactionstatus/v1/query";
-
-  const requestPayload = {
-    Initiator: "testapi", // Sandbox Initiator Name
-    SecurityCredential: "bfb279f9aa9bdbcf158e97dd71a467cd2cbfdf6f8b7190e3c1d7c3ebbf4b1b21", // Sandbox security credential (use OpenSSL to generate if needed)
-    CommandID: "TransactionStatusQuery",
-    TransactionID: transactionReference, // Transaction Reference
-    PartyA: shortCode, // Shortcode sending the request
-    IdentifierType: "4",
-    ResultURL: "https://your-backend-url/result", // Your callback URL
-    QueueTimeOutURL: "https://your-backend-url/timeout", // Your timeout URL
-    Remarks: "Payment verification",
-    Occasion: "PaymentUnlock",
-  };
-
-  try {
-    const response = await axios.post(url, requestPayload, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    throw new Error("Failed to verify payment");
-  }
-}
-
-// Verify payment endpoint
-app.post("/verify-payment", async (req, res) => {
-  const { transactionReference } = req.body;
-
-  try {
-    const result = await verifyPayment(transactionReference);
-    const status = result.ResponseDescription || "Unknown";
-
-    // Check if the payment was successful
-    if (status.includes("Success")) {
-      res.status(200).json({ paymentConfirmed: true });
-    } else {
-      res.status(400).json({ paymentConfirmed: false, message: status });
-    }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// Start the server
-const PORT = 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-function showCustomAlert(message, type) {
-    const alertBox = document.createElement("div");
-    alertBox.innerText = message;
-
-    alertBox.style.position = "fixed";
-    alertBox.style.top = "50%";
-    alertBox.style.left = "50%";
-    alertBox.style.transform = "translate(-50%, -50%)";
-    alertBox.style.padding = "20px";
-    alertBox.style.borderRadius = "8px";
-    alertBox.style.color = "white";
-    alertBox.style.zIndex = "1000";
-    alertBox.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
-    alertBox.style.fontSize = "16px";
-    alertBox.style.textAlign = "center";
-
-    if (type === "success") {
-        alertBox.style.backgroundColor = "#4caf50"; // Green for success
-    } else if (type === "error") {
-        alertBox.style.backgroundColor = "#f44336"; // Red for error
+      statusEl.innerText = `❌ Error: ${data.errorMessage || "Unknown failure"}`;
     }
 
-    document.body.appendChild(alertBox);
-
-    setTimeout(() => {
-        alertBox.remove();
-    }, 3000); // Automatically remove alert after 3 seconds
+  } catch (err) {
+    statusEl.innerText = "❌ Network error: " + err.message;
+  }
 }
+// ✅ Legacy compatibility shim for older code
+function showPaymentModal() {
+  showPaymentModalFor("swap", 500, currentUser?.uid || "unknown", "Unlock VIP Swaps");
+}
+// showPaymentModalFor("job", 1000, job.id, "Boost Job Listing")
+// showPaymentModalFor("soulmate", 250, currentUser.uid, "Soulmate Contacts")
+// showPaymentModalFor("market", 300, marketItem.id, "Boost Market Item")
+// showPaymentModalFor("swap", 500, currentUser.uid, "Unlock VIP Swaps")
+// showPaymentModalFor("service", 150, serviceId, "Get Service Contact")
+
 async function findMatchingSwaps() {
   if (!isLoggedIn || !currentUser) {
     showCustomAlert("You must be logged in to check swaps.", "error");
@@ -4453,6 +5081,8 @@ function filterSwaps() {
     showCustomAlert("❗No matching swaps found.", "error");
   }
 }
+// 🔥 VIP Auto-flagging helper
+const hotCounties = ["Nairobi", "Kisumu", "Mombasa", "Kisii", "Nakuru"];
 
 async function markAsVIPSwap(swapId) {
   try {
@@ -4464,17 +5094,33 @@ async function markAsVIPSwap(swapId) {
   }
 }
 
-function showHotSwaps() {
-  const hotCounties = ["Nairobi", "Kisumu", "Mombasa", "Kisii", "Nakuru"];
-  const vipCandidates = bomJobsCache.filter(swap =>
-    (hotCounties.includes(swap.county) || hotCounties.includes(swap.swapCounty)) && !swap.isVIP
-  );
-  renderSwaps(vipCandidates); // or loadSwaps() if pulling live
+async function showHotSwaps() {
+  try {
+    const snapshot = await db.collection("teacherSwaps").get();
+    const vipCandidates = [];
+
+    snapshot.forEach(doc => {
+      const s = doc.data();
+      if (
+        (hotCounties.includes(s.county) || hotCounties.includes(s.swapCounty)) &&
+        !s.isVIP
+      ) {
+        vipCandidates.push({ id: doc.id, ...s });
+      }
+    });
+
+    renderSwaps(vipCandidates); // This renders hot swap candidates only
+  } catch (err) {
+    showCustomAlert("❌ Failed to load hot swaps: " + err.message, "error");
+  }
 }
+
 async function showVipSwaps() {
   if (!isLoggedIn) {
     return showCustomAlert("Please login to view VIP swaps.", "error");
   }
+
+  await loadUserPaymentStatus(); // make sure payment flags are set
 
   const container = document.getElementById("vipSwapsList");
   container.innerHTML = "<p>Loading VIP swaps...</p>";
@@ -4482,7 +5128,6 @@ async function showVipSwaps() {
 
   try {
     const snapshot = await db.collection("teacherSwaps")
-      .where("isVIP", "==", true)
       .orderBy("timestamp", "desc")
       .get();
 
@@ -4494,16 +5139,43 @@ async function showVipSwaps() {
     let html = `<div style="display:flex; flex-wrap:wrap; gap:10px;">`;
     snapshot.forEach(doc => {
       const s = doc.data();
+
+      // 🔥 Auto-VIP if from/to counties are in hot list
+      const isVip = s.isVIP || hotCounties.includes(s.county) || hotCounties.includes(s.swapCounty);
+
+      if (!isVip) return; // Only show swaps considered VIP
+
+      const name = s.teacherName || "-";
+      const school = s.category || "-";
+      const subject = s.subjectCombination || "-";
+      const from = `${s.county || '-'} (${s.subCounty || '-'})`;
+      const to = `${s.swapCounty || '-'} (${s.swapSubCounty || '-'})`;
+
+      let phoneDisplay = "";
+
+      if (isAdmin || hasPaidVip1000) {
+        phoneDisplay = `<p><strong>📞 Phone:</strong> <a href="tel:${s.phone}" style="color:green;">${s.phone}</a></p>`;
+      } else {
+        phoneDisplay = `
+          <p><strong>📞 Phone:</strong> 
+            <button onclick="promptVipPayment()" style="background:crimson; color:white; border:none; padding:6px 10px; border-radius:5px;">
+              💰 Pay KES 1000 to Unlock VIP
+            </button>
+          </p>`;
+      }
+
       html += `
-        <div style="border:1px solid #ddd; padding:10px; border-radius:8px; width:250px;">
-          <p><strong>👤 ${s.teacherName}</strong></p>
-          <p><strong>From:</strong> ${s.county} (${s.subCounty || '-'})</p>
-          <p><strong>To:</strong> ${s.swapCounty} (${s.swapSubCounty || '-'})</p>
-          <p><strong>Subject:</strong> ${s.subjectCombination}</p>
-          <p><strong>Phone:</strong> ${hasPaid || isAdmin ? `<a href="tel:${s.phone}" style="color:green;">${s.phone}</a>` : `<span style="color:crimson;">Locked</span>`}</p>
+        <div style="border:1px solid #ddd; padding:10px; border-radius:8px; width:260px;">
+          <p><strong>👤 Name:</strong> ${name}</p>
+          <p><strong>🏫 School Type:</strong> ${school}</p>
+          <p><strong>📚 Subject(s):</strong> ${subject}</p>
+          <p><strong>🔁 Swap From:</strong> ${from}</p>
+          <p><strong>➡️ Swap To:</strong> ${to}</p>
+          ${phoneDisplay}
         </div>
       `;
     });
+
     html += `</div>`;
     container.innerHTML = html;
 
@@ -4511,6 +5183,33 @@ async function showVipSwaps() {
     container.innerHTML = `<p style="color:red;">Failed to load VIP swaps: ${err.message}</p>`;
   }
 }
+
+function promptVipPayment() {
+  const confirmPayment = confirm("To unlock all VIP swaps, please pay KES 1000 to Paybill 123456, Account: VIPACCESS. Have you completed payment?");
+  if (confirmPayment) {
+    // Simulate update (replace with actual admin approval logic)
+    db.collection("users").doc(currentUserId).update({
+      hasPaidVip1000: true
+    }).then(() => {
+      hasPaidVip1000 = true;
+      showCustomAlert("VIP access unlocked. Please reopen the VIP swaps.", "success");
+    }).catch(err => {
+      showCustomAlert("Error unlocking VIP access: " + err.message, "error");
+    });
+  }
+}
+async function loadUserPaymentStatus() {
+  if (!currentUserId) return;
+
+  const userDoc = await db.collection("users").doc(currentUserId).get();
+  const data = userDoc.data();
+
+  hasPaid100 = data?.hasPaid100 || false;
+  hasPaidVip1000 = data?.hasPaidVip1000 || false;
+  isAdmin = data?.role === "admin"; // optional
+}
+
+
 async function loadAdminNotifications() {
   const list = document.getElementById("notificationList");
   list.innerHTML = "";
@@ -4586,6 +5285,45 @@ async function updateAdminNotifBadge() {
     console.error("Failed to load notification badge:", err);
   }
 }
+async function viewConversation(userA, userB) {
+  const chatId = [userA, userB].sort().join("_");
+  const container = document.getElementById("chatMessages");
+  container.innerHTML = "";
+
+  const snapshot = await db.collection("messages").doc(chatId).collection("chats").orderBy("timestamp").get();
+
+  snapshot.forEach(doc => {
+    const d = doc.data();
+    const div = document.createElement("div");
+    div.innerHTML = `<strong>${d.from}:</strong> ${d.content}`;
+    container.appendChild(div);
+  });
+
+  document.getElementById("chatBox").style.display = "block";
+  document.getElementById("chatWith").textContent = `${userA} ↔ ${userB}`;
+}
+
+async function updateChatBadge() {
+  const myName = currentUser.displayName || currentUser.email;
+  let unreadCount = 0;
+
+  const snapshot = await db.collection("messages").get();
+  for (const doc of snapshot.docs) {
+    const chats = await doc.ref.collection("chats")
+      .where("to", "==", myName)
+      .where("read", "==", false)
+      .get();
+
+    if (!chats.empty) unreadCount++;
+  }
+
+  const badge = document.getElementById("chatNotifBadge");
+  if (badge) {
+    badge.style.display = unreadCount > 0 ? "inline-block" : "none";
+    badge.textContent = unreadCount;
+  }
+}
+
  async function rateService(serviceId, stars) {
   if (!currentUser) return alert("Please login to rate.");
   
@@ -4616,15 +5354,12 @@ async function updateAverageRating(serviceId) {
     if (starEl) starEl.style.color = i <= Math.round(avg) ? "#ffc107" : "#ccc";
   }
 }
-function sendQuickMessage(text) {
-  document.getElementById("chatInput").value = text;
-  sendChatMessage();
-}
 
 document.querySelector('#notifBadge').addEventListener('click', function() {
-  showPage('messages');
-  resetUnreadCount(getCurrentConvoId());
+  showPage('messages'); // Open the messages page
+  resetUnreadCount(); // Reset unread count to 0
 });
+
 function openPostedItem(type, itemId) {
   if (!type || !itemId) return;
 
@@ -4674,9 +5409,153 @@ function renderNotifications(notifications) {
     container.appendChild(card);
   });
 }
+function toggleEmojiPicker() {
+  const picker = document.getElementById("emojiPicker");
+  picker.style.display = picker.style.display === "block" ? "none" : "block";
+  if (picker.innerHTML === '') populateEmojiPicker();
+}
+
+function populateEmojiPicker() {
+  const picker = document.getElementById("emojiPicker");
+  const emojis = ['😀','😁','😂','😅','😊','😍','😎','😢','😭','😡','😇','🤔','👍','🙏','💯','🔥','🎉','📱','💬','🕒','💖'];
+  emojis.forEach(e => {
+    const span = document.createElement("span");
+    span.textContent = e;
+    span.style.margin = "5px";
+    span.style.fontSize = "20px";
+    span.style.cursor = "pointer";
+    span.onclick = () => {
+      document.getElementById("chatInput").value += e;
+      toggleEmojiPicker();
+    };
+    picker.appendChild(span);
+  });
+}
+
+document.addEventListener('click', function(e) {
+  const picker = document.getElementById("emojiPicker");
+  if (picker && !picker.contains(e.target) && e.target.innerText !== '😀') {
+    picker.style.display = "none";
+  }
+});
+
+let previewFile = null;
+
+function previewImage(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    document.getElementById('imagePreview').src = e.target.result;
+    document.getElementById('imagePreviewContainer').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+  previewFile = file;
+}
+
+function clearPreview() {
+  previewFile = null;
+  document.getElementById('mediaInput').value = ''; // Clear the file input
+  document.getElementById('imagePreviewContainer').style.display = 'none'; // Hide preview
+}
+
+let recorder, audioBlob;
+
+async function toggleRecording() {
+  const recordBtn = document.getElementById("recordBtn");
+
+  if (!recorder) {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    recorder = new MediaRecorder(stream);
+    const chunks = [];
+
+    recorder.ondataavailable = e => chunks.push(e.data);
+    recorder.onstop = async () => {
+      audioBlob = new Blob(chunks, { type: 'audio/webm' });
+      const storageRef = firebase.storage().ref(`voice_notes/${Date.now()}.webm`);
+      await storageRef.put(audioBlob);
+      const audioURL = await storageRef.getDownloadURL();
+      await sendVoiceMessage(audioURL);
+      recorder = null;
+    };
+
+    recorder.start();
+    recordBtn.textContent = "⏹ Stop";
+  } else {
+    recorder.stop();
+    recordBtn.textContent = "🎤";
+  }
+}
+
+async function sendVoiceMessage(url) {
+  const fromName = currentUser.displayName || currentUser.email;
+  const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+
+  await db.collection("messages").doc(chatConversationId).collection("chats").add({
+    from: fromName,
+    fromUid: currentUser.uid,
+    to: chatPartner.name,
+    toUid: chatPartner.uid,
+    type: "audio",
+    content: url,
+    read: false,
+    timestamp
+  });
+
+  showCustomAlert("🎤 Voice note sent!", "success");
+}
+function shareLocation() {
+  if (!navigator.geolocation) {
+    alert("Geolocation is not supported");
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(position => {
+    const link = `https://www.google.com/maps?q=${position.coords.latitude},${position.coords.longitude}`;
+    document.getElementById("chatInput").value = `My location: ${link}`;
+    sendChatMessage('text');
+  }, () => {
+    alert("Failed to get your location");
+  });
+}
+// Shows the alert popup
+function showAlert(message) {
+  // Check if an alert is already visible
+  if (document.querySelector('.scroll-end-alert')) return;
+
+  const alert = document.createElement('div');
+  alert.className = 'scroll-end-alert';
+  alert.textContent = message;
+  document.body.appendChild(alert);
+
+  setTimeout(() => {
+    alert.remove();
+  }, 3000); // Auto-remove after 3 seconds
+}
+
+// Detect scroll end inside a container
+function watchScrollEnd(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  container.addEventListener('scroll', () => {
+    const isAtBottom = container.scrollTop + container.clientHeight >= container.scrollHeight - 1;
+    if (isAtBottom) {
+      showAlert("🚩 You have reached the end for today.");
+    }
+  });
+}
+
+// Initialize for desired containers
+document.addEventListener('DOMContentLoaded', () => {
+  watchScrollEnd('jobContainer');
+  watchScrollEnd('soulmateContainer');
+  // Add more if needed
+});
+</script>
 
 
 
-  </script>
 </body>
 </html>

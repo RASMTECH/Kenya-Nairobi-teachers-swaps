@@ -803,19 +803,45 @@
   cursor: pointer;
   color: #ccc;
 }
-.soulmate-card {
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 16px;
-  background-color: #f4f9f9;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-  width: 100%;           /* ✅ Fill available column space */
+
+#soulmateContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 10px;
   box-sizing: border-box;
 }
 
+.soulmate-card {
+  background: #e6f7ff;
+  padding: 14px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  text-align: left;
+  position: relative;
+  min-width: 200px;
+  max-width: 230px;
+  margin: auto;
+  box-sizing: border-box;
+}
+
+.verified-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #4caf50;
+  color: white;
+  font-size: 12px;
+  padding: 3px 7px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 2px rgba(0,0,0,0.2);
+}
 
 
 /* Photo Section */
@@ -1181,6 +1207,38 @@ nav ul li {
   right: 12px;
   top: 12px;
 }
+.blurred-number {
+  filter: blur(5px);
+  color: gray;
+  cursor: pointer;
+  user-select: none;
+}
+@keyframes popFade {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.8; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+.like-button {
+  background: #f0f2f5;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 16px;
+  padding: 4px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.like-button.liked {
+  background: #1877f2;
+  color: white;
+  border-color: #1877f2;
+}
+@keyframes floatUp {
+  to {
+    transform: translateY(-120vh) rotate(360deg);
+    opacity: 0;
+  }
+}
 
 </style>
 
@@ -1356,78 +1414,70 @@ nav ul li {
 
  </form>
 <h3><i class="fas fa-filter" style="color:#43a047; margin-right: 8px;"></i> Filter Swaps</h3>
-
-<!-- ✅ Compact & Narrow Vertical Action Box -->
-<div style="border: 2px solid #c8e6c9; background: #f1f8e9; padding: 12px; border-radius: 10px; margin-bottom: 16px; width: 220px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px;">
+<!-- ✅ Horizontal Compact Filter Box with Black Labels -->
+<div style="border: 2px solid #c8e6c9; background: #f1f8e9; padding: 12px; border-radius: 10px; margin-bottom: 16px; max-width: 1000px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
 
   <!-- Category -->
   <div style="display: flex; flex-direction: column; align-items: center;">
     <select id="filterCategory"
-      style="width: 180px; background-color: #e0f7fa; border: 2px solid #26a69a; padding: 4px; border-radius: 6px; font-weight: bold;">
+      style="width: 160px; background-color: #e0f7fa; border: 2px solid #26a69a; padding: 4px; border-radius: 6px; font-weight: bold;">
       <option value="">All</option>
       <option value="Primary School">Primary School</option>
       <option value="Junior Secondary">Junior Secondary</option>
       <option value="Senior Secondary">Senior Secondary</option>
     </select>
-    <label for="filterCategory" style="margin-top: 2px; font-size: 12px; color: #00796b;">Category</label>
+    <label for="filterCategory" style="margin-top: 2px; font-size: 13px; color: black; font-weight: 500;">Category</label>
   </div>
 
   <!-- Swap County -->
   <div style="display: flex; flex-direction: column; align-items: center;">
     <select id="filterSwapCounty" onchange="handleCountyChange('filterSwapCounty', 'filterSwapSubCounty')"
-      style="width: 180px; background-color: #e1f5fe; border: 2px solid #039be5; padding: 4px; border-radius: 6px; font-weight: bold;">
+      style="width: 160px; background-color: #e1f5fe; border: 2px solid #039be5; padding: 4px; border-radius: 6px; font-weight: bold;">
     </select>
-    <label for="filterSwapCounty" style="margin-top: 2px; font-size: 12px; color: #0277bd;">Swap County</label>
+    <label for="filterSwapCounty" style="margin-top: 2px; font-size: 13px; color: black; font-weight: 500;">Swap County</label>
   </div>
 
   <!-- Swap Sub-county -->
   <div style="display: flex; flex-direction: column; align-items: center;">
     <select id="filterSwapSubCounty"
-      style="width: 180px; background-color: #f3e5f5; border: 2px solid #9c27b0; padding: 4px; border-radius: 6px; font-weight: bold;">
+      style="width: 160px; background-color: #f3e5f5; border: 2px solid #9c27b0; padding: 4px; border-radius: 6px; font-weight: bold;">
       <option value="">All Sub-counties</option>
     </select>
-    <label for="filterSwapSubCounty" style="margin-top: 2px; font-size: 12px; color: #6a1b9a;">Swap Sub-county</label>
+    <label for="filterSwapSubCounty" style="margin-top: 2px; font-size: 13px; color: black; font-weight: 500;">Swap Sub-county</label>
   </div>
 
   <!-- Hardship -->
   <div style="display: flex; flex-direction: column; align-items: center;">
     <select id="filterHardship"
-      style="width: 180px; background-color: #fff3e0; border: 2px solid #fb8c00; padding: 4px; border-radius: 6px; font-weight: bold;">
+      style="width: 160px; background-color: #fff3e0; border: 2px solid #fb8c00; padding: 4px; border-radius: 6px; font-weight: bold;">
       <option value="">All</option>
       <option value="With Hardship">With Hardship</option>
       <option value="Without Hardship">Without Hardship</option>
     </select>
-    <label for="filterHardship" style="margin-top: 2px; font-size: 12px; color: #ef6c00;">Hardship</label>
+    <label for="filterHardship" style="margin-top: 2px; font-size: 13px; color: black; font-weight: 500;">Hardship</label>
   </div>
 
-  <!-- Subject Combination -->
+  <!-- Subject -->
   <div style="display: flex; flex-direction: column; align-items: center;">
     <input type="text" id="filterSubjectCombination" placeholder="e.g. Math/Physics"
-      style="width: 180px; background-color: #f1f8e9; border: 2px solid #8bc34a; padding: 4px; border-radius: 6px; font-weight: bold;" />
-    <label for="filterSubjectCombination" style="margin-top: 2px; font-size: 12px; color: #558b2f;">Subject</label>
+      style="width: 160px; background-color: #f1f8e9; border: 2px solid #8bc34a; padding: 4px; border-radius: 6px; font-weight: bold;" />
+    <label for="filterSubjectCombination" style="margin-top: 2px; font-size: 13px; color: black; font-weight: 500;">Subject</label>
   </div>
-  <!-- Action Buttons -->
-  <div style="display: flex; flex-direction: column; gap: 8px; align-items: center;">
 
-    <button onclick="filterSwaps()" style="width: 180px; padding: 6px 10px; background: #43a047; color: white; border: none; border-radius: 6px; cursor: pointer;">
+  <!-- 🔘 Horizontal Buttons -->
+  <div style="display: flex; flex-direction: row; align-items: center; gap: 10px; margin-top: 10px;">
+    <button onclick="filterSwaps()" style="padding: 6px 12px; background: #43a047; color: white; border: none; border-radius: 6px; cursor: pointer;">
       <i class="fas fa-filter" style="margin-right: 6px;"></i> Filter Swaps
     </button>
 
-    <button onclick="findMatchingSwaps()" style="width: 180px; padding: 6px 10px; background: #3f51b5; color: white; border: none; border-radius: 6px; cursor: pointer;">
-      <i class="fas fa-handshake" style="margin-right: 6px;"></i> Find Matching Swaps
+    <button onclick="resetSwapFilters()" style="padding: 6px 12px; background: #c62828; color: white; border: none; border-radius: 6px; cursor: pointer;">
+      <i class="fas fa-times-circle" style="margin-right: 6px;"></i> Reset
     </button>
-
-    <button id="showTriangularSwap" class="trigger-button" style="width: 180px; padding: 6px 10px; background: #795548; color: white; border: none; border-radius: 6px; cursor: pointer;">
-      <i class="fas fa-project-diagram" style="margin-right: 6px;"></i> Find Triangular Swap
-    </button>
-
-    <button onclick="showVipSwaps()" style="width: 180px; background: crimson; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">
-      🔥 View VIP Swaps
-    </button>
-<button id="showTriangularSwap" class="trigger-button" ...>
-
   </div>
 </div>
+
+<!-- ✅ Active Filters Display -->
+<div id="activeFilters" style="margin: 10px auto 20px auto; max-width: 900px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;"></div>
 
 <!-- ✅ End Vertical Action Box -->
 
@@ -1448,29 +1498,10 @@ nav ul li {
     <button onclick="document.getElementById('vipSwapsModal').style.display='none'" style="padding:6px 12px; background:#ccc; border:none; border-radius:5px;">Close</button>
   </div>
 </div>
+<div id="swapCardContainer" style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin-top: 16px;">
+  <!-- Swap cards will be dynamically injected here by loadSwaps() -->
+</div>
 
-<table id="swapTable">
-  <thead>
-    <tr>
-      <th style="color: red; font-weight: bold;">Teacher's Name</th>
-      <th style="color: red; font-weight: bold;">Current County</th>
-      <th style="color: red; font-weight: bold;">Current Sub-county</th>
-      <th style="color: red; font-weight: bold;">Phone Number</th>
-      <th style="color: red; font-weight: bold;">Subject Combination</th>
-      <th style="color: red; font-weight: bold;">Swap County To</th>
-      <th style="color: red; font-weight: bold;">Swap Sub-county To</th>
-      <th style="color: red; font-weight: bold;">Category</th>
-      <th style="color: red; font-weight: bold;">Hardship</th>
-      <th style="color: red; font-weight: bold;">VIP/Delete</th>
-      <th style="color: red; font-weight: bold;">Rating</th>
-    </tr>
-  </thead>
-  <tbody>
-    <!-- Swap entries dynamically added here -->
-  </tbody>
-</table>
-
-  </div>
 
 
 <div id="bomJobs" class="page" style="display:none;">
@@ -1820,19 +1851,19 @@ Register To Connect With  Available Soulmates
 <div id="soulmateContainer"></div>
 
 
-<!-- Soulmates Cards Container -->
 <div id="soulmateContainer" style="
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* ⬅️ reduced min width */
-  gap: 25px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* reduced min width */
+  gap: 18px;
   width: 100%;
-  padding: 20px;
-  margin-top: 20px;
+  padding: 16px;
+  margin-top: 10px;
   box-sizing: border-box;
 ">
-  <div class="soulmate-card">Card 1</div>
-  <div class="soulmate-card">Card 2</div>
-  <div class="soulmate-card">Card 3</div>
+</div>
+
+  <div class="soulmate-card">That is all for today </div>
+  
 </div>
 
 
@@ -2723,14 +2754,14 @@ if (missing) {
     }
   }
 async function loadSwaps() {
-  const tbody = document.querySelector("#swapTable tbody");
-  tbody.innerHTML = "";
+  const container = document.querySelector("#swapCardContainer");
+  container.innerHTML = "";
 
   try {
     const snapshot = await db.collection("teacherSwaps").orderBy("timestamp", "desc").get();
 
     if (snapshot.empty) {
-      tbody.innerHTML = `<tr><td colspan="11">No swaps found.</td></tr>`;
+      container.innerHTML = `<div style="text-align:center;padding:20px;color:#999;">💔 No swap requests found</div>`;
       return;
     }
 
@@ -2756,77 +2787,73 @@ async function loadSwaps() {
 
     for (const s of orderedSwaps) {
       const blur = !hasPaid && !isAdmin;
-      const tr = document.createElement("tr");
 
       const isHotCounty = vipHotCounties.includes(s.county) || vipHotCounties.includes(s.swapCounty);
       const vipBtn = isAdmin && isHotCounty && !s.isVIP
         ? `<button onclick="markAsVIPSwap('${s.id}')">🔥 Sell VIP</button>`
-        : s.isVIP ? `<span style="color:crimson; font-weight:bold;">🔥 VIP</span>` : '-';
+        : s.isVIP ? `<span style="color:crimson;font-weight:bold;">🔥 VIP</span>` : "-";
 
       const isVerified = !!s.userId;
-
-      const showVerifiedBadge = isVerified
-        ? `<span class="verified-badge"><i class="fas fa-check-circle"></i> Verified</span>`
-        : "";
-
-      const showVIPBadge = s.isVIP
-        ? `<span style="color:crimson; font-weight:bold; font-size: 0.85em; margin-left:6px;">
-             <i class="fas fa-fire"></i> VIP Swap
-           </span>` : "";
-
+      const showVerifiedBadge = isVerified ? `<span class="verified-badge"><i class="fas fa-check-circle"></i></span>` : "";
+      const showVIPBadge = s.isVIP ? `<span class="vip-badge">🔥 VIP</span>` : "";
       const showBoostedBadge = s.isBoosted && s.boostExpiry
-        ? `<span style="background:orange; color:white; font-size:0.75em; padding:2px 6px; border-radius:6px; margin-left:6px;">🔥 Boosted</span>
-           <span style="font-size: 0.75em; color:gray;">(${Math.ceil((s.boostExpiry - now) / (1000 * 60 * 60 * 24))} day${Math.ceil((s.boostExpiry - now) / (1000 * 60 * 60 * 24)) !== 1 ? 's' : ''} left)</span>`
+        ? `<span class="boosted-badge">🚀 Boosted (${Math.ceil((s.boostExpiry - now) / (1000 * 60 * 60 * 24))} day${Math.ceil((s.boostExpiry - now) / (1000 * 60 * 60 * 24)) !== 1 ? 's' : ''} left)</span>`
         : "";
 
-      const badges = `${showVerifiedBadge}${showVIPBadge}${showBoostedBadge}`;
+      const blurred = val => blur ? "Hidden" : val;
 
-      tr.innerHTML = `
-        <tr>
-          <td style="color:#2e7d32;">${s.teacherName} ${badges}</td>
-          <td style="color:#3f51b5;">${s.county}</td>
-          <td style="color:#009688;">${s.subCounty || '-'}</td>
-          <td class="${blur ? 'blurred' : ''}" style="color:${blur ? '#aaa' : '#d32f2f'};">${blur ? 'Hidden' : s.phone}</td>
-          <td class="${blur ? 'blurred' : ''}" style="color:${blur ? '#aaa' : '#6a1b9a'};">${blur ? 'Hidden' : s.subjectCombination}</td>
-          <td style="color:#ef6c00;">${s.swapCounty}</td>
-          <td style="color:#5d4037;">${s.swapSubCounty || '-'}</td>
-          <td style="color:#1976d2;">${s.category}</td>
-          <td style="color:#e91e63;">${s.hardship}</td>
-          ${
-            isAdmin
-              ? `<td>
-                  <button onclick="confirmDeleteSwap('${s.id}')"
-                    style="background:#e53935; color:white; border:none; padding:4px 8px; border-radius:4px;">🗑️ Delete</button><br>
-                  ${vipBtn}
-                  <br>
-                  <button onclick="boostMarketItem('${s.id}', '${s.teacherName}')"
-                    style="margin-top:6px; background:#ff9800; color:white; border:none; border-radius:4px; padding:4px 8px; cursor:pointer;">
-                    🚀 Boost
-                  </button>
-                </td>`
-              : `<td>${s.isVIP ? '<span style="color:crimson; font-weight:bold;">🔥 VIP</span>' : '-'}</td>`
-          }
-          <td>
-            <div class="rating" data-id="${s.id}">
-              <span class="avg-rating" id="avgRating-${s.id}">Loading...</span><br>
-              ${[1, 2, 3, 4, 5].map(star => `
-                <i class="fas fa-star" onclick="rateService('${s.id}', ${star})"
-                   style="cursor:pointer; color:#ccc;" id="star-${s.id}-${star}"></i>
-              `).join('')}
-            </div>
-          </td>
-        </tr>
+      const card = document.createElement("div");
+      card.className = "swap-card";
+      card.style = `
+        background: #f9f9f9;
+        border-radius: 8px;
+        padding: 12px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        margin: 8px;
+        width: 280px;
+        display: inline-block;
+        vertical-align: top;
+        position: relative;
+      `;
+
+      card.innerHTML = `
+        <h3 style="margin:0; color:#1a237e;">${s.teacherName} ${showVerifiedBadge}</h3>
+        <div style="margin:4px 0;">${showVIPBadge} ${showBoostedBadge}</div>
+        <p style="margin:4px 0;color:#3f51b5;"><strong>From:</strong> ${s.county} / ${s.subCounty || "-"}</p>
+        <p style="margin:4px 0;color:#ef6c00;"><strong>Wants:</strong> ${s.swapCounty} / ${s.swapSubCounty || "-"}</p>
+        <p style="margin:4px 0;color:#6a1b9a;"><strong>Subjects:</strong> ${s.subjectCombination || '-'}</p>
+        <p style="margin:4px 0;color:#d32f2f;"><strong>Phone:</strong> <span class="${blur ? 'blurred' : ''}">${blurred(s.phone)}</span></p>
+        <p style="margin:4px 0;color:#3e2723;"><strong>Category:</strong> ${s.category || '-'}</p>
+        <p style="margin:4px 0;color:#d81b60;"><strong>Hardship:</strong> ${s.hardship || '-'}</p>
+        
+        <div class="rating" data-id="${s.id}">
+          <span class="avg-rating" id="avgRating-${s.id}">Loading...</span><br>
+          ${[1, 2, 3, 4, 5].map(star => `
+            <i class="fas fa-star" onclick="rateService('${s.id}', ${star})"
+               style="cursor:pointer; color:#ccc;" id="star-${s.id}-${star}"></i>
+          `).join('')}
+        </div>
+
+        <div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:8px;">
+          ${isAdmin ? `
+            <button onclick="confirmDeleteSwap('${s.id}')" style="background:#e53935;color:white;padding:4px 8px;border:none;border-radius:4px;">🗑️ Delete</button>
+            ${vipBtn}
+            <button onclick="boostMarketItem('${s.id}', '${s.teacherName}')" style="background:#ff9800;color:white;border:none;border-radius:4px;padding:4px 8px;">🚀 Boost</button>
+          ` : ""}
+          <button onclick="sendSwapInterest('${s.id}', '${s.teacherName}')" style="background:#1976d2;color:white;border:none;padding:4px 8px;border-radius:4px;flex-grow:1;">💌 Show Interest</button> <!-- ✅ New button -->
+        </div>
       `;
 
       if (blur) {
-        tr.querySelectorAll(".blurred").forEach(cell => {
-          cell.style.cursor = "pointer";
-          cell.title = "Click to unlock by payment";
-          cell.onclick = showPaymentModal;
+        card.querySelectorAll(".blurred").forEach(el => {
+          el.style.filter = "blur(3px)";
+          el.style.cursor = "pointer";
+          el.title = "Click to unlock";
+          el.onclick = showPaymentModal;
         });
       }
 
-      tbody.appendChild(tr);
+      container.appendChild(card);
       updateAverageRating(s.id);
     }
 
@@ -2835,6 +2862,26 @@ async function loadSwaps() {
     showCustomAlert("Error loading swaps: " + err.message, "error");
   }
 }
+async function sendSwapInterest(swapId, teacherName) {
+  const currentUser = firebase.auth().currentUser;
+  if (!currentUser) {
+    showCustomAlert("You must be logged in to express interest.", "error");
+    return;
+  }
+
+  const interestRef = db.collection("swapInterests").doc(); // You can use a composite key too
+
+  await interestRef.set({
+    swapId,
+    teacherName,
+    interestedBy: currentUser.uid,
+    interestedByName: currentUser.displayName || currentUser.email,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+  });
+
+  showCustomAlert(`✅ Your interest in ${teacherName}'s swap has been sent!`, "success");
+}
+
 
 
 
@@ -3382,23 +3429,17 @@ async function loadSoulmates() {
   const maxAge = parseInt(document.getElementById("filterMaxAge")?.value || 100);
   const tribeFilter = document.getElementById("filterTribe")?.value.toLowerCase().trim() || "";
   const sexFilter = document.getElementById("filterSex")?.value || "";
-
   const hasPaid = localStorage.getItem("paidForSoulmates") === "yes";
 
   const snapshot = await soulmateRef.orderBy("timestamp", "desc").get();
   if (snapshot.empty) {
-    container.innerHTML = `
-      <div style="text-align:center; padding:30px 10px; color:#777;">
-        <p style="font-size:18px;">💔 No soulmate profiles found</p>
-        <p style="font-size:14px;">Make your goods be viewed by thousands of our users who visit our site.</p>
-      </div>
-    `;
+    container.innerHTML = `<div style="text-align:center;padding:20px;color:#999;">💔 No soulmate profiles found</div>`;
     return;
   }
 
   let matchFound = false;
 
-  snapshot.forEach(doc => {
+  for (const doc of snapshot.docs) {
     const d = doc.data();
     const id = doc.id;
 
@@ -3406,97 +3447,180 @@ async function loadSoulmates() {
     const matchesAge = age >= minAge && age <= maxAge;
     const matchesTribe = tribeFilter === "" || (d.tribe && d.tribe.toLowerCase().includes(tribeFilter));
     const matchesSex = sexFilter === "" || d.sex === sexFilter;
-
-    if (!matchesAge || !matchesTribe || !matchesSex) return;
+    if (!matchesAge || !matchesTribe || !matchesSex) continue;
 
     matchFound = true;
 
-    const isPoster =
-      typeof currentUser !== "undefined" &&
-      currentUser !== null &&
-      (d.postedBy === currentUser.email || d.postedBy === currentUser.displayName);
+    const isPoster = currentUser && (d.postedBy === currentUser.uid);
+    const isVerified = !!d.postedBy;
 
-    const isVerified = d.postedBy !== undefined && d.postedBy !== null && d.postedBy !== "";
     const verifiedBadge = isVerified
-      ? `<span class="verified-badge"><i class="fas fa-check-circle"></i> Verified</span>`
+      ? `<div style="position:absolute;top:8px;right:8px;background:#4caf50;color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:12px;"><i class="fas fa-check"></i></div>`
       : "";
+
+    const avatarIcon = d.sex === "Male"
+      ? `<i class="fas fa-user-tie" style="font-size:46px; color:#3f51b5;"></i>`
+      : `<i class="fas fa-user-nurse" style="font-size:46px; color:#e91e63;"></i>`;
+
+    const statusIcon = d.status === "Single"
+      ? `<i class="fas fa-heart-broken" style="color:#f44336;margin-left:4px;"></i>`
+      : d.status === "Married"
+        ? `<i class="fas fa-ring" style="color:#00796b;margin-left:4px;"></i>`
+        : "";
+
+    const contactHTML = `
+      <div style="margin:4px 0;">
+        📞 <a href="tel:${d.phone}" style="color:green;">${d.phone}</a><br>
+        💬 <a href="https://wa.me/254${d.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">WhatsApp</a>
+      </div>`;
+
+    const blurredContactHTML = `
+      <div style="margin:4px 0;">
+        📞 <span style="filter:blur(4px);">0700000000</span><br>
+        💬 <span style="filter:blur(4px);">WhatsApp</span>
+        <div style="margin-top:6px;color:crimson;font-size:13px;">🔒 Pay Ksh 200 to Unlock</div>
+        <button onclick="unlockSoulmateContacts()" style="margin-top:5px;background:crimson;color:white;border:none;padding:4px 10px;border-radius:4px;">💳 Pay</button>
+      </div>`;
 
     const card = document.createElement("div");
     card.className = "soulmate-card";
-    card.style.position = "relative";
-
-    let sexIcon = d.sex === 'Male'
-      ? '<i class="fas fa-mars" style="margin-right: 8px; color:#00796b;"></i>'
-      : '<i class="fas fa-venus" style="margin-right: 8px; color:#00796b;"></i>';
-
-    let statusIcon = '';
-    if (d.status === 'Single') {
-      statusIcon = '<i class="fas fa-heart-broken" style="margin-left: 8px; color:#f44336;"></i>';
-    } else if (d.status === 'Married') {
-      statusIcon = '<i class="fas fa-ring" style="margin-left: 8px; color:#00796b;"></i>';
-    }
-
-    const contactHTML = `
-      <a href="tel:${d.phone}" style="color:green;">📞 Call</a><br>
-      <a href="https://wa.me/254${d.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">💬 WhatsApp</a><br>
-      <button onclick="openChatModal('${d.phone}', '${d.name}')"
-        style="background:#673ab7; color:white; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">
-        💬 Chat
-      </button>
+    card.id = `soulmate-${id}`;
+    card.style = `
+      background: #e6f7ff;
+      padding: 14px;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      text-align: left;
+      position: relative;
+      min-width: 220px;
+      max-width: 240px;
+      box-sizing: border-box;
     `;
 
     card.innerHTML = `
       ${verifiedBadge}
-      <div class="soulmate-photo">
-        <img src="${d.photoURL || 'default.jpg'}" alt="Photo" style="width:100%; height:auto; border-radius:8px; object-fit:cover;" />
-        <p style="text-align:center; font-weight:bold; margin-top:6px;">${d.name}</p>
-      </div>
-      <div class="soulmate-details">
-        <h3 style="color:#00796b; display: flex; align-items: center;">
-          ${sexIcon}${d.name} ${statusIcon}
-        </h3>
-        <p style="color:#ff5722;"><i class="fas fa-birthday-cake"></i> <strong>Age:</strong> ${d.age}</p>
-        <p style="color:#3f51b5;"><i class="fas fa-map-marker-alt"></i> <strong>County:</strong> ${d.county}</p>
-        <p style="color:#8e24aa;"><i class="fas fa-users"></i> <strong>Tribe:</strong> ${d.tribe}</p>
-        <p style="color:#009688;"><i class="fas fa-briefcase"></i> <strong>Occupation:</strong> ${d.occupation}</p>
-        <p style="color:#e91e63;"><i class="fas fa-heart"></i> <strong>Status:</strong> ${d.status || '—'}</p>
-        <p style="color:#795548;"><i class="fas fa-baby"></i> <strong>Kids:</strong> ${d.kids || '—'}</p>
+      <div style="margin: 0 0 8px;">${avatarIcon}</div>
+      <h4 style="margin:0 0 6px;font-size:16px;">${d.name}</h4>
+      <p style="margin:0;color:#009688;"><strong>Location:</strong> ${d.county || '—'} / ${d.subCounty || '—'}</p>
+      <p style="margin:0;color:#6a1b9a;"><strong>Tribe:</strong> ${d.tribe || '—'}</p>
+      <p style="margin:0;color:#ff5722;"><strong>Age:</strong> ${d.age}</p>
+      <p style="margin:0;color:#795548;"><strong>Status:</strong> ${d.status || '—'} ${statusIcon}</p>
+      <p style="margin:0;color:#607d8b;"><strong>Occupation:</strong> ${d.occupation}</p>
 
-        <div class="contact-actions" id="contact-actions-${id}">
-          ${
-            isPoster || hasPaid
-              ? contactHTML
-              : `
-              <div class="blurred">
-                <p style="color:gray; text-align:center;">🔒 Contacts Locked – Pay Ksh 200 to Unlock</p>
-              </div>
-              <button onclick="unlockSoulmateContacts()" style="background:crimson; color:white; padding:6px 12px; border-radius:6px; border:none; cursor:pointer;">
-                💳 Pay Ksh 200
-              </button>`
-          }
-        </div>
+      <div style="margin-top:6px;">
+        ${hasPaid || isPoster ? contactHTML : blurredContactHTML}
       </div>
+<div style="display:flex;align-items:center;margin-top:10px;gap:10px;">
+  <button id="likeBtn-${id}" onclick="toggleLike('${id}')" class="like-button">👍</button>
+  <span id="likeCount-${id}" onclick="showLikeList('${id}')" style="cursor:pointer;font-weight:bold;">0 Likes</span>
+</div>
 
-      <div class="rating" data-id="${id}">
-        <span class="avg-rating" id="avgRating-${id}">Loading...</span><br>
-        ${[1, 2, 3, 4, 5].map(star => `
-          <i class="fas fa-star" onclick="rateService('${id}', ${star})"
-             style="cursor:pointer; color:#ccc;" id="star-${id}-${star}"></i>
-        `).join('')}
-      </div>
     `;
 
     container.appendChild(card);
-    updateAverageRating(id);
-  });
+    updateLikeUI(id);
+  }
 
   if (!matchFound) {
-    container.innerHTML = `
-      <div style="text-align:center; padding:30px 10px; color:#999;">
-        <p style="font-size:16px;">🔍 No results match your filter</p>
-      </div>
-    `;
+    container.innerHTML = `<div style="text-align:center;padding:20px;color:#999;">🔍 No results match your filter</div>`;
   }
+}
+async function toggleLike(profileId) {
+  const user = firebase.auth().currentUser;
+  if (!user) {
+    alert("Please login to like profiles.");
+    return;
+  }
+
+  const likeRef = soulmateRef.doc(profileId).collection("likes").doc(user.uid);
+  const likeDoc = await likeRef.get();
+
+  if (likeDoc.exists) {
+    // 👎 Unlike
+    await likeRef.delete();
+  } else {
+    // 👍 Like
+    await likeRef.set({ timestamp: firebase.firestore.FieldValue.serverTimestamp() });
+
+    // ✅ Check if they liked you too → it's a match!
+    const theyLikedYou = await soulmateRef.doc(profileId).get();
+    const theirUid = theyLikedYou.data()?.postedBy;
+
+    if (theirUid) {
+      const reverseLikeDoc = await soulmateRef.doc(profileId).collection("likes").doc(theirUid).get();
+      if (reverseLikeDoc.exists && theirUid !== user.uid) {
+        showMatchCelebration(); // 🎉 trigger match effect
+      }
+    }
+  }
+
+  updateLikeUI(profileId);
+}
+
+
+async function updateLikeUI(profileId) {
+  const user = firebase.auth().currentUser;
+  const likeSnap = await soulmateRef.doc(profileId).collection("likes").get();
+  const count = likeSnap.size;
+  const likeCountSpan = document.getElementById(`likeCount-${profileId}`);
+  const likeBtn = document.getElementById(`likeBtn-${profileId}`);
+
+  likeCountSpan.textContent = `${count} Like${count !== 1 ? 's' : ''}`;
+
+  if (user && likeBtn) {
+    const liked = await soulmateRef.doc(profileId).collection("likes").doc(user.uid).get();
+    likeBtn.classList.toggle("liked", liked.exists);
+    likeBtn.innerHTML = liked.exists ? "👍 Liked" : "👍 Like";
+  }
+}
+
+
+async function showLikeList(profileId) {
+  const snapshot = await soulmateRef.doc(profileId).collection("likes").get();
+  if (snapshot.empty) {
+    alert("No likes yet.");
+    return;
+  }
+
+  let names = [];
+  for (const doc of snapshot.docs) {
+    const userDoc = await firebase.firestore().collection("users").doc(doc.id).get();
+    if (userDoc.exists) {
+      const userName = userDoc.data().displayName || userDoc.data().email || "Anonymous";
+      names.push(userName);
+    }
+  }
+
+  alert(`❤️ Liked by:\n\n${names.join("\n")}`);
+}
+
+function showMatchCelebration() {
+  // 🎉 Confetti using canvas-confetti
+  if (typeof confetti !== "undefined") {
+    confetti({
+      particleCount: 150,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
+  }
+
+  // 🎈 Floating emojis
+  const emojis = ["💘", "❤️", "💖", "🎉", "😍", "💫"];
+  for (let i = 0; i < 15; i++) {
+    const emoji = document.createElement("div");
+    emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    emoji.style.position = "fixed";
+    emoji.style.left = `${Math.random() * 100}vw`;
+    emoji.style.top = "100vh";
+    emoji.style.fontSize = "30px";
+    emoji.style.animation = `floatUp ${3 + Math.random() * 2}s ease-out forwards`;
+    document.body.appendChild(emoji);
+
+    setTimeout(() => emoji.remove(), 5000);
+  }
+
+  // 🔔 Optional popup
+  alert("🎉 It's a Match!\nYou both liked each other.");
 }
 
 function resetSoulmateFilters() {
@@ -5042,6 +5166,7 @@ async function loadNotifications() {
     ul.innerHTML = `<li>Error loading notifications: ${err.message}</li>`;
   }
 }
+
 function filterSwaps() {
   const category = document.getElementById("filterCategory").value.toLowerCase();
   const swapCounty = document.getElementById("filterSwapCounty").value.toLowerCase();
@@ -5081,6 +5206,17 @@ function filterSwaps() {
     showCustomAlert("❗No matching swaps found.", "error");
   }
 }
+function resetSwapFilters() {
+  document.getElementById("filterCategory").value = "";
+  document.getElementById("filterSwapCounty").value = "";
+  document.getElementById("filterSwapSubCounty").innerHTML = "<option value=''>All Sub-counties</option>";
+  document.getElementById("filterHardship").value = "";
+  document.getElementById("filterSubjectCombination").value = "";
+
+  document.getElementById("activeFilters").innerHTML = "";
+  filterSwaps();
+}
+
 // 🔥 VIP Auto-flagging helper
 const hotCounties = ["Nairobi", "Kisumu", "Mombasa", "Kisii", "Nakuru"];
 
@@ -5553,6 +5689,8 @@ document.addEventListener('DOMContentLoaded', () => {
   watchScrollEnd('soulmateContainer');
   // Add more if needed
 });
+
+
 </script>
 
 

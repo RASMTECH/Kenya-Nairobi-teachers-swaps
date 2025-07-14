@@ -2930,7 +2930,9 @@ if (missing) {
     } catch (err) {
       showCustomAlert("Error saving swap: " + err.message, "error");
     }
-  }
+}
+
+
 async function loadSwaps() {
   const container = document.querySelector("#swapCardContainer");
   container.innerHTML = "";
@@ -2994,6 +2996,13 @@ async function loadSwaps() {
         position: relative;
       `;
 
+      // ✅ Attach data attributes for filtering
+      card.setAttribute("data-category", s.category || "-");
+      card.setAttribute("data-swapcounty", s.swapCounty || "-");
+      card.setAttribute("data-swapsubcounty", s.swapSubCounty || "-");
+      card.setAttribute("data-hardship", s.hardship || "-");
+      card.setAttribute("data-subject", (s.subjectCombination || "-").toLowerCase());
+
       card.innerHTML = `
         <h3 style="margin:0; color:#1a237e;">${s.teacherName} ${showVerifiedBadge}</h3>
         <div style="margin:4px 0;">${showVIPBadge} ${showBoostedBadge}</div>
@@ -3003,7 +3012,7 @@ async function loadSwaps() {
         <p style="margin:4px 0;color:#d32f2f;"><strong>Phone:</strong> <span class="${blur ? 'blurred' : ''}">${blurred(s.phone)}</span></p>
         <p style="margin:4px 0;color:#3e2723;"><strong>Category:</strong> ${s.category || '-'}</p>
         <p style="margin:4px 0;color:#d81b60;"><strong>Hardship:</strong> ${s.hardship || '-'}</p>
-        
+
         <div class="rating" data-id="${s.id}">
           <span class="avg-rating" id="avgRating-${s.id}">Loading...</span><br>
           ${[1, 2, 3, 4, 5].map(star => `
@@ -3018,7 +3027,7 @@ async function loadSwaps() {
             ${vipBtn}
             <button onclick="boostMarketItem('${s.id}', '${s.teacherName}')" style="background:#ff9800;color:white;border:none;border-radius:4px;padding:4px 8px;">🚀 Boost</button>
           ` : ""}
-          <button onclick="sendSwapInterest('${s.id}', '${s.teacherName}')" style="background:#1976d2;color:white;border:none;padding:4px 8px;border-radius:4px;flex-grow:1;">💌 Show Interest</button> <!-- ✅ New button -->
+          <button onclick="sendSwapInterest('${s.id}', '${s.teacherName}')" style="background:#1976d2;color:white;border:none;padding:4px 8px;border-radius:4px;flex-grow:1;">💌 Show Interest</button>
         </div>
       `;
 
@@ -3040,6 +3049,7 @@ async function loadSwaps() {
     showCustomAlert("Error loading swaps: " + err.message, "error");
   }
 }
+
 async function sendSwapInterest(swapId, teacherName) {
   const currentUser = firebase.auth().currentUser;
   if (!currentUser) {
@@ -5484,56 +5494,113 @@ async function loadNotifications() {
     ul.innerHTML = `<li>Error loading notifications: ${err.message}</li>`;
   }
 }
-
 function filterSwaps() {
   const category = document.getElementById("filterCategory").value.toLowerCase();
   const swapCounty = document.getElementById("filterSwapCounty").value.toLowerCase();
   const swapSubCounty = document.getElementById("filterSwapSubCounty").value.toLowerCase();
-  const hardship = document.getElementById("filterHardship")?.value.toLowerCase() || "";
-  const subjectInput = document.getElementById("filterSubjectCombination")?.value.toLowerCase() || "";
+  const hardship = document.getElementById("filterHardship").value.toLowerCase();
+  const subject = document.getElementById("filterSubjectCombination").value.toLowerCase();
 
-  const table = document.getElementById("swapTable");
-  const rows = table.querySelectorAll("tbody tr");
-
+  const swapCards = document.querySelectorAll("#swapCardContainer .swap-card");
   let visibleCount = 0;
 
-  rows.forEach(row => {
-    const rowCategory = row.children[7]?.textContent.toLowerCase() || "";
-    const rowSwapCounty = row.children[5]?.textContent.toLowerCase() || "";
-    const rowSwapSubCounty = row.children[6]?.textContent.toLowerCase() || "";
-    const rowHardship = row.children[8]?.textContent.toLowerCase() || "";
-    const rowSubject = row.children[4]?.textContent.toLowerCase() || "";
+  swapCards.forEach(card => {
+    const cardCategory = card.getAttribute("data-category").toLowerCase();
+    const cardSwapCounty = card.getAttribute("data-swapcounty").toLowerCase();
+    const cardSwapSubCounty = card.getAttribute("data-swapsubcounty").toLowerCase();
+    const cardHardship = card.getAttribute("data-hardship").toLowerCase();
+    const cardSubject = card.getAttribute("data-subject").toLowerCase();
 
-    const matchCategory = !category || rowCategory.includes(category);
-    const matchCounty = !swapCounty || rowSwapCounty.includes(swapCounty);
-    const matchSubCounty = !swapSubCounty || rowSwapSubCounty.includes(swapSubCounty);
-    const matchHardship = !hardship || rowHardship.includes(hardship);
-    const matchSubject = !subjectInput || rowSubject.includes(subjectInput);
+    const matchesCategory = !category || cardCategory === category;
+    const matchesCounty = !swapCounty || cardSwapCounty === swapCounty;
+    const matchesSubCounty = !swapSubCounty || cardSwapSubCounty === swapSubCounty;
+    const matchesHardship = !hardship || cardHardship === hardship;
+    const matchesSubject = !subject || cardSubject.includes(subject);
 
-    const shouldShow = matchCategory && matchCounty && matchSubCounty && matchHardship && matchSubject;
-
-    if (shouldShow) {
-      row.style.display = "";
+    if (matchesCategory && matchesCounty && matchesSubCounty && matchesHardship && matchesSubject) {
+      card.style.display = "block";
       visibleCount++;
     } else {
-      row.style.display = "none";
+      card.style.display = "none";
     }
   });
 
+  // Remove any existing no-results message
+  const container = document.getElementById("swapCardContainer");
+  const noResultsMsg = document.getElementById("noResultsMessage");
+  if (noResultsMsg) noResultsMsg.remove();
+
+  // If none visible, show message
   if (visibleCount === 0) {
-    showCustomAlert("❗No matching swaps found.", "error");
+    const msg = document.createElement("div");
+    msg.id = "noResultsMessage";
+    msg.style = "text-align:center;padding:20px;color:#999;";
+    msg.innerHTML = "💔 No swap requests match your filters.";
+    container.appendChild(msg);
   }
+
+  displayActiveFilters();
 }
+
 function resetSwapFilters() {
   document.getElementById("filterCategory").value = "";
   document.getElementById("filterSwapCounty").value = "";
-  document.getElementById("filterSwapSubCounty").innerHTML = "<option value=''>All Sub-counties</option>";
+  document.getElementById("filterSwapSubCounty").value = "";
   document.getElementById("filterHardship").value = "";
   document.getElementById("filterSubjectCombination").value = "";
 
-  document.getElementById("activeFilters").innerHTML = "";
-  filterSwaps();
+  filterSwaps(); // Reshow all after reset
 }
+
+function displayActiveFilters() {
+  const activeFilters = document.getElementById("activeFilters");
+  if (!activeFilters) return;
+  activeFilters.innerHTML = "";
+
+  const filters = [
+    { label: "Category", value: document.getElementById("filterCategory").value },
+    { label: "Swap County", value: document.getElementById("filterSwapCounty").value },
+    { label: "Sub-county", value: document.getElementById("filterSwapSubCounty").value },
+    { label: "Hardship", value: document.getElementById("filterHardship").value },
+    { label: "Subject", value: document.getElementById("filterSubjectCombination").value }
+  ];
+
+  filters.forEach(f => {
+    if (f.value) {
+      const badge = document.createElement("span");
+      badge.textContent = `${f.label}: ${f.value}`;
+      badge.style.background = "#43a047";
+      badge.style.color = "white";
+      badge.style.padding = "5px 10px";
+      badge.style.borderRadius = "6px";
+      badge.style.marginRight = "5px";
+      badge.style.fontSize = "13px";
+      activeFilters.appendChild(badge);
+    }
+  });
+}
+
+// ✅ Hook up dynamic filtering on input changes
+document.addEventListener("DOMContentLoaded", () => {
+  const inputs = [
+    "filterCategory",
+    "filterSwapCounty",
+    "filterSwapSubCounty",
+    "filterHardship",
+    "filterSubjectCombination"
+  ];
+
+  inputs.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      if (el.tagName === "INPUT") {
+        el.addEventListener("keyup", filterSwaps);
+      } else {
+        el.addEventListener("change", filterSwaps);
+      }
+    }
+  });
+});
 
 // 🔥 VIP Auto-flagging helper
 const hotCounties = ["Nairobi", "Kisumu", "Mombasa", "Kisii", "Nakuru"];

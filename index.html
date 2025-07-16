@@ -1267,11 +1267,11 @@ nav ul li {
   .scrolling-banner-content {
     display: inline-block;
     white-space: nowrap;
-    padding-left: 100%;
-    animation: scrollRight 40s linear infinite; /* ⬅️ Slower scroll */
+    padding-left: 120%;
+    animation: scrollRight 100s linear infinite; /* ⬅️ Slower scroll */
     font-weight: bold;
     color: #d84315;
-    font-size: 16px;
+    font-size: 18px;
   }
 
   @keyframes scrollRight {
@@ -1697,7 +1697,7 @@ nav ul li {
 <!-- Confirm Delete Modal -->
 <div id="confirmDeleteModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:9999;">
   <div style="background:white; padding:20px; border-radius:8px; text-align:center;">
-    <p>Are you sure you want to delete this BOM job?</p>
+    <p>Are you sure you want to delete this  job?</p>
     <button id="confirmDeleteBtn" style="margin: 5px;">Yes, Delete</button>
     <button onclick="closeDeleteModal()" style="margin: 5px;">Cancel</button>
   </div>
@@ -2387,7 +2387,7 @@ Register To Connect With  Available Soulmates
 </div>
 
 <!-- ✅ Likes Modal -->
-<div id="likesModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:999;">
+<div id="likesModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:15%; height:100%; background:rgba(0,0,0,0.6); z-index:999;">
   <div style="background:#fff; max-width:400px; margin:60px auto; padding:20px; border-radius:8px; position:relative;">
     <span onclick="closeLikesModal()" style="position:absolute; top:8px; right:12px; font-size:20px; cursor:pointer;">&times;</span>
     <h3 style="margin:0 0 12px;">❤️ Likes</h3>
@@ -2917,6 +2917,7 @@ async function loadSwaps() {
     const now = new Date();
     const boostedSwaps = [];
     const normalSwaps = [];
+    const hasPaid = localStorage.getItem("paidForSwaps") === "yes";
 
     for (const doc of snapshot.docs) {
       const s = doc.data();
@@ -2924,7 +2925,6 @@ async function loadSwaps() {
       const boostExpiry = s.boostExpiry?.toDate?.();
       const isBoosted = s.boosted && boostExpiry && boostExpiry > now;
 
-      // Remove expired boosts
       if (s.boosted && (!boostExpiry || boostExpiry <= now)) {
         await db.collection("teacherSwaps").doc(id).update({ boosted: false, boostExpiry: null });
       }
@@ -2936,10 +2936,12 @@ async function loadSwaps() {
     const orderedSwaps = [...boostedSwaps, ...normalSwaps];
 
     for (const s of orderedSwaps) {
-      const blur = !hasPaid && !isAdmin;
+      const isPoster = currentUser && s.userId === currentUser.uid;
+      const isAdminUser = isAdmin === true;
+      const blur = !hasPaid && !isPoster && !isAdminUser;
 
       const isHotCounty = vipHotCounties.includes(s.county) || vipHotCounties.includes(s.swapCounty);
-      const vipBtn = isAdmin && isHotCounty && !s.isVIP
+      const vipBtn = isAdminUser && isHotCounty && !s.isVIP
         ? `<button onclick="markAsVIPSwap('${s.id}')">🔥 Sell VIP</button>`
         : s.isVIP ? `<span style="color:crimson;font-weight:bold;">🔥 VIP</span>` : "-";
 
@@ -2950,7 +2952,22 @@ async function loadSwaps() {
         ? `<span class="boosted-badge">🚀 Boosted (${Math.ceil((s.boostExpiry - now) / (1000 * 60 * 60 * 24))} day${Math.ceil((s.boostExpiry - now) / (1000 * 60 * 60 * 24)) !== 1 ? 's' : ''} left)</span>`
         : "";
 
-      const blurred = val => blur ? "Hidden" : val;
+      const contactHTML = `
+        <div style="margin:4px 0;">
+          📞 <a href="tel:${s.phone}" style="color:green;">${s.phone}</a><br>
+          💬 <a href="https://wa.me/254${s.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366;">WhatsApp</a>
+        </div>`;
+
+      const blurredContactHTML = `
+        <div style="margin:6px 0; text-align:left;">
+          <span style="color:crimson; font-size:13px; font-weight:bold;">
+            🔒 Contacts locked. Pay Ksh 250 to unlock
+          </span><br>
+          <button onclick="showPaymentModalFor('swap', 250, '${s.id}', 'Unlock VIP Swaps')"
+                  style="margin-top:4px;background:crimson;color:white;border:none;padding:5px 10px;border-radius:4px;">
+            💳 Pay Now
+          </button>
+        </div>`;
 
       const card = document.createElement("div");
       card.className = "swap-card";
@@ -2966,7 +2983,6 @@ async function loadSwaps() {
         position: relative;
       `;
 
-      // ✅ Attach data attributes for filtering
       card.setAttribute("data-category", s.category || "-");
       card.setAttribute("data-swapcounty", s.swapCounty || "-");
       card.setAttribute("data-swapsubcounty", s.swapSubCounty || "-");
@@ -2979,9 +2995,12 @@ async function loadSwaps() {
         <p style="margin:4px 0;color:#3f51b5;"><strong>From:</strong> ${s.county} / ${s.subCounty || "-"}</p>
         <p style="margin:4px 0;color:#ef6c00;"><strong>Wants:</strong> ${s.swapCounty} / ${s.swapSubCounty || "-"}</p>
         <p style="margin:4px 0;color:#6a1b9a;"><strong>Subjects:</strong> ${s.subjectCombination || '-'}</p>
-        <p style="margin:4px 0;color:#d32f2f;"><strong>Phone:</strong> <span class="${blur ? 'blurred' : ''}">${blurred(s.phone)}</span></p>
         <p style="margin:4px 0;color:#3e2723;"><strong>Category:</strong> ${s.category || '-'}</p>
         <p style="margin:4px 0;color:#d81b60;"><strong>Hardship:</strong> ${s.hardship || '-'}</p>
+
+        <div style="margin-top:6px;">
+          ${blur ? blurredContactHTML : contactHTML}
+        </div>
 
         <div class="rating" data-id="${s.id}">
           <span class="avg-rating" id="avgRating-${s.id}">Loading...</span><br>
@@ -2992,24 +3011,14 @@ async function loadSwaps() {
         </div>
 
         <div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:8px;">
-          ${isAdmin ? `
+          ${isAdminUser ? `
             <button onclick="deleteSwap('${s.id}')" style="background:#e53935;color:white;padding:4px 8px;border:none;border-radius:4px;">🗑️ Delete</button>
             ${vipBtn}
-            <button onclick="boostMarketItem('${s.id}', '${s.teacherName}')" style="background:#ff9800;color:white;border:none;border-radius:4px;padding:4px 8px;">🚀 Boost</button>
+            <button onclick="boostItem('${s.id}', '${s.teacherName}')" style="background:#ff9800;color:white;border:none;border-radius:4px;padding:4px 8px;">🚀 Boost</button>
           ` : ""}
           <button onclick="sendSwapInterest('${s.id}', '${s.teacherName}')" style="background:#1976d2;color:white;border:none;padding:4px 8px;border-radius:4px;flex-grow:1;">💌 Show Interest</button>
         </div>
       `;
-
-      // Blur phone if not paid
-      if (blur) {
-        card.querySelectorAll(".blurred").forEach(el => {
-          el.style.filter = "blur(3px)";
-          el.style.cursor = "pointer";
-          el.title = "Click to unlock";
-          el.onclick = showPaymentModal;
-        });
-      }
 
       container.appendChild(card);
       updateAverageRating(s.id);
@@ -3020,6 +3029,7 @@ async function loadSwaps() {
     showCustomAlert("Error loading swaps: " + err.message, "error");
   }
 }
+
 
 
 async function sendSwapInterest(swapId, teacherName) {
@@ -3050,7 +3060,7 @@ document.getElementById("bomJobForm").addEventListener("submit", async e => {
   e.preventDefault();
 
   if (!currentUser) {
-    return showCustomAlert("Please login to post a BOM job.", "error");
+    return showCustomAlert("Please login to post a job.", "error");
   }
 
   const now = new Date();
@@ -3075,7 +3085,7 @@ document.getElementById("bomJobForm").addEventListener("submit", async e => {
 
   try {
     await bomRef.add(job);
-    showCustomAlert("✅ BOM job posted successfully!", "success");
+    showCustomAlert("✅ Job posted successfully!", "success");
     document.getElementById("bomJobForm").reset();
     loadBOMJobs();
 
@@ -3151,7 +3161,7 @@ async function loadBOMJobs() {
     renderBOMJobs(bomJobsCache);
 
   } catch (err) {
-    showCustomAlert("❌ Failed to load BOM jobs: " + err.message, "error");
+    showCustomAlert("❌ Failed to load  jobs: " + err.message, "error");
   }
 }
 function renderBOMJobs(jobs) {
@@ -3302,7 +3312,7 @@ function hasBomJobAccess() {
 
 function unlockBomJobs() {
   if (!currentUser || !currentUser.uid) {
-    showCustomAlert("Please login to unlock BOM job contacts.", "error");
+    showCustomAlert("Please login to unlock job contacts.", "error");
     return;
   }
 
@@ -3311,7 +3321,7 @@ function unlockBomJobs() {
   const checkPaid = setInterval(() => {
     if (localStorage.getItem("paidForBomJobs")) {
       clearInterval(checkPaid);
-      showCustomAlert("BOM Job contacts unlocked for 2 weeks!", "success");
+      showCustomAlert(" Job contacts unlocked for 2 weeks!", "success");
       closeUniversalModal();
       loadBOMJobs(); // re-render if function exists
     }
@@ -3400,7 +3410,7 @@ document.getElementById("confirmDeleteBtn").onclick = async () => {
 
   try {
     await bomRef.doc(jobToDeleteId).delete();
-    showCustomAlert("🗑️ BOM job deleted successfully!", "success");
+    showCustomAlert("🗑️ job deleted successfully!", "success");
     closeDeleteModal();
     loadBOMJobs();
   } catch (err) {
@@ -4881,138 +4891,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (typeof isAdmin === "undefined") isAdmin = false; // Fallback if not defined yet
   loadMarketItems();
 });
-function boostMarketItem(itemId, itemName) {
-  showPhonePrompt(`🚀 Boost "${itemName}" for Ksh 100`, function (phone) {
-    // Replace native confirm with a custom modal
-    showBoostConfirmModal(itemName, phone, async () => {
-      try {
-        const response = await fetch("http://localhost:3000/stkpush", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            phone,
-            amount: 100,
-            accountReference: `BOOST_${itemId}`,
-            itemId,
-            itemName,
-            userId: currentUser?.uid || "anonymous"
-          })
-        });
-
-        const result = await response.json();
-
-        if (!result.success || result.ResponseCode !== "0") {
-          showCustomAlert("❌ MPESA STK Push failed. Try again.", "error");
-          return;
-        }
-
-        showCustomAlert("✅ MPESA prompt sent. Check your phone!", "success");
-      } catch (err) {
-        console.error("Boost error:", err);
-        showCustomAlert("❌ Boost error: " + err.message, "error");
-      }
-    });
-  });
-}
-
-function showPhonePrompt(title = "Enter MPESA Number", callback) {
-  const modal = document.createElement("div");
-  modal.innerHTML = `
-    <div class="modal">
-      <div class="modal-content">
-        <h3>${title}</h3>
-        <input type="text" id="mpesaPhone" placeholder="0712345678 or +2547..." style="width: 90%; padding: 8px; margin-top: 10px;" />
-        <div style="margin-top: 15px;">
-          <button id="confirmPhone" style="background:#4caf50; color:white; margin-right: 10px;">Confirm</button>
-          <button id="cancelPhone" style="background:#f44336; color:white;">Cancel</button>
-        </div>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(modal);
-
-  // Style
-  const style = document.createElement("style");
-  style.textContent = `
-    .modal {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.5); display: flex;
-      justify-content: center; align-items: center; z-index: 1000;
-    }
-    .modal-content {
-      background: #fff; padding: 20px; border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); text-align: center;
-    }
-    .modal-content input {
-      border: 1px solid #ccc; border-radius: 5px;
-    }
-    .modal-content button {
-      padding: 10px 15px; border: none;
-      border-radius: 5px; cursor: pointer;
-    }
-    .modal-content button:hover {
-      opacity: 0.9;
-    }
-  `;
-  document.head.appendChild(style);
-
-  // Confirm button with flexible validation
-  document.getElementById("confirmPhone").onclick = () => {
-    let phone = document.getElementById("mpesaPhone").value.trim();
-
-    // Normalize phone number to 2547XXXXXXXX
-    if (/^07\d{8}$/.test(phone)) {
-      phone = "254" + phone.slice(1);
-    } else if (/^\+2547\d{8}$/.test(phone)) {
-      phone = phone.replace("+", "");
-    }
-
-    if (!/^2547\d{8}$/.test(phone)) {
-      showCustomAlert("❌ Invalid phone number. Use formats like 0712345678 or +254712345678", "error");
-      return;
-    }
-
-    document.body.removeChild(modal);
-    callback(phone); // Pass normalized valid phone
-  };
-
-  // Cancel button
-  document.getElementById("cancelPhone").onclick = () => {
-    document.body.removeChild(modal);
-    showCustomAlert("❌ Boost cancelled.", "error");
-  };
-}
-
-function showBoostConfirmModal(itemName, phone, onConfirm) {
-  const modal = document.createElement("div");
-  modal.className = "modal";
-  modal.innerHTML = `
-    <div class="modal-content">
-      <h3>📢 Confirm Boost</h3>
-      <p>You're about to <strong>boost "${itemName}"</strong> for <strong>Ksh 100</strong>.</p>
-      <p>We will send a <strong>MPESA STK prompt</strong> to:</p>
-      <p style="font-weight:bold; font-size: 18px;">📱 ${phone}</p>
-      <div style="margin-top: 20px;">
-        <button id="confirmBoost" style="background:#4caf50; color:white; margin-right: 10px;">✅ Confirm Boost</button>
-        <button id="cancelBoost" style="background:#f44336; color:white;">Cancel</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(modal);
-
-  // Confirm
-  document.getElementById("confirmBoost").onclick = () => {
-    document.body.removeChild(modal);
-    onConfirm(); // Call the function passed from boostMarketItem
-  };
-
-  // Cancel
-  document.getElementById("cancelBoost").onclick = () => {
-    document.body.removeChild(modal);
-    showCustomAlert("❌ Boost cancelled.", "error");
-  };
-}
-
 
 function showCustomConfirm(message, onConfirm) {
   // Remove existing confirm box if any
@@ -5090,7 +4968,6 @@ function filterMarketItems() {
 }
 
 // ======================= FRONTEND =======================
-
 // ✅ Unified Payment Modal for Multiple Services
 function showPaymentModalFor(type, amount, itemId, itemName) {
   const modalHTML = `
@@ -5121,7 +4998,7 @@ function closeUniversalModal() {
   if (modal) modal.remove();
 }
 
-// ✅ Unified STK Push Handler with unlock logic for Soulmates, BOM Jobs, Market, and Services
+// ✅ Unified STK Push Handler with unlock logic
 async function initiateStkPayment(type, amount, itemId, itemName) {
   const phone = document.getElementById("universalPhone").value.trim();
   const statusEl = document.getElementById("universalPaymentStatus");
@@ -5176,6 +5053,16 @@ async function initiateStkPayment(type, amount, itemId, itemName) {
           await userRef.set({ paidForService: true }, { merge: true });
           localStorage.setItem("paidForService", "yes");
         }
+
+        if (type === "boost") {
+          await firebase.firestore().collection("boostedItems").doc(itemId).set({
+            boostedAt: now,
+            itemName,
+            userId: currentUser?.uid
+          }, { merge: true });
+
+          localStorage.setItem(`boosted_${itemId}`, now);
+        }
       }
 
     } else {
@@ -5186,15 +5073,18 @@ async function initiateStkPayment(type, amount, itemId, itemName) {
     statusEl.innerText = "❌ Network error: " + err.message;
   }
 }
-// ✅ Legacy compatibility shim for older code
+
+// ✅ Legacy compatibility shim
 function showPaymentModal() {
   showPaymentModalFor("swap", 500, currentUser?.uid || "unknown", "Unlock VIP Swaps");
 }
-// showPaymentModalFor("job", 1000, job.id, "Boost Job Listing")
-// showPaymentModalFor("soulmate", 250, currentUser.uid, "Soulmate Contacts")
-// showPaymentModalFor("market", 300, marketItem.id, "Boost Market Item")
-// showPaymentModalFor("swap", 500, currentUser.uid, "Unlock Swaps")
-// showPaymentModalFor("service", 150, serviceId, "Get Service Contact")
+
+// ✅ Optional: Use this helper for boost buttons
+function boostItem(itemId, itemName) {
+  const amount = 100; // Change this to your desired boost fee
+  showPaymentModalFor("boost", amount, itemId, itemName);
+}
+
 
 async function findMatchingSwaps() {
   if (!isLoggedIn || !currentUser) {

@@ -1879,6 +1879,43 @@ button:hover {
   font-weight: bold;
   margin-bottom: 10px;
 }
+   /* Modal background */
+.image-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal content */
+.modal-content {
+  position: relative;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 90%;
+  max-height: 90%;
+  overflow: hidden;
+  text-align: center;
+}
+
+/* Close button */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #aaa;
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 
 </style>
 
@@ -1972,14 +2009,7 @@ button:hover {
     </a>
   </li>
 
-  <li>
-    <a class="menu-box" href="#" onclick="openMessagesPage()" style="position:relative;">
-      <img src="https://i.imgur.com/XBAeDCN.jpeg" alt="Messages">
-      <span>Messages</span>
-      <span id="messagesUnreadBadge" style="display:none; background:red; color:white; border-radius:50%; padding:2px 6px; font-size:11px; position:absolute; top:0; right:0;"></span>
-    </a>
-  </li>
-
+ 
   <!-- Main Features -->
   <li><a class="menu-box" href="#" onclick="showPage('bomJobs')">
     <img src="https://i.imgur.com/8KM6Rib.jpeg" alt="Jobs">
@@ -2011,11 +2041,14 @@ button:hover {
     <span>Resources</span></a>
   </li>
 
-<!-- Button to trigger Sent Chats -->
-<button onclick="openSentChatsSection()" class="button" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
-    View Sent Chats
-</button>
-
+<li>
+  <a class="menu-box" href="#" onclick="openSentChatsSection()" style="position:relative;">
+    <img src="https://i.imgur.com/XBAeDCN.jpeg" alt="Sent Chats">
+    <span>Sent Chats</span>
+    <!-- Optional: Unread badge for Sent Chats -->
+    <span id="sentChatsUnreadBadge" style="display:none; background:red; color:white; border-radius:50%; padding:2px 6px; font-size:11px; position:absolute; top:0; right:0;"></span>
+  </a>
+</li>
 
   <li><a class="menu-box" href="#" onclick="showPage('trendingSection'); loadTrendingItems();">
     <img src="https://i.imgur.com/SjtDlJi.jpeg" alt="Trending">
@@ -2138,14 +2171,13 @@ button:hover {
 
 
 
-
-<!-- Sent Chats Section -->
-<section id="sentChatsSection" style="display:none; padding: 20px;">
-  <h2>Sent Chats</h2>
-  <div id="sentChatsList" style="display: flex; flex-direction: column; gap: 10px;">
-    <!-- Sent chats will be dynamically inserted here -->
+<section id="sentChatsSection" style="display: none;">
+  <div id="sentChatsLoading" style="display: none;">
+    <p>Loading chats... Please wait <img src="spinner.gif" alt="Loading" /></p>
   </div>
+  <div id="sentChatsList"></div>
 </section>
+
 
 
 
@@ -5961,6 +5993,20 @@ async function loadSoulmates() {
       box-sizing: border-box;
     `;
 
+    // Profile image handling
+    const images = d.photos || [];
+    const profileImageHTML = images.length > 0 ? `
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        ${images.map((photo, index) => `
+          <img src="${photo}" alt="Profile Image ${index + 1}" style="width: 60px; height: 60px; object-fit: cover; margin-bottom: 10px; border-radius: 8px; cursor: pointer;" onclick="openImageModal(${index}, ${JSON.stringify(images)})">
+        `).join('')}
+      </div>
+    ` : `
+      <div style="width: 100%; height: 200px; background: #f0f0f0; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: center; align-items: center; color: #888; cursor: pointer;" onclick="openImageModal()">
+        No Image
+      </div>
+    `;
+
     const contactHTML = `
       <div style="margin:4px 0;">
         📞 <a href="tel:${d.phone}" style="color:green;">${d.phone}</a><br>
@@ -5975,28 +6021,11 @@ async function loadSoulmates() {
         <button onclick="handleSoulmateAction('${id}', 'unlock')" style="margin-top:5px;background:crimson;color:white;border:none;padding:4px 10px;border-radius:4px;">💳 Pay</button>
       </div>`;
 
-    card.innerHTML = `
-      ${d.verified ? `<div class="verified-badge" style="position: absolute; top: 8px; right: 8px; background-color: #1DA1F2; color: white; border-radius: 25%; width: 13px; height: 13px; display: flex; align-items: center; justify-content: center; font-size: 6px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); transition: transform 0.3s ease-in-out; cursor: pointer;">
-        <i class="fas fa-check" style="transform: scale(1.2);"></i>
-      </div>` : ""}
-
-      ${!d.verified && isPoster && !isAdminUser ? `
-        <button onclick="showPaymentModalFor('soulmateVerification', 200, '${id}', '${d.name || ''}')"
-          style="position:absolute;top:8px;right:8px;background:#4CAF50;color:white;border:none;padding:4px 8px;border-radius:6px;font-size:12px;cursor:pointer;">
-          ✅ Get Verified – Ksh 200
-        </button>` : ""}
-
-      ${!d.verified && isAdminUser ? `
-        <button onclick="adminVerifyItem('soulmate', '${id}')"
-          style="position:absolute;top:8px;right:8px;background:#2196F3;color:white;border:none;padding:4px 8px;border-radius:6px;font-size:12px;cursor:pointer;">
-          🛡️ Verify Now (Admin)
-        </button>` : ""}
-
-      ${d.isBoosted ? `<div style="position:absolute;top:8px;left:8px;background:#ff9800;color:white;border-radius:4px;padding:2px 8px;font-size:12px;">🔥 Boosted</div>` : ""}
-
-      <div style="margin-top:24px;">
-        <i class="fas ${d.sex === 'Male' ? 'fa-user-tie' : 'fa-user-nurse'}" style="font-size:46px; color:${d.sex === 'Male' ? '#3f51b5' : '#e91e63'};"></i>
-      </div>
+    // Profile closure handling
+    const profileContent = d.isClosed ? `
+      <p style="color:#999;">Profile Closed</p>
+      <h4 style="margin:0 0 6px;font-size:16px;"><strong>Name:</strong> ${d.name}</h4>
+    ` : `
       <h4 style="margin:0 0 6px;font-size:16px;"><strong>Name:</strong> ${d.name}</h4>
       <p style="margin:0;color:#ff5722;"><strong>Sex:</strong> ${d.sex ? `${d.sex === 'Male' ? '♂️' : '♀️'} ${d.sex}` : '—'}</p>
       <p style="margin:0;"><strong>Location:</strong> <span style="color:#009688;">${d.county || '—'}</span>${d.subCounty ? ` / <span style="color:#6a1b9a;">${d.subCounty}</span>` : ''}</p>
@@ -6004,11 +6033,19 @@ async function loadSoulmates() {
       <p style="margin:0;color:#ff5722;"><strong>Age:</strong> ${d.age}</p>
       <p style="margin:0;color:#795548;"><strong>Status:</strong> ${d.status || '—'} ${d.status === "Single" ? "💔" : d.status === "Married" ? "💍" : ""}</p>
       <p style="margin:0;color:#607d8b;"><strong>Occupation:</strong> ${d.occupation}</p>
-
       <div style="margin-top:6px;">
         ${hasPaid || isPoster || isAdminUser ? contactHTML : blurredContactHTML}
-      </div>
+      </div>`;
 
+    card.innerHTML = `
+      ${profileImageHTML}
+      ${d.verified ? `
+        <div class="verified-badge" style="position: absolute; top: 8px; right: 8px; background-color: #1DA1F2; color: white; border-radius: 25px; padding: 4px 10px; display: flex; align-items: center; font-size: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); transition: transform 0.3s ease-in-out; cursor: pointer;">
+          <i class="fas fa-check" style="transform: scale(1.2); margin-right: 5px;"></i>
+          Verified
+        </div>
+      ` : ""}
+      ${profileContent}
       <div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
         <button id="likeBtn-${id}" onclick="toggleLike('${id}')"
           style="background:#e91e63; color:white; border:none; padding:5px 12px; border-radius:50px; cursor:pointer;">
@@ -6018,19 +6055,32 @@ async function loadSoulmates() {
           ${totalLikes} Likes
         </span>
       </div>
+      ${!d.verified && isPoster && !isAdminUser ? `
+        <button onclick="showPaymentModalFor('soulmateVerification', 200, '${id}', '${d.name || ''}')"
+          style="position:absolute;top:8px;right:8px;background:#4CAF50;color:white;border:none;padding:6px 10px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:bold;">
+          ✅ Get Verified – Ksh 200
+        </button>` : ""}
+
+      ${!d.verified && isAdminUser ? `
+        <button onclick="adminVerifyItem('soulmate', '${id}')"
+          style="position:absolute;top:8px;right:8px;background:#007BFF;color:white;border:none;padding:6px 10px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:bold;">
+          🛡️ Verify Now (Admin)
+        </button>` : ""}
+
+      ${d.isBoosted ? `<div style="position:absolute;top:8px;left:8px;background:#ff9800;color:white;border-radius:4px;padding:2px 8px;font-size:12px;">🔥 Boosted</div>` : ""}
 
       ${(isPoster || isAdminUser) ? `
         <div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:10px;">
           <button onclick="deleteSoulmate('${id}')"
-            style="background:#dc3545; color:white; border:none; padding:5px 12px; border-radius:6px; cursor:pointer;">
+            style="background:#dc3545; color:white; border:none; padding:6px 14px; border-radius:8px; cursor:pointer;">
             🗑️ Delete
           </button>
           <button onclick="handleSoulmateAction('${id}', 'boost')"
-            style="background:#ff9800; color:white; border:none; padding:5px 12px; border-radius:6px; cursor:pointer;">
+            style="background:#ff9800; color:white; border:none; padding:6px 14px; border-radius:8px; cursor:pointer;">
             🚀 Boost
           </button>
           <button onclick="toggleSoulmateStatus('${id}', ${d.isClosed})"
-            style="background:${d.isClosed ? '#28a745' : '#6c757d'}; color:white; border:none; padding:5px 12px; border-radius:6px; cursor:pointer;">
+            style="background:${d.isClosed ? '#28a745' : '#6c757d'}; color:white; border:none; padding:6px 14px; border-radius:8px; cursor:pointer;">
             ${d.isClosed ? '♻️ Reopen' : '🚫 Mark as Closed'}
           </button>
         </div>` : ''}
@@ -6041,6 +6091,43 @@ async function loadSoulmates() {
     listenForLikeChanges(id);
   });
 }
+
+
+// Function to open image modal
+function openImageModal(index = 0, images = []) {
+  const modal = document.createElement('div');
+  modal.classList.add('image-modal');
+  modal.innerHTML = `
+    <div class="modal-content">
+      <span class="close" onclick="closeImageModal()">×</span>
+      <div class="carousel">
+        ${images.map((img, idx) => `
+          <img src="${img}" style="width: 100%; max-height: 80vh; object-fit: contain; display: ${index === idx ? 'block' : 'none'};" class="carousel-image">
+        `).join('')}
+      </div>
+      <button class="prev" onclick="changeImage(-1)">❮</button>
+      <button class="next" onclick="changeImage(1)">❯</button>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
+// Function to close the image modal
+function closeImageModal() {
+  const modal = document.querySelector('.image-modal');
+  if (modal) modal.remove();
+}
+
+// Function to change image in modal
+function changeImage(direction) {
+  const images = document.querySelectorAll('.carousel-image');
+  let currentIndex = Array.from(images).findIndex(image => image.style.display === 'block');
+  currentIndex = (currentIndex + direction + images.length) % images.length;
+  images.forEach((image, idx) => {
+    image.style.display = (idx === currentIndex) ? 'block' : 'none';
+  });
+}
+
 
 
 
@@ -8046,16 +8133,30 @@ function showChatAlert(text, color) {
   setTimeout(() => alertBox.style.display = "none", 2000);
 }
 
-// ✅ Sent Chats Section
+// Function to open the Sent Chats section
 async function openSentChatsSection() {
+  console.log("Opening Sent Chats Section...");
+
   // Hide other sections
   const pages = document.querySelectorAll("section");
   pages.forEach(page => page.style.display = "none");
-  document.getElementById("sentChatsSection").style.display = "block";  // Show Sent Chats Section
 
-  // Load sent chats
+  // Show the Sent Chats Section
+  const sentChatsSection = document.getElementById("sentChatsSection");
+  if (sentChatsSection) {
+    sentChatsSection.style.display = "block";  // Show Sent Chats Section
+  } else {
+    console.error("Sent Chats Section not found");
+    return;
+  }
+
+  // Show loading spinner while waiting for chats
+  document.getElementById("sentChatsLoading").style.display = "block";
+
+  // Try to load sent chats
   await loadSentChats();
 }
+
 
 // Function to load and display sent chats
 async function loadSentChats() {
@@ -8066,7 +8167,11 @@ async function loadSentChats() {
   }
 
   const chatsList = document.getElementById("sentChatsList");
-  chatsList.innerHTML = ''; // Clear the previous chat list
+  const loadingSpinner = document.getElementById("sentChatsLoading");
+
+  // Clear previous chat list and show loading spinner
+  chatsList.innerHTML = '';
+  loadingSpinner.style.display = "block"; // Show the loading spinner
 
   try {
     // Query Firestore for chats where the current user is either the sender or receiver
@@ -8077,6 +8182,7 @@ async function loadSentChats() {
 
     if (snapshot.empty) {
       chatsList.innerHTML = "<p>No chats found.</p>";
+      loadingSpinner.style.display = "none";  // Hide the loading spinner
       return; // No sent chats
     }
 
@@ -8106,8 +8212,12 @@ async function loadSentChats() {
     });
   } catch (error) {
     console.error("Error loading sent chats:", error);
+    chatsList.innerHTML = "<p>Error loading chats. Please try again later.</p>";
+  } finally {
+    loadingSpinner.style.display = "none";  // Hide the loading spinner once done
   }
 }
+
 // ✅ Add message to UI (Messenger style: username + full date-time)
 function addMessageToUI(msgData, isTemporary = false) {
   const messagesContainer = document.getElementById("marketChatMessages");
